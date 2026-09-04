@@ -5,17 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SafeReport | My Reports</title>
     <link rel="stylesheet" href="css/myreports.css">
-
-    <script src="JS/storage.js"></script>
-    <script src="JS/toast.js"></script>
-    <script src="JS/validation.js"></script>
-    <script src="JS/modal.js"></script>
-    <script src="JS/navbar.js"></script>
-    <script src="JS/announcements.js"></script>
-    <script src="JS/dashboard.js"></script>
-    <script src="JS/reportForm.js"></script>
-    <script src="JS/report.js"></script>
-    <script src="JS/main.js"></script>
 </head>
 <body>
 <div class="app">
@@ -29,43 +18,116 @@
         </nav>
         <div class="sidebar-bottom">
             <div class="profile-mini"><div class="avatar">●</div><div><strong>John Loyd Arcay. Panla-an</strong><small>Student</small></div></div>
-            <a class="logout" href="login.html"><span>↪</span> Logout</a>
+            <a class="logout" href="index.html"><span>↪</span> Logout</a>
         </div>
     </aside>
 
     <main>
         <header class="header">
-            <div class="search-box"><span>⌕</span><input type="search" placeholder="Search announcements, resources..."></div>
-            <div class="header-actions"><span class="header-action">♧<span class="notification-dot">2</span></span><span class="header-action">☾</span><span class="header-avatar">●</span></div>
+            <div class="search-box">
+                <span>⌕</span>
+                <input type="search" placeholder="Search announcements, resources...">
+            </div>
+            <div class="header-actions">
+                <span class="header-action">♧
+                    <span class="notification-dot">
+                        2 
+                    </span>
+                </span>
+                <span class="header-action">
+                    ☾
+                </span>
+                <span class="header-avatar">
+                    ●
+                </span>
+            </div>
         </header>
 
         <div class="content">
             <section class="page-title page-actions">
-                <div><h1>My Reports</h1><p>View and track the safety reports you have submitted.</p></div>
+                <div>
+                    <h1>My Reports</h1>
+                    <p>View and track the safety reports you have submitted.</p>
+                </div>
                 <a class="primary-button blue-button" href="report.html">+ New Report</a>
             </section>
 
             <section class="stats">
-                <div class="stat-box"><div class="stat-icon">▧</div><div><h2>3</h2><p>Total Reports</p></div></div>
-                <div class="stat-box"><div class="stat-icon">◷</div><div><h2>1</h2><p>Under Review</p></div></div>
-                <div class="stat-box"><div class="stat-icon">✓</div><div><h2>2</h2><p>Resolved</p></div></div>
+                <div class="stat-box">
+                    <div class="stat-icon">▧</div>
+                    <div>
+                        <h2>3</h2>
+                        <p>Total Reports</p>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon">◷</div>
+                    <div>
+                        <h2>1</h2>
+                        <p>Under Review</p>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon">✓</div>
+                    <div>
+                        <h2>2</h2>
+                        <p>Resolved</p>
+                    </div>
+                </div>
             </section>
 
             <section class="panel section">
                 <div class="panel-body">
                     <div class="filters">
                         <input type="search" placeholder="Search reports...">
-                        <select><option>All Statuses</option><option>Under Review</option><option>Resolved</option></select>
-                        <select><option>Newest First</option><option>Oldest First</option></select>
+                        <select>
+                            <option>All Statuses</option>
+                            <option>Under Review</option>
+                            <option>Resolved</option>
+                        </select>
+                        <select>
+                            <option>Newest First</option>
+                            <option>Oldest First</option>
+                        </select>
                     </div>
 
                     <div class="table-wrap">
                         <table>
-                            <thead><tr><th>Report ID</th><th>Type</th><th>Date</th><th>Location</th><th>Status</th><th>Action</th></tr></thead>
+                            <thead>
+                                <tr>
+                                    <th>Report ID</th>
+                                    <th>Type</th>
+                                    <th>Date</th>
+                                    <th>Location</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
                             <tbody>
-                                <tr><td>#SR-2024-003</td><td>Harassment</td><td>May 22, 2026</td><td>School Building</td><td><span class="status reviewing">Under Review</span></td><td><a href="#">View</a></td></tr>
-                                <tr><td>#SR-2024-002</td><td>Bullying</td><td>June 15, 2026</td><td>Lab 101</td><td><span class="status resolved">Resolved</span></td><td><a href="#">View</a></td></tr>
-                                <tr><td>#SR-2024-001</td><td>Safety Concern</td><td>May 8, 2026</td><td>School Grounds</td><td><span class="status resolved">Resolved</span></td><td><a href="#">View</a></td></tr>
+                                <tr>
+                                    <td>#SR-2024-003</td>
+                                    <td>Harassment</td>
+                                    <td>May 22, 2026</td>
+                                    <td>School Building</td>
+                                    <td><span class="status reviewing">Under Review</span></td>
+                                    <td><a href="#">View</a></td>
+                                </tr>
+                                <tr>
+                                    <td>#SR-2024-002</td>
+                                    <td>Bullying</td>
+                                    <td>June 15, 2026</td>
+                                    <td>Lab 101</td>
+                                    <td><span class="status resolved">Resolved</span></td>
+                                    <td><a href="#">View</a></td>
+                                </tr>
+                                <tr>
+                                    <td>#SR-2024-001</td>
+                                    <td>Safety Concern</td>
+                                    <td>May 8, 2026</td>
+                                    <td>School Grounds</td>
+                                    <td><span class="status resolved">Resolved</span></td>
+                                    <td><a href="#">View</a></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -74,5 +136,12 @@
         </div>
     </main>
 </div>
+<script src="JS/main.js"></script>
+<script src="JS/SHARED/storage.js"></script>
+<script src="JS/SHARED/validation.js"></script>
+<script src="JS/SHARED/toast.js"></script>
+<script src="JS/SHARED/navbar.js"></script>
+<script src="JS/SHARED/modal.js"></script>
+<script src="JS/Arcays_Part/report.js"></script>
 </body>
 </html>
