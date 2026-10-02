@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SafeReport | Profile</title>
     <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/profileF.css">
 </head>
 <body>
 <div class="app">
@@ -25,7 +26,17 @@
     <main>
         <header class="header">
             <div class="search-box"><span>⌕</span><input type="search" placeholder="Search announcements, resources..."></div>
-            <div class="header-actions"><span class="header-action">♧<span class="notification-dot">2</span></span><span class="header-action">☾</span><span class="header-avatar">●</span></div>
+            <div class="header-actions">
+                <span class="header-action">♧<span class="notification-dot">2</span></span>
+                <span class="header-action">☾</span>
+                <div>
+                    <button class="header-avatar" id="profileBtn">●</button>
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <a href="settings.html" class="settings">Settings</a>
+                        <a href="login.html" class="logout" id="logoutBtn">Logout</a>
+                    </div>
+                </div>
+            </div>
         </header>
 
         <div class="content">
@@ -72,5 +83,6 @@
 <script src="JS/SHARED/toast.js"></script>
 <script src="JS/SHARED/navbar.js"></script>
 <script src="JS/SHARED/modal.js"></script>
+<script src="JS/Arcays_Part/profile_feature.js" defer></script>
 </body>
 </html>

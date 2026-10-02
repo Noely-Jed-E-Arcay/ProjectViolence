@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SafeReport | Dashboard</title>
     <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/profileF.css">
 </head>
 <body>
 
@@ -26,7 +27,7 @@
             <div class="profile-mini">
                 <div class="avatar">●</div>
                 <div>
-                    <strong>John Loyd Arcay. Panla-an</strong>
+                    <strong>Stellar Conduct</strong>
                     <small>Student</small>
                 </div>
             </div>
@@ -43,7 +44,13 @@
             <div class="header-actions">
                 <span class="header-action">♧<span class="notification-dot">2</span></span>
                 <span class="header-action">☾</span>
-                <span class="header-avatar">●</span>
+                <div>
+                    <button class="header-avatar" id="profileBtn">●</button>
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <a href="settings.html" class="settings">Settings</a>
+                        <a href="login.html" class="logout" id="logoutBtn">Logout</a>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -175,5 +182,6 @@
 <script src="JS/SHARED/modal.js"></script>
 <script src="JS/Arcays_Part/dashboard.js"></script>
 <script src="JS/Arcays_Part/announcements.js"></script>
+<script src="JS/Arcays_Part/profile_feature.js"></script>
 </body>
 </html>
