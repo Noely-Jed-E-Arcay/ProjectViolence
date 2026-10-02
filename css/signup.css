@@ -1,5 +1,5 @@
 /* =========================================
-   SAFEREPORT LOGIN
+   SAFEREPORT SIGNUP
 ========================================= */
 
 * {
@@ -12,6 +12,7 @@
 /* BODY */
 
 body {
+
     min-height: 100vh;
 
     font-family: Arial, Helvetica, sans-serif;
@@ -21,6 +22,7 @@ body {
     display: flex;
 
     justify-content: center;
+
     align-items: center;
 
     padding: 30px;
@@ -31,13 +33,15 @@ body {
    MAIN CARD
 ========================================= */
 
-.login-container {
+.signup-container {
+
     width: 100%;
-    max-width: 1000px;
 
-    min-height: 650px;
+    max-width: 1050px;
 
-    background: #ffffff;
+    min-height: 700px;
+
+    background: white;
 
     border-radius: 22px;
 
@@ -46,7 +50,7 @@ body {
     display: flex;
 
     box-shadow:
-        0 20px 50px rgba(30, 50, 90, 0.15);
+        0 20px 50px rgba(30,50,90,0.15);
 }
 
 
@@ -54,8 +58,9 @@ body {
    LEFT SIDE
 ========================================= */
 
-.login-left {
-    width: 44%;
+.signup-left {
+
+    width: 43%;
 
     background:
         linear-gradient(
@@ -80,7 +85,9 @@ body {
 /* SHIELD */
 
 .shield {
+
     width: 72px;
+
     height: 72px;
 
     border: 3px solid white;
@@ -90,17 +97,19 @@ body {
     display: flex;
 
     justify-content: center;
+
     align-items: center;
 
     font-size: 36px;
 
-    margin-bottom: 45px;
+    margin-bottom: 40px;
 }
 
 
 /* TITLE */
 
-.login-left h1 {
+.signup-left h1 {
+
     font-size: 35px;
 
     margin-bottom: 8px;
@@ -110,17 +119,17 @@ body {
 /* PLATFORM */
 
 .platform {
+
     font-size: 15px;
 
     margin-bottom: 30px;
-
-    color: #f1f3ff;
 }
 
 
 /* DESCRIPTION */
 
 .description {
+
     max-width: 310px;
 
     font-size: 14px;
@@ -135,17 +144,19 @@ body {
    RIGHT SIDE
 ========================================= */
 
-.login-right {
-    width: 56%;
+.signup-right {
 
-    padding: 55px 45px;
+    width: 57%;
+
+    padding: 45px 45px;
 }
 
 
-/* WELCOME */
+/* TITLE */
 
-.login-right h2 {
-    font-size: 30px;
+.signup-right h2 {
+
+    font-size: 29px;
 
     color: #17233d;
 
@@ -156,11 +167,12 @@ body {
 /* SUBTITLE */
 
 .subtitle {
+
     font-size: 14px;
 
     color: #64748b;
 
-    margin-bottom: 32px;
+    margin-bottom: 24px;
 }
 
 
@@ -168,14 +180,16 @@ body {
    FORM
 ========================================= */
 
-.login-right form {
+.signup-right form {
+
     width: 100%;
 }
 
 
 /* LABEL */
 
-.login-right form > label {
+.signup-right form > label {
+
     display: block;
 
     font-size: 14px;
@@ -184,27 +198,29 @@ body {
 
     color: #111827;
 
-    margin-top: 20px;
+    margin-top: 14px;
 
-    margin-bottom: 8px;
+    margin-bottom: 7px;
 }
 
 
 /* FIRST LABEL */
 
-.login-right form > label:first-child {
+.signup-right form > label:first-child {
+
     margin-top: 0;
 }
 
 
 /* INPUT */
 
-.login-right input[type="email"],
-.login-right input[type="password"] {
+.signup-right input[type="text"],
+.signup-right input[type="email"],
+.signup-right input[type="password"] {
 
     width: 100%;
 
-    height: 45px;
+    height: 42px;
 
     padding: 0 14px;
 
@@ -226,15 +242,17 @@ body {
 
 /* PLACEHOLDER */
 
-.login-right input::placeholder {
+.signup-right input::placeholder {
+
     color: #929aa8;
 }
 
 
-/* INPUT FOCUS */
+/* FOCUS */
 
-.login-right input[type="email"]:focus,
-.login-right input[type="password"]:focus {
+.signup-right input[type="text"]:focus,
+.signup-right input[type="email"]:focus,
+.signup-right input[type="password"]:focus {
 
     border-color: #405ee8;
 
@@ -244,50 +262,50 @@ body {
 
 
 /* =========================================
-   REMEMBER ME
+   TERMS
 ========================================= */
 
-.remember {
+.terms {
 
     display: flex;
 
     align-items: center;
 
-    gap: 7px;
+    gap: 8px;
 
-    margin-top: 14px;
+    margin-top: 16px;
 }
 
 
-.remember input {
-    width: 15px;
-    height: 15px;
+.terms input {
+
+    width: 16px;
+
+    height: 16px;
 
     accent-color: #405ee8;
 }
 
 
-.remember label {
+.terms label {
 
     font-size: 13px;
 
-    font-weight: 600;
-
-    color: #172033;
+    color: #374151;
 }
 
 
 /* =========================================
-   LOGIN BUTTON
+   CREATE BUTTON
 ========================================= */
 
-.login-right button {
+.signup-right button {
 
     width: 100%;
 
     height: 45px;
 
-    margin-top: 24px;
+    margin-top: 18px;
 
     border: none;
 
@@ -307,7 +325,7 @@ body {
 }
 
 
-.login-right button:hover {
+.signup-right button:hover {
 
     background: #304ed0;
 
@@ -316,63 +334,34 @@ body {
 
 
 /* =========================================
-   FORGOT PASSWORD
+   LOGIN SECTION
 ========================================= */
 
-.forgot {
+.login-section {
 
-    display: inline-block;
+    margin-top: 20px;
 
-    margin-top: 15px;
-
-    color: #3159df;
-
-    font-size: 13px;
-
-    text-decoration: none;
-}
-
-
-.forgot:hover {
-    text-decoration: underline;
-}
-
-
-/* =========================================
-   CREATE ACCOUNT
-========================================= */
-
-.create-account {
-
-    margin-top: 30px;
-
-    padding-top: 24px;
+    padding-top: 18px;
 
     border-top: 1px solid #e2e6ed;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
 }
 
 
-.create-account h3 {
-
-    font-size: 16px;
-
-    color: #172033;
-
-    margin-bottom: 8px;
-}
-
-
-.create-account p {
+.login-section p {
 
     font-size: 13px;
 
     color: #64748b;
-
-    margin-bottom: 12px;
 }
 
 
-.create-account a {
+.login-section a {
 
     font-size: 14px;
 
@@ -384,7 +373,7 @@ body {
 }
 
 
-.create-account a:hover {
+.login-section a:hover {
 
     text-decoration: underline;
 }
@@ -400,11 +389,11 @@ body {
         padding: 15px;
     }
 
-    .login-container {
+    .signup-container {
         flex-direction: column;
     }
 
-    .login-left {
+    .signup-left {
         width: 100%;
 
         min-height: 300px;
@@ -414,7 +403,7 @@ body {
         justify-content: center;
     }
 
-    .login-right {
+    .signup-right {
         width: 100%;
 
         padding: 40px;
