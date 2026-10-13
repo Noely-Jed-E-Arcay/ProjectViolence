@@ -1,95 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Settings</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="css/settings.css">
+    <title>Create Account - SafeReport</title>
+
+    <link rel="stylesheet" href="css/signup.css">
+
 </head>
 
 <body>
 
-    <main class="settings-page">
+    <div class="signup-container">
 
-        <section class="settings-header">
-            <h1>Settings</h1>
-            <p>Manage your account settings and preferences.</p>
-        </section>
+        <!-- LEFT SIDE -->
 
-        <section class="settings-list">
+        <div class="signup-left">
 
-            <!-- Profile Settings -->
-            <a href="profile.html" class="settings-item">
-                <div class="settings-icon">
-                    👤
+            <div class="shield">
+                🛡️
+            </div>
+
+            <h1>
+                SafeReport
+            </h1>
+
+            <p class="platform">
+                Student Safety Platform
+            </p>
+
+            <p class="description">
+                Join SafeReport and help create
+                a safer school environment.
+            </p>
+
+        </div>
+
+
+        <!-- RIGHT SIDE -->
+
+        <div class="signup-right">
+
+            <h2>
+                Create Your Account
+            </h2>
+
+            <p class="subtitle">
+                Create a new SafeReport student account
+            </p>
+
+
+            <form onsubmit="createAccount(event)">
+
+                <label for="fullname">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="fullname"
+                    name="fullname"
+                    placeholder="Enter your full name"
+                    required
+                >
+
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+
+                <label for="studentid">
+                    Student ID
+                </label>
+
+                <input
+                    type="text"
+                    id="studentid"
+                    name="studentid"
+                    placeholder="Enter your student ID"
+                    required
+                >
+
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Create a password"
+                    required
+                >
+
+
+                <label for="confirm">
+                    Confirm Password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirm"
+                    name="confirm"
+                    placeholder="Confirm your password"
+                    required
+                >
+
+
+                <div class="terms">
+
+                    <input
+                        type="checkbox"
+                        id="terms"
+                        name="terms"
+                    >
+
+                    <label for="terms">
+                        I agree to the Terms and Conditions
+                    </label>
+
                 </div>
 
-                <div class="settings-content">
-                    <h2>Profile Settings</h2>
-                    <p>Manage your profile information and account details.</p>
-                </div>
 
-                <div class="settings-arrow">
-                    ›
-                </div>
-            </a>
+                <button type="submit">
+                    Create Account
+                </button>
+
+            </form>
 
 
-            <!-- Privacy Settings -->
-            <a href="privacy.html" class="settings-item">
-                <div class="settings-icon">
-                    🔒
-                </div>
+            <div class="login-section">
 
-                <div class="settings-content">
-                    <h2>Privacy Settings</h2>
-                    <p>Manage your privacy and control your account information.</p>
-                </div>
+                <p>
+                    Already have an account?
+                </p>
 
-                <div class="settings-arrow">
-                    ›
-                </div>
-            </a>
+                <a href="login.html">
+                    Login
+                </a>
 
+            </div>
 
-            <!-- Notification Settings -->
-            <a href="notifications.html" class="settings-item">
-                <div class="settings-icon">
-                    🔔
-                </div>
+        </div>
 
-                <div class="settings-content">
-                    <h2>Notification Settings</h2>
-                    <p>Manage how you receive notifications and updates.</p>
-                </div>
-
-                <div class="settings-arrow">
-                    ›
-                </div>
-            </a>
+    </div>
 
 
-            <!-- Security Settings -->
-            <a href="security.html" class="settings-item">
-                <div class="settings-icon">
-                    🛡️
-                </div>
-
-                <div class="settings-content">
-                    <h2>Security Settings</h2>
-                    <p>Manage your password and account security.</p>
-                </div>
-
-                <div class="settings-arrow">
-                    ›
-                </div>
-            </a>
-
-        </section>
-
-    </main>
+    <!-- ONLY ONE AUTH JS -->
+    <script src="tracel/auth.js"></script>
 
 </body>
+
 </html>

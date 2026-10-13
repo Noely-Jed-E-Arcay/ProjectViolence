@@ -3,38 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#3157d5">
+    <meta name="description" content="View and track your SafeReport safety reports.">
     <title>SafeReport | My Reports</title>
+
     <link rel="stylesheet" href="css/myreports.css">
     <link rel="stylesheet" href="css/profileF.css">
 </head>
 <body>
 <div class="app">
+
+    <!-- SIDEBAR -->
     <aside class="sidebar">
-        <a class="sidebar-brand" href="index.html"><span class="shield">🛡</span> SafeReport</a>
-        <nav>
-            <a href="index.html"><span class="side-icon">⌂</span>Dashboard</a>
-            <a href="report.html"><span class="side-icon">➤</span>Report Incident</a>
-            <a class="active" href="myreports.html"><span class="side-icon">▤</span>My Reports</a>
-            <a href="profile.html"><span class="side-icon">◯</span>Profile</a>
+        <a class="sidebar-brand" href="index.html">
+            <span class="shield">🛡</span>
+            <span>SafeReport</span>
+        </a>
+
+        <div class="sidebar-label">WORKSPACE</div>
+
+        <nav aria-label="Main navigation">
+            <a href="index.html">
+                <span class="side-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="report.html">
+                <span class="side-icon">＋</span>
+                <span>Report Incident</span>
+            </a>
+            <a class="active" href="myreports.html" aria-current="page">
+                <span class="side-icon">▤</span>
+                <span>My Reports</span>
+            </a>
+            <a href="profile.html">
+                <span class="side-icon">◯</span>
+                <span>Profile</span>
+            </a>
         </nav>
+
+        <div class="sidebar-help">
+            <div class="help-icon">ⓘ</div>
+            <strong>Need assistance?</strong>
+            <p>Contact your school administrator for reporting support.</p>
+        </div>
+
         <div class="sidebar-bottom">
-            <div class="profile-mini"><div class="avatar">●</div><div><strong>John Loyd Arcay. Panla-an</strong><small>Student</small></div></div>
-            <a class="logout" href="index.html"><span>↪</span> Logout</a>
+            <div class="profile-mini">
+                <div class="avatar">J</div>
+                <div class="profile-details">
+                    <strong>John Loyd Arcay. Panla-an</strong>
+                    <small>Student Account</small>
+                </div>
+            </div>
+
+            <a class="logout" href="login.html">
+                <span>↪</span> Logout
+            </a>
         </div>
     </aside>
 
+    <!-- MAIN CONTENT -->
     <main>
+        <!-- TOPBAR -->
         <header class="header">
-            <div class="search-box">
-                <span>⌕</span>
-                <input type="search" placeholder="Search announcements, resources...">
+            <div class="header-left">
+                <div class="breadcrumb">
+                    <span>Workspace</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <strong>My Reports</strong>
+                </div>
+                <p class="header-subtitle">Your personal reporting center</p>
             </div>
+
             <div class="header-actions">
-                <span class="header-action">♧<span class="notification-dot">2 </span></span>
-                <span class="header-action">☾</span>
-                <div>
-                    <button class="header-avatar" id="profileBtn">●</button>
-                    <div class="profile-dropdown" id="profileDropdown">
+                <a class="header-help" href="report.html" aria-label="Create a new report" title="Create a new report">＋</a>
+
+                <div class="profile-menu-wrap">
+                    <button
+                        class="header-avatar"
+                        id="profileBtn"
+                        type="button"
+                        aria-label="Open profile menu"
+                        aria-expanded="false"
+                        aria-controls="profileDropdown"
+                    >J</button>
+
+                    <div class="profile-dropdown" id="profileDropdown" hidden>
+                        <a href="profile.html">My Profile</a>
                         <a href="settings.html" class="settings">Settings</a>
                         <a href="login.html" class="logout" id="logoutBtn">Logout</a>
                     </div>
@@ -43,51 +98,114 @@
         </header>
 
         <div class="content">
+
+            <!-- PAGE INTRO -->
             <section class="page-title page-actions">
-                <div>
-                    <h1>My Reports</h1>
-                    <p>View and track the safety reports you have submitted.</p>
+                <div class="title-copy">
+                    <div class="eyebrow">
+                        <span class="eyebrow-dot"></span>
+                        REPORTING CENTER
+                    </div>
+                    <h1>My Reports<span class="title-period">.</span></h1>
+                    <p>Keep track of your submitted reports and monitor their progress in one place.</p>
                 </div>
-                <a class="primary-button blue-button" href="report.html">+ New Report</a>
+
+                <a class="primary-button blue-button" href="report.html">
+                    <span class="button-plus">＋</span>
+                    New Report
+                    <span class="button-arrow">→</span>
+                </a>
             </section>
 
-            <section class="stats">
-                <div class="stat-box">
-                    <div class="stat-icon">▧</div>
-                    <div>
-                        <h2>3</h2>
-                        <p>Total Reports</p>
+            <!-- SUMMARY -->
+            <section class="stats" aria-label="Report summary">
+                <article class="stat-box total-stat">
+                    <div class="stat-top">
+                        <div class="stat-icon">▤</div>
+                        <span class="stat-label">ALL REPORTS</span>
                     </div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-icon">◷</div>
-                    <div>
-                        <h2>1</h2>
-                        <p>Under Review</p>
+                    <div class="stat-bottom">
+                        <h2 id="totalCount">3</h2>
+                        <p>Total submissions</p>
                     </div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-icon">✓</div>
-                    <div>
-                        <h2>2</h2>
-                        <p>Resolved</p>
+                    <div class="stat-decoration" aria-hidden="true">▤</div>
+                </article>
+
+                <article class="stat-box review-stat">
+                    <div class="stat-top">
+                        <div class="stat-icon">◷</div>
+                        <span class="stat-label">IN PROGRESS</span>
                     </div>
-                </div>
+                    <div class="stat-bottom">
+                        <h2 id="reviewCount">1</h2>
+                        <p>Under review</p>
+                    </div>
+                    <div class="stat-decoration" aria-hidden="true">◷</div>
+                </article>
+
+                <article class="stat-box resolved-stat">
+                    <div class="stat-top">
+                        <div class="stat-icon">✓</div>
+                        <span class="stat-label">COMPLETED</span>
+                    </div>
+                    <div class="stat-bottom">
+                        <h2 id="resolvedCount">2</h2>
+                        <p>Resolved reports</p>
+                    </div>
+                    <div class="stat-decoration" aria-hidden="true">✓</div>
+                </article>
             </section>
 
+            <!-- REPORTS TABLE -->
             <section class="panel section">
+                <div class="panel-heading">
+                    <div>
+                        <div class="panel-title-row">
+                            <span class="heading-mark"></span>
+                            <h2>Submitted Reports</h2>
+                        </div>
+                        <p>Review the details and current status of your reports.</p>
+                    </div>
+
+                    <span class="report-count" id="visibleCount">3 reports</span>
+                </div>
+
                 <div class="panel-body">
+                    <div class="filter-heading">
+                        <div>
+                            <h3>Find a report</h3>
+                            <p>Search by report ID, type, date, or location.</p>
+                        </div>
+                        <button class="reset-filters" id="resetFilters" type="button">Reset filters</button>
+                    </div>
+
                     <div class="filters">
-                        <input type="search" placeholder="Search reports...">
-                        <select>
-                            <option>All Statuses</option>
-                            <option>Under Review</option>
-                            <option>Resolved</option>
-                        </select>
-                        <select>
-                            <option>Newest First</option>
-                            <option>Oldest First</option>
-                        </select>
+                        <label class="search-field">
+                            <span class="search-symbol" aria-hidden="true">⌕</span>
+                            <input
+                                type="search"
+                                id="reportSearch"
+                                placeholder="Search your reports..."
+                                aria-label="Search your reports"
+                            >
+                        </label>
+
+                        <label class="select-field">
+                            <span class="filter-label">STATUS</span>
+                            <select id="statusFilter" aria-label="Filter by status">
+                                <option value="all">All Statuses</option>
+                                <option value="under review">Under Review</option>
+                                <option value="resolved">Resolved</option>
+                            </select>
+                        </label>
+
+                        <label class="select-field">
+                            <span class="filter-label">SORT BY</span>
+                            <select id="sortFilter" aria-label="Sort reports">
+                                <option value="newest">Newest First</option>
+                                <option value="oldest">Oldest First</option>
+                            </select>
+                        </label>
                     </div>
 
                     <div class="table-wrap">
@@ -95,53 +213,296 @@
                             <thead>
                                 <tr>
                                     <th>Report ID</th>
-                                    <th>Type</th>
-                                    <th>Date</th>
+                                    <th>Incident Type</th>
+                                    <th>Date Submitted</th>
                                     <th>Location</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th class="action-heading">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#SR-2024-003</td>
-                                    <td>Harassment</td>
-                                    <td>May 22, 2026</td>
+
+                            <tbody id="reportsTableBody">
+                                <tr data-status="under review" data-date="2026-05-22">
+                                    <td><span class="report-id">#SR-2024-003</span></td>
+                                    <td>
+                                        <span class="incident-type">
+                                            <span class="type-dot harassment-dot"></span>
+                                            Harassment
+                                        </span>
+                                    </td>
+                                    <td data-date-cell="2026-05-22">May 22, 2026</td>
                                     <td>School Building</td>
-                                    <td><span class="status reviewing">Under Review</span></td>
-                                    <td><a href="#">View</a></td>
+                                    <td><span class="status reviewing"><span class="status-dot"></span>Under Review</span></td>
+                                    <td><button class="view-button" type="button" data-view-report>View <span>→</span></button></td>
                                 </tr>
-                                <tr>
-                                    <td>#SR-2024-002</td>
-                                    <td>Bullying</td>
-                                    <td>June 15, 2026</td>
+
+                                <tr data-status="resolved" data-date="2026-06-15">
+                                    <td><span class="report-id">#SR-2024-002</span></td>
+                                    <td>
+                                        <span class="incident-type">
+                                            <span class="type-dot bullying-dot"></span>
+                                            Bullying
+                                        </span>
+                                    </td>
+                                    <td data-date-cell="2026-06-15">June 15, 2026</td>
                                     <td>Lab 101</td>
-                                    <td><span class="status resolved">Resolved</span></td>
-                                    <td><a href="#">View</a></td>
+                                    <td><span class="status resolved"><span class="status-dot"></span>Resolved</span></td>
+                                    <td><button class="view-button" type="button" data-view-report>View <span>→</span></button></td>
                                 </tr>
-                                <tr>
-                                    <td>#SR-2024-001</td>
-                                    <td>Safety Concern</td>
-                                    <td>May 8, 2026</td>
+
+                                <tr data-status="resolved" data-date="2026-05-08">
+                                    <td><span class="report-id">#SR-2024-001</span></td>
+                                    <td>
+                                        <span class="incident-type">
+                                            <span class="type-dot safety-dot"></span>
+                                            Safety Concern
+                                        </span>
+                                    </td>
+                                    <td data-date-cell="2026-05-08">May 8, 2026</td>
                                     <td>School Grounds</td>
-                                    <td><span class="status resolved">Resolved</span></td>
-                                    <td><a href="#">View</a></td>
+                                    <td><span class="status resolved"><span class="status-dot"></span>Resolved</span></td>
+                                    <td><button class="view-button" type="button" data-view-report>View <span>→</span></button></td>
                                 </tr>
                             </tbody>
                         </table>
+
+                        <div class="empty-state" id="emptyState" hidden>
+                            <div class="empty-icon">⌕</div>
+                            <h3>No reports found</h3>
+                            <p>Try another search term or change your filters.</p>
+                            <button class="secondary-button" id="emptyReset" type="button">Clear filters</button>
+                        </div>
+                    </div>
+
+                    <div class="table-footer">
+                        <span id="tableFooterText">Showing 3 reports</span>
+                        <span class="secure-note"><span>✓</span> Your reports are private</span>
                     </div>
                 </div>
             </section>
+
+            <!-- SUPPORT BANNER -->
+            <section class="support-banner">
+                <div class="support-symbol">盾</div>
+                <div class="support-copy">
+                    <h2>Your voice helps keep our campus safe.</h2>
+                    <p>If you need to report another incident, you can submit a new report at any time.</p>
+                </div>
+                <a href="report.html" class="support-link">Report an incident <span>→</span></a>
+            </section>
+
+            <footer class="page-footer">
+                <p>© 2026 SafeReport. Supporting a safer campus community.</p>
+                <span><span class="footer-status-dot"></span> Student reporting portal</span>
+            </footer>
         </div>
     </main>
 </div>
+
+<!-- REPORT DETAILS DIALOG -->
+<div class="details-overlay" id="reportDetailsOverlay" hidden>
+    <section class="details-dialog" role="dialog" aria-modal="true" aria-labelledby="detailsTitle">
+        <div class="details-header">
+            <div>
+                <span class="details-eyebrow">REPORT DETAILS</span>
+                <h2 id="detailsTitle">Report information</h2>
+            </div>
+            <button type="button" class="details-close" id="closeDetails" aria-label="Close report details">×</button>
+        </div>
+
+        <div class="details-body" id="reportDetailsBody"></div>
+
+        <div class="details-footer">
+            <p>For additional assistance, contact your school administrator.</p>
+            <button type="button" class="primary-button blue-button" id="doneDetails">Done</button>
+        </div>
+    </section>
+</div>
+
 <script src="JS/main.js"></script>
-<script src="JS/SHARED/storage.js"></script>
-<script src="JS/SHARED/validation.js"></script>
-<script src="JS/SHARED/toast.js"></script>
-<script src="JS/SHARED/navbar.js"></script>
-<script src="JS/SHARED/modal.js"></script>
+<script src="JS/Tito_Part/storage.js"></script>
+<script src="JS/Tito_Part/validation.js"></script>
+<script src="JS/Tito_Part/toast.js"></script>
+<script src="JS/Tito_Part/navbar.js"></script>
+<script src="JS/Tito_Part/modal.js"></script>
 <script src="JS/Arcays_Part/report.js"></script>
 <script src="JS/Arcays_Part/profile_feature.js" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const tableBody = document.getElementById("reportsTableBody");
+    const searchInput = document.getElementById("reportSearch");
+    const statusFilter = document.getElementById("statusFilter");
+    const sortFilter = document.getElementById("sortFilter");
+    const resetButton = document.getElementById("resetFilters");
+    const emptyResetButton = document.getElementById("emptyReset");
+    const emptyState = document.getElementById("emptyState");
+    const visibleCount = document.getElementById("visibleCount");
+    const tableFooterText = document.getElementById("tableFooterText");
+    const detailsOverlay = document.getElementById("reportDetailsOverlay");
+    const detailsBody = document.getElementById("reportDetailsBody");
+    const profileBtn = document.getElementById("profileBtn");
+    const profileDropdown = document.getElementById("profileDropdown");
+
+    if (!tableBody) return;
+
+    const rows = Array.from(tableBody.querySelectorAll("tr"));
+
+    function updateSummary() {
+        const total = rows.length;
+        const reviewing = rows.filter(row => row.dataset.status === "under review").length;
+        const resolved = rows.filter(row => row.dataset.status === "resolved").length;
+
+        document.getElementById("totalCount").textContent = total;
+        document.getElementById("reviewCount").textContent = reviewing;
+        document.getElementById("resolvedCount").textContent = resolved;
+    }
+
+    function applyFilters() {
+        const query = searchInput.value.trim().toLowerCase();
+        const selectedStatus = statusFilter.value;
+
+        const sortedRows = [...rows].sort((a, b) => {
+            const dateA = new Date(a.dataset.date || "1970-01-01").getTime();
+            const dateB = new Date(b.dataset.date || "1970-01-01").getTime();
+            return sortFilter.value === "oldest" ? dateA - dateB : dateB - dateA;
+        });
+
+        sortedRows.forEach(row => {
+            const matchesSearch = row.textContent.toLowerCase().includes(query);
+            const matchesStatus = selectedStatus === "all" || row.dataset.status === selectedStatus;
+            const matches = matchesSearch && matchesStatus;
+
+            row.hidden = !matches;
+            tableBody.appendChild(row);
+        });
+
+        const count = sortedRows.filter(row => !row.hidden).length;
+        emptyState.hidden = count !== 0;
+        visibleCount.textContent = `${count} ${count === 1 ? "report" : "reports"}`;
+        tableFooterText.textContent = count === 0
+            ? "No reports to display"
+            : `Showing ${count} ${count === 1 ? "report" : "reports"}`;
+    }
+
+    function resetFilters() {
+        searchInput.value = "";
+        statusFilter.value = "all";
+        sortFilter.value = "newest";
+        applyFilters();
+    }
+
+    searchInput.addEventListener("input", applyFilters);
+    statusFilter.addEventListener("change", applyFilters);
+    sortFilter.addEventListener("change", applyFilters);
+    resetButton.addEventListener("click", resetFilters);
+    emptyResetButton.addEventListener("click", resetFilters);
+
+    function closeProfileDropdown() {
+        if (!profileDropdown || !profileBtn) return;
+        profileDropdown.hidden = true;
+        profileBtn.setAttribute("aria-expanded", "false");
+    }
+
+    profileBtn?.addEventListener("click", event => {
+        event.stopPropagation();
+        if (!profileDropdown) return;
+        profileDropdown.hidden = !profileDropdown.hidden;
+        profileBtn.setAttribute("aria-expanded", String(!profileDropdown.hidden));
+    });
+
+    document.addEventListener("click", event => {
+        if (
+            profileDropdown &&
+            profileBtn &&
+            !profileDropdown.contains(event.target) &&
+            !profileBtn.contains(event.target)
+        ) {
+            closeProfileDropdown();
+        }
+    });
+
+    function closeDetails() {
+        detailsOverlay.hidden = true;
+        document.body.style.overflow = "";
+    }
+
+    function showReportDetails(row) {
+        const cells = row.querySelectorAll("td");
+        const status = row.dataset.status;
+        const reportId = cells[0].textContent.trim();
+        const incidentType = cells[1].textContent.trim();
+        const date = cells[2].textContent.trim();
+        const location = cells[3].textContent.trim();
+        const statusText = status === "resolved" ? "Resolved" : "Under Review";
+        const statusClass = status === "resolved" ? "resolved" : "reviewing";
+
+        detailsBody.innerHTML = `
+            <div class="details-status-row">
+                <span class="status ${statusClass}">
+                    <span class="status-dot"></span>${statusText}
+                </span>
+                <span class="details-id">${reportId}</span>
+            </div>
+            <div class="details-grid">
+                <div class="details-field">
+                    <span>Incident Type</span>
+                    <strong>${escapeHTML(incidentType)}</strong>
+                </div>
+                <div class="details-field">
+                    <span>Date Submitted</span>
+                    <strong>${escapeHTML(date)}</strong>
+                </div>
+                <div class="details-field details-field-full">
+                    <span>Location</span>
+                    <strong>${escapeHTML(location)}</strong>
+                </div>
+            </div>
+            <div class="details-notice">
+                <span>ⓘ</span>
+                <p>This page displays the report information currently available in your reports list. Additional case notes or administrator updates will appear here when connected to your reporting database.</p>
+            </div>
+        `;
+
+        detailsOverlay.hidden = false;
+        document.body.style.overflow = "hidden";
+        document.getElementById("closeDetails").focus();
+    }
+
+    function escapeHTML(value) {
+        return String(value).replace(/[&<>"']/g, character => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[character]);
+    }
+
+    tableBody.addEventListener("click", event => {
+        const button = event.target.closest("[data-view-report]");
+        if (!button) return;
+        const row = button.closest("tr");
+        if (row) showReportDetails(row);
+    });
+
+    document.getElementById("closeDetails").addEventListener("click", closeDetails);
+    document.getElementById("doneDetails").addEventListener("click", closeDetails);
+
+    detailsOverlay.addEventListener("click", event => {
+        if (event.target === detailsOverlay) closeDetails();
+    });
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+            if (!detailsOverlay.hidden) closeDetails();
+            closeProfileDropdown();
+        }
+    });
+
+    updateSummary();
+    applyFilters();
+});
+</script>
 </body>
 </html>

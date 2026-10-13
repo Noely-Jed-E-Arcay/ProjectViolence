@@ -6,38 +6,64 @@
     <title>SafeReport | Profile</title>
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="css/profileF.css">
+    <link rel="stylesheet" href="css/myreports-shell.css">
 </head>
 <body>
 <div class="app">
     <aside class="sidebar">
-        <a class="sidebar-brand" href="index.html"><span class="shield">🛡</span> SafeReport</a>
-        <nav>
-            <a href="index.html"><span class="side-icon">⌂</span>Dashboard</a>
-            <a href="report.html"><span class="side-icon">➤</span>Report Incident</a>
-            <a href="myreports.html"><span class="side-icon">▤</span>My Reports</a>
-            <a class="active" href="profile.html"><span class="side-icon">◯</span>Profile</a>
-        </nav>
-        <div class="sidebar-bottom">
-            <div class="profile-mini"><div class="avatar">●</div><div><strong>John Loyd Arcay. Panla-an</strong><small>Student</small></div></div>
-            <a class="logout" href="login.html"><span>↪</span> Logout</a>
+    <a class="sidebar-brand" href="index.html" aria-label="SafeReport home">
+        <span class="shield" aria-hidden="true">🛡</span>
+        <span>SafeReport</span>
+    </a>
+
+    <div class="sidebar-label">WORKSPACE</div>
+    <nav aria-label="Main navigation">
+        <a  href="index.html" >
+            <span class="side-icon" aria-hidden="true">⌂</span><span>Dashboard</span>
+        </a>
+        <a  href="report.html" >
+            <span class="side-icon" aria-hidden="true">＋</span><span>Report Incident</span>
+        </a>
+        <a  href="myreports.html" >
+            <span class="side-icon" aria-hidden="true">▤</span><span>My Reports</span>
+        </a>
+        <a class="active" href="profile.html" aria-current="page">
+            <span class="side-icon" aria-hidden="true">◯</span><span>Profile</span>
+        </a>
+    </nav>
+
+    <div class="sidebar-help">
+        <div class="help-icon" aria-hidden="true">ⓘ</div>
+        <strong>Need assistance?</strong>
+        <p>Contact your school administrator for reporting support.</p>
+    </div>
+
+    <div class="sidebar-bottom">
+        <div class="profile-mini">
+            <div class="avatar" aria-hidden="true">J</div>
+            <div class="profile-details"><strong>John Loyd Arcay. Panla-an</strong><small>Student Account</small></div>
         </div>
-    </aside>
+        <a class="logout" href="login.html"><span aria-hidden="true">↪</span><span>Logout</span></a>
+    </div>
+</aside>
 
     <main>
         <header class="header">
-            <div class="search-box"><span>⌕</span><input type="search" placeholder="Search announcements, resources..."></div>
-            <div class="header-actions">
-                <span class="header-action">♧<span class="notification-dot">2</span></span>
-                <span class="header-action">☾</span>
-                <div>
-                    <button class="header-avatar" id="profileBtn">●</button>
-                    <div class="profile-dropdown" id="profileDropdown">
-                        <a href="settings.html" class="settings">Settings</a>
-                        <a href="login.html" class="logout" id="logoutBtn">Logout</a>
-                    </div>
-                </div>
-            </div>
-        </header>
+    <div class="header-left">
+        <div class="breadcrumb"><span>Workspace</span><span class="breadcrumb-separator">/</span><strong>Profile</strong></div>
+        <p class="header-subtitle">Manage your personal information and account settings</p>
+    </div>
+    <div class="header-actions">
+        <div class="search-box"><span aria-hidden="true">⌕</span><input type="search" id="dashboardSearch" placeholder="Search announcements, resources..." aria-label="Search announcements and resources"></div>
+        <button type="button" class="header-action" id="notificationBtn" aria-label="Notifications, 2 unread">♧<span class="notification-dot">2</span></button>
+        <button type="button" class="header-action" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">☾</button>
+        <a class="header-help" href="report.html" aria-label="Create a new report" title="Create a new report">＋</a>
+        <div class="profile-menu-wrap">
+            <button type="button" class="header-avatar" id="profileBtn" aria-label="Open profile menu" aria-expanded="false" aria-controls="profileDropdown">J</button>
+            <div class="profile-dropdown" id="profileDropdown" hidden><a href="profile.html">My Profile</a><a href="settings.html" class="settings" id="openSettingsBtn">Settings</a><a href="login.html" class="logout" id="logoutBtn">Logout</a></div>
+        </div>
+    </div>
+</header>
 
         <div class="content">
             <section class="page-title"><h1>My Profile</h1><p>Manage your personal information and account settings.</p></section>
@@ -78,11 +104,38 @@
     </main>
 </div>
 <script src="JS/main.js"></script>
-<script src="JS/SHARED/storage.js"></script>
-<script src="JS/SHARED/validation.js"></script>
-<script src="JS/SHARED/toast.js"></script>
-<script src="JS/SHARED/navbar.js"></script>
-<script src="JS/SHARED/modal.js"></script>
+<script src="JS/Tito_Part/storage.js"></script>
+<script src="JS/Tito_Part/validation.js"></script>
+<script src="JS/Tito_Part/toast.js"></script>
+<script src="JS/Tito_Part/navbar.js"></script>
+<script src="JS/Tito_Part/modal.js"></script>
 <script src="JS/Arcays_Part/profile_feature.js" defer></script>
+<script id="profileDropdownShellHandler">
+document.addEventListener("DOMContentLoaded", () => {
+    const button = document.getElementById("profileBtn");
+    const dropdown = document.getElementById("profileDropdown");
+    if (!button || !dropdown) return;
+
+    button.addEventListener("click", event => {
+        event.stopPropagation();
+        dropdown.hidden = !dropdown.hidden;
+        button.setAttribute("aria-expanded", String(!dropdown.hidden));
+    });
+
+    document.addEventListener("click", event => {
+        if (!dropdown.contains(event.target) && !button.contains(event.target)) {
+            dropdown.hidden = true;
+            button.setAttribute("aria-expanded", "false");
+        }
+    });
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+            dropdown.hidden = true;
+            button.setAttribute("aria-expanded", "false");
+        }
+    });
+});
+</script>
 </body>
 </html>

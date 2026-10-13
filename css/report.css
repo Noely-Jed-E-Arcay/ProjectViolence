@@ -1,7 +1,6 @@
 /* =========================
    RESET
 ========================= */
-
 * {
     margin: 0;
     padding: 0;
@@ -15,52 +14,28 @@ html {
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f5f7fb;
+    background: #f5f7fb;
     color: #1e293b;
     line-height: 1.6;
     overflow-x: hidden;
 }
 
 /* =========================
-   ANIMATIONS — KEPT FROM BASEPLATE
+   ANIMATIONS
 ========================= */
-
-@keyframes pageFade {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
 @keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(25px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeDown {
-    from {
-        opacity: 0;
-        transform: translateY(-15px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-15px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideRight {
-    from {
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes float {
@@ -73,14 +48,40 @@ body {
     50% { transform: scale(1.05); }
 }
 
-body {
-    animation: pageFade 0.5s ease;
+@keyframes contentEnter {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes reportLightSweep {
+    0%, 100% { background-position: 120% 0, 0% 50%; }
+    50% { background-position: -30% 0, 100% 50%; }
+}
+
+@keyframes reportShieldFloat {
+    0%, 100% {
+        transform: translateY(0);
+        box-shadow: 0 0 0 0 rgba(255,255,255,.08);
+    }
+    50% {
+        transform: translateY(-6px);
+        box-shadow: 0 8px 25px rgba(15,30,100,.15);
+    }
+}
+
+@keyframes reportRings {
+    0%, 100% { transform: scale(1); opacity: .65; }
+    50% { transform: scale(1.06); opacity: 1; }
+}
+
+@keyframes reportGlow {
+    0%, 100% { transform: translate(0,0); opacity: .7; }
+    50% { transform: translate(-12px,10px); opacity: 1; }
 }
 
 /* =========================
    APP / SIDEBAR
 ========================= */
-
 .app {
     min-height: 100vh;
     display: flex;
@@ -88,17 +89,15 @@ body {
 
 .sidebar {
     position: fixed;
-    left: 0;
-    top: 0;
+    inset: 0 auto 0 0;
     width: 250px;
     height: 100vh;
     padding: 28px 16px 18px;
-    background: #ffffff;
+    background: #fff;
     border-right: 1px solid #e5e7eb;
     display: flex;
     flex-direction: column;
     z-index: 1000;
-    animation: slideRight 0.8s ease;
 }
 
 .sidebar-brand {
@@ -139,19 +138,15 @@ body {
     color: #475569;
     text-decoration: none;
     font-size: 14px;
-    transition: color 0.3s ease, background-color 0.3s ease,
-                transform 0.3s ease;
 }
 
-.sidebar nav a:hover {
-    color: #3157d5;
-    background: #eef2ff;
-    transform: translateX(3px);
-}
-
+.sidebar nav a:hover,
 .sidebar nav a.active {
     color: #3157d5;
     background: #eef2ff;
+}
+
+.sidebar nav a.active {
     font-weight: 700;
 }
 
@@ -209,7 +204,6 @@ body {
     text-decoration: none;
     border-radius: 9px;
     font-size: 13px;
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .logout:hover {
@@ -220,7 +214,6 @@ body {
 /* =========================
    MAIN CONTENT
 ========================= */
-
 main {
     width: calc(100% - 250px);
     margin-left: 250px;
@@ -230,17 +223,16 @@ main {
 .content {
     width: min(94%, 1250px);
     margin: 0 auto;
-    padding-bottom: 50px;
+    padding-bottom: 40px;
 }
 
 /* =========================
    HEADER / TOPBAR
 ========================= */
-
 .header {
     width: 100%;
     min-height: 70px;
-    background-color: rgba(255, 255, 255, 0.96);
+    background: rgba(255,255,255,.96);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     display: flex;
@@ -252,7 +244,6 @@ main {
     position: sticky;
     top: 0;
     z-index: 900;
-    animation: fadeDown 0.5s ease;
     min-width: 0;
 }
 
@@ -279,12 +270,12 @@ main {
     padding: 0 15px 0 38px;
     outline: none;
     color: #1e293b;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: border-color .3s ease, box-shadow .3s ease;
 }
 
 .search-box input:focus {
     border-color: #3b5bdb;
-    box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.1);
+    box-shadow: 0 0 0 3px rgba(59,91,219,.1);
 }
 
 .header-actions {
@@ -321,14 +312,13 @@ main {
     border-radius: 50%;
     display: grid;
     place-items: center;
-    background: linear-gradient(135deg, #3157d5, #8b5cf6);
-    color: white;
+    background: linear-gradient(135deg,#3157d5,#8b5cf6);
+    color: #fff;
 }
 
 /* =========================
-   HERO
+   BUTTONS
 ========================= */
-
 .primary-button,
 .secondary-button {
     display: inline-flex;
@@ -341,29 +331,29 @@ main {
     font-weight: bold;
     font-size: 13px;
     cursor: pointer;
-    transition: transform 0.25s ease, box-shadow 0.25s ease,
-                background-color 0.25s ease, color 0.25s ease;
+    transition: transform .25s ease, box-shadow .25s ease,
+                background-color .25s ease, color .25s ease;
 }
 
 .primary-button {
     border: none;
-    background-color: #ffffff;
+    background: #fff;
     color: #3b5bdb;
 }
 
 .primary-button:hover {
-    background-color: #e0e7ff;
+    background: #e0e7ff;
     transform: translateY(-3px);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 18px rgba(0,0,0,.12);
 }
 
 .primary-button:active {
-    transform: scale(0.97);
+    transform: scale(.97);
 }
 
 .secondary-button {
     border: 1px solid rgba(255,255,255,.65);
-    color: white;
+    color: #fff;
     background: transparent;
 }
 
@@ -373,18 +363,18 @@ main {
 }
 
 /* =========================
-   PAGE TITLE
+   DASHBOARD PANELS
 ========================= */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.55fr) minmax(290px, .85fr);
+    grid-template-columns: minmax(0,1.55fr) minmax(290px,.85fr);
     gap: 20px;
     align-items: start;
 }
 
 .section {
     margin-top: 20px;
-    animation: fadeUp 0.8s ease;
+    animation: fadeUp .8s ease;
 }
 
 .dashboard-grid .section {
@@ -424,62 +414,31 @@ main {
 }
 
 /* =========================
-   ANNOUNCEMENTS
+   PAGE TITLE
 ========================= */
-
-/* =========================
-   FOOTER
-========================= */
-
-footer {
-    margin-top: 40px;
-    padding: 25px;
-    text-align: center;
-    background-color: #1e293b;
-    color: white;
-    animation: fadeUp 0.8s ease;
-}
-
-footer p {
-    color: #cbd5e1;
-    font-size: 13px;
-}
-
-/* =========================
-   ACCESSIBILITY
-========================= */
-
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
-}
-
-/* PAGE-SPECIFIC STYLES */
 .page-title {
-    margin-top: 28px;
-    animation: fadeUp 0.8s ease;
+    margin: 24px 0 20px;
+    animation: contentEnter .3s ease-out both;
 }
 
 .page-title h1 {
-    font-size: clamp(26px, 4vw, 34px);
-    margin-bottom: 4px;
+    margin-bottom: 6px;
+    color: #1e293b;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -.5px;
 }
 
 .page-title p {
+    max-width: 650px;
     color: #64748b;
-    font-size: 14px;
+    font-size: 12px;
+    line-height: 1.7;
 }
 
 /* =========================
-   STATISTICS
+   FORM CONTROLS
 ========================= */
-
 .filters input,
 .filters select,
 .form-control,
@@ -495,8 +454,8 @@ footer p {
     background: #fff;
     font-family: inherit;
     color: #1e293b;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease,
-                transform 0.2s ease;
+    transition: border-color .3s ease, box-shadow .3s ease,
+                transform .2s ease;
 }
 
 .filters input:focus,
@@ -507,342 +466,495 @@ footer p {
 .report-form textarea:focus,
 .profile-form input:focus {
     border-color: #3b5bdb;
-    box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.1);
-    transform: translateY(-1px);
+    box-shadow: 0 0 0 3px rgba(59,91,219,.1);
+}
+
+/* =========================
+   REPORT INCIDENT LAYOUT
+========================= */
+.report-layout {
+    display: grid;
+    grid-template-columns: minmax(240px,.72fr) minmax(0,1.65fr);
+    align-items: stretch;
+    margin-top: 0;
+    background: #fff;
+    border: 1px solid #e5eaf2;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0,0,0,.035);
+    animation: contentEnter .35s ease-out both;
+}
+
+.report-layout:hover {
+    transform: none;
+    box-shadow: 0 3px 12px rgba(0,0,0,.035);
+}
+
+/* =========================
+   ANIMATED INFORMATION BANNER
+========================= */
+.report-info {
+    position: relative;
+    isolation: isolate;
+    padding: 32px 27px;
+    overflow: hidden;
+    color: #fff;
+    background-image:
+        linear-gradient(
+            110deg,
+            transparent 25%,
+            rgba(255,255,255,.07) 45%,
+            transparent 65%
+        ),
+        linear-gradient(
+            125deg,
+            #2448c7 0%,
+            #3157d5 40%,
+            #514ee8 72%,
+            #6d5dfc 100%
+        );
+    background-size: 220% 100%, 250% 250%;
+    animation: reportLightSweep 12s ease-in-out infinite;
+}
+
+.report-info::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: -100px;
+    right: -90px;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(255,255,255,.17),
+        rgba(255,255,255,.04) 45%,
+        transparent 72%
+    );
+    pointer-events: none;
+    animation: reportGlow 7s ease-in-out infinite;
+}
+
+.report-info::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    right: -65px;
+    bottom: -100px;
+    width: 230px;
+    height: 230px;
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 18px rgba(255,255,255,.045),
+        0 0 0 38px rgba(255,255,255,.035),
+        0 0 0 60px rgba(255,255,255,.025);
+    pointer-events: none;
+    animation: reportRings 6s ease-in-out infinite;
+}
+
+.report-info-icon {
+    position: relative;
+    z-index: 1;
+    display: inline-grid;
+    place-items: center;
+    width: 58px;
+    height: 58px;
+    margin-bottom: 18px;
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 16px;
+    background: rgba(255,255,255,.12);
+    box-shadow: inset 0 0 18px rgba(255,255,255,.06);
+    animation: reportShieldFloat 4s ease-in-out infinite;
+}
+
+.report-info h2 {
+    margin-bottom: 12px;
+    font-size: 22px;
+    line-height: 1.35;
+    letter-spacing: -.5px;
+}
+
+.report-info p {
+    margin-bottom: 24px;
+    color: rgba(255,255,255,.88);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.report-info ul {
+    display: grid;
+    gap: 13px;
+    padding: 0;
+    list-style: none;
+}
+
+.report-info li {
+    position: relative;
+    margin: 0;
+    padding-left: 23px;
+    color: rgba(255,255,255,.94);
+    font-size: 12px;
+    line-height: 1.65;
+}
+
+.report-info li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: grid;
+    place-items: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.17);
+    font-size: 10px;
+    font-weight: bold;
 }
 
 /* =========================
    REPORT FORM
 ========================= */
-
-.report-layout {
-    display: grid;
-    grid-template-columns: minmax(250px, .7fr) minmax(0, 1.6fr);
-    background-color: white;
-    border-radius: 15px;
-    overflow: hidden;
-    border: 1px solid #e5e7eb;
-    animation: fadeUp 0.8s ease;
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.report-layout:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-}
-
-.report-info {
-    background: linear-gradient(145deg, #3b5bdb, #6257eb);
-    color: white;
-    padding: clamp(25px, 4vw, 40px);
-}
-
-.report-info-icon {
-    font-size: 35px;
-    margin-bottom: 15px;
-    animation: pulse 2s ease-in-out infinite;
-}
-
-.report-info h2 {
-    margin-bottom: 10px;
-}
-
-.report-info p {
-    margin-bottom: 20px;
-    font-size: 13px;
-}
-
-.report-info ul {
-    padding-left: 20px;
-}
-
-.report-info li {
-    margin-bottom: 10px;
-    font-size: 12px;
-    transition: transform 0.25s ease;
-}
-
-.report-info li:hover {
-    transform: translateX(5px);
-}
-
 .report-form {
-    padding: clamp(25px, 4vw, 40px);
     display: flex;
     flex-direction: column;
-    gap: 9px;
+    gap: 7px;
     min-width: 0;
+    padding: 30px clamp(22px,3vw,38px);
+    background: #fff;
 }
 
-.report-form h2,
-.report-form label,
-.privacy-box {
-    overflow-wrap: anywhere;
+.report-form h2 {
+    margin-bottom: 10px;
+    color: #1e293b;
+    font-size: 16px;
+    font-weight: 700;
 }
 
-.report-form label,
-.profile-form label {
+.report-form label {
+    margin-top: 10px;
+    color: #334155;
     font-size: 12px;
-    font-weight: bold;
-    margin-top: 6px;
+    font-weight: 600;
+}
+
+.report-form input:not([type="checkbox"]),
+.report-form select,
+.report-form textarea {
+    width: 100%;
+    min-height: 43px;
+    padding: 11px 13px;
+    border: 1px solid #dce2ec;
+    border-radius: 8px;
+    outline: none;
+    background: #fbfcfe;
+    color: #1e293b;
+    font-family: inherit;
+    font-size: 12px;
+    transition: border-color .2s ease, background-color .2s ease,
+                box-shadow .2s ease;
+}
+
+.report-form input::placeholder,
+.report-form textarea::placeholder {
+    color: #9aa5b5;
+}
+
+.report-form input:not([type="checkbox"]):hover,
+.report-form select:hover,
+.report-form textarea:hover {
+    border-color: #b8c5e8;
+}
+
+.report-form input:not([type="checkbox"]):focus,
+.report-form select:focus,
+.report-form textarea:focus {
+    border-color: #3157d5;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(49,87,213,.09);
+}
+
+.report-form select {
+    cursor: pointer;
 }
 
 .report-form textarea {
-    min-height: 140px;
+    min-height: 125px;
     resize: vertical;
+    line-height: 1.7;
 }
 
-.checkbox {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    font-weight: normal !important;
-}
-
-.checkbox input {
-    width: auto;
-    accent-color: #3b5bdb;
-}
-
-.form-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 8px;
-}
-
-.form-buttons .primary-button {
-    background: #3b5bdb;
-    color: white;
-    border: none;
-}
-
-.form-buttons .primary-button:hover {
-    background: #2f4ac2;
-}
-
+/* =========================
+   PRIVACY NOTICE
+========================= */
 .privacy-box {
-    margin-top: 10px;
-    padding: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 15px;
+    padding: 13px 15px;
+    border: 1px solid #e0e7ff;
     border-radius: 9px;
     background: #f7f8ff;
-    border: 1px solid #e0e7ff;
 }
 
 .privacy-box strong {
-    display: block;
-    font-size: 12px;
     color: #3157d5;
+    font-size: 12px;
 }
 
 .privacy-box p {
     color: #64748b;
     font-size: 11px;
+    line-height: 1.65;
 }
 
 /* =========================
-   TABLET
+   CONFIRMATION CHECKBOX
 ========================= */
+.report-form .checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    margin-top: 15px;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.7;
+    cursor: pointer;
+}
 
-@media (max-width: 1050px) {
-    .stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .profile-layout {
-        grid-template-columns: 1fr;
-    }
+.report-form .checkbox input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    flex: 0 0 15px;
+    margin-top: 2px;
+    accent-color: #3157d5;
+    cursor: pointer;
 }
 
 /* =========================
-   MOBILE
+   FORM BUTTONS
 ========================= */
+.form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 17px;
+    border-top: 1px solid #edf0f5;
+}
+
+.form-buttons .primary-button,
+.form-buttons .secondary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 10px 17px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color .2s ease, border-color .2s ease,
+                box-shadow .2s ease, transform .2s ease;
+}
+
+.form-buttons .primary-button {
+    border: 1px solid #3157d5;
+    background: #3157d5;
+    color: #fff;
+}
+
+.form-buttons .primary-button:hover {
+    border-color: #2546bc;
+    background: #2546bc;
+    box-shadow: 0 4px 12px rgba(49,87,213,.2);
+    transform: translateY(-1px);
+}
+
+.form-buttons .secondary-button {
+    border: 1px solid #d8deea;
+    background: #fff;
+    color: #475569 !important;
+}
+
+.form-buttons .secondary-button:hover {
+    border-color: #b9c5e5;
+    background: #f7f8fc;
+}
+
+/* =========================
+   ACCESSIBILITY
+========================= */
+.report-form button:focus-visible,
+.report-form a:focus-visible,
+.report-form input:focus-visible,
+.report-form select:focus-visible,
+.report-form textarea:focus-visible {
+    outline: 2px solid #3157d5;
+    outline-offset: 3px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+    margin-top: 40px;
+    padding: 25px;
+    text-align: center;
+    background: #1e293b;
+    color: #fff;
+    animation: fadeUp .8s ease;
+}
+
+footer p {
+    color: #cbd5e1;
+    font-size: 13px;
+}
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+@media (max-width: 900px) {
+    .report-layout {
+        grid-template-columns: minmax(0,.8fr) minmax(0,1.3fr);
+    }
+
+    .report-info {
+        padding: 26px 21px;
+    }
+
+    .report-form {
+        padding: 26px 22px;
+    }
+}
 
 @media (max-width: 700px) {
-    .app {
-        display: block;
-    }
-
-    .sidebar {
-        position: relative;
-        width: 100%;
-        height: auto;
-        min-height: 0;
-        padding: 16px;
-        border-right: none;
-        border-bottom: 1px solid #e5e7eb;
-    }
-
-    .sidebar-brand {
-        padding: 0 5px 15px;
-    }
-
-    .sidebar nav {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .sidebar-bottom {
-        display: none;
-    }
-
-    main {
-        width: 100%;
-        margin-left: 0;
-    }
-
     .content {
-        width: min(94%, 600px);
+        width: min(94%,600px);
     }
 
-    .header {
-        min-height: 62px;
-        padding: 10px 15px;
-    }
-
-    .search-box {
-        width: auto;
-        flex: 1 1 auto;
-        min-width: 0;
-    }
-
-    .header-actions {
-        gap: 10px;
-        flex-shrink: 0;
-    }
-
-    .hero {
-        min-height: auto;
-        padding: 30px;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .hero-icon {
-        display: none;
-    }
-
-    .stats {
-        grid-template-columns: 1fr;
-    }
-
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .activity {
-        grid-template-columns: 30px 1fr;
-    }
-
-    .activity .status,
-    .activity time {
-        grid-column: 2;
-        justify-self: start;
-    }
-
-    .filters {
-        grid-template-columns: 1fr;
+    .page-title {
+        margin-top: 22px;
     }
 
     .report-layout {
         grid-template-columns: 1fr;
+        border-radius: 13px;
+    }
+
+    .report-info {
+        padding: 25px 23px;
+    }
+
+    .report-info-icon {
+        width: 46px;
+        height: 46px;
+        margin-bottom: 17px;
+        font-size: 23px;
+    }
+
+    .report-info h2 {
+        font-size: 20px;
+    }
+
+    .report-info p {
+        margin-bottom: 17px;
+    }
+
+    .report-info ul {
+        gap: 9px;
+    }
+
+    .report-form {
+        padding: 25px 21px;
+    }
+
+    .report-form h2 {
+        font-size: 18px;
     }
 
     .form-buttons {
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
     }
 
     .form-buttons .primary-button,
     .form-buttons .secondary-button {
-        flex: 1 1 140px;
-    }
-
-    .profile-form,
-    .security-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .profile-form h2,
-    .profile-form .full,
-    .profile-form button {
-        grid-column: 1;
-    }
-
-    .login-shell {
-        grid-template-columns: 1fr;
-    }
-
-    .login-brand {
-        padding: 30px;
-    }
-
-    .login-brand-icon {
-        display: none;
-    }
-
-    .login-content {
-        padding: 30px;
+        width: 100%;
+        min-width: 0;
     }
 }
 
 @media (max-width: 400px) {
-    .hero {
-        border-radius: 14px;
-        padding: 25px 20px;
-    }
-
-    .primary-button,
-    .secondary-button {
-        width: 100%;
-    }
-
-    .stat-box {
-        padding: 16px;
-    }
-
     .report-info,
     .report-form {
-        padding: 22px;
+        padding: 20px 17px;
     }
 
-    .card {
-        padding: 20px;
+    .form-buttons {
+        grid-template-columns: 1fr;
     }
 }
 
-body,
+/* =========================
+   DISABLE NAVBAR / HEADER MOTION
+   Keep report content animations
+========================= */
 .sidebar,
+.sidebar *,
+.sidebar::before,
+.sidebar::after,
+.sidebar *::before,
+.sidebar *::after,
 .header,
-.section,
-footer {
-    animation: none;
+.header *,
+.header::before,
+.header::after,
+.header *::before,
+.header *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
 }
 
-.sidebar nav a {
-    transition: color 0.2s ease, background-color 0.2s ease;
+.sidebar,
+.sidebar *,
+.header,
+.header * {
+    animation-delay: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
 }
 
-.sidebar nav a:hover {
-    transform: none;
+.sidebar,
+.header {
+    transform: none !important;
 }
 
-@keyframes contentEnter {
-    from {
-        opacity: 0;
-        transform: translateY(4px);
+/* =========================
+   REDUCED MOTION ACCESSIBILITY
+========================= */
+@media (prefers-reduced-motion: reduce) {
+    .report-info,
+    .report-info::before,
+    .report-info::after,
+    .report-info-icon,
+    .page-title,
+    .report-layout,
+    .section,
+    footer {
+        animation: none !important;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    html {
+        scroll-behavior: auto;
     }
 }
-
-.content {
-    animation: contentEnter 0.3s ease-out both;
-}
-

@@ -3,113 +3,412 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#3157d5">
+
     <title>SafeReport | Report Incident</title>
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="css/report.css">
+    <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/profileF.css">
+    <link rel="stylesheet" href="css/settingsOL.css">
+    <link rel="stylesheet" href="css/myreports-shell.css">
 </head>
+
 <body>
 <div class="app">
+
+    <!-- SIDEBAR -->
     <aside class="sidebar">
-        <a class="sidebar-brand" href="index.html"><span class="shield">🛡</span> SafeReport</a>
-        <nav>
-            <a href="index.html"><span class="side-icon">⌂</span>Dashboard</a>
-            <a class="active" href="report.html"><span class="side-icon">➤</span>Report Incident</a>
-            <a href="myreports.html"><span class="side-icon">▤</span>My Reports</a>
-            <a href="profile.html"><span class="side-icon">◯</span>Profile</a>
-        </nav>
-        <div class="sidebar-bottom">
-            <div class="profile-mini"><div class="avatar">●</div><div><strong>John Loyd Arcay. Panla-an</strong><small>Student</small></div></div>
-            <a class="logout" href="login.html"><span>↪</span> Logout</a>
+    <a class="sidebar-brand" href="index.html" aria-label="SafeReport home">
+        <span class="shield" aria-hidden="true">🛡</span>
+        <span>SafeReport</span>
+    </a>
+
+    <div class="sidebar-label">WORKSPACE</div>
+    <nav aria-label="Main navigation">
+        <a  href="index.html" >
+            <span class="side-icon" aria-hidden="true">⌂</span><span>Dashboard</span>
+        </a>
+        <a class="active" href="report.html" aria-current="page">
+            <span class="side-icon" aria-hidden="true">＋</span><span>Report Incident</span>
+        </a>
+        <a  href="myreports.html" >
+            <span class="side-icon" aria-hidden="true">▤</span><span>My Reports</span>
+        </a>
+        <a  href="profile.html" >
+            <span class="side-icon" aria-hidden="true">◯</span><span>Profile</span>
+        </a>
+    </nav>
+
+    <div class="sidebar-help">
+        <div class="help-icon" aria-hidden="true">ⓘ</div>
+        <strong>Need assistance?</strong>
+        <p>Contact your school administrator for reporting support.</p>
+    </div>
+
+    <div class="sidebar-bottom">
+        <div class="profile-mini">
+            <div class="avatar" aria-hidden="true">J</div>
+            <div class="profile-details"><strong>John Loyd Arcay. Panla-an</strong><small>Student Account</small></div>
         </div>
-    </aside>
+        <a class="logout" href="login.html"><span aria-hidden="true">↪</span><span>Logout</span></a>
+    </div>
+</aside>
 
+    <!-- MAIN CONTENT -->
     <main>
+
+        <!-- TOP HEADER -->
         <header class="header">
-            <div class="search-box"><span>⌕</span><input type="search" placeholder="Search announcements, resources..."></div>
-            <div class="header-actions">
-                <span class="header-action">♧<span class="notification-dot">2</span></span>
-                <span class="header-action">☾</span>
-                <div>
-                    <button class="header-avatar" id="profileBtn">●</button>
-                    <div class="profile-dropdown" id="profileDropdown">
-                        <a href="settings.html" class="settings">Settings</a>
-                        <a href="login.html" class="logout" id="logoutBtn">Logout</a>
-                    </div>
-                </div>
-            </div>
-        </header>
+    <div class="header-left">
+        <div class="breadcrumb"><span>Workspace</span><span class="breadcrumb-separator">/</span><strong>Report Incident</strong></div>
+        <p class="header-subtitle">Submit a concern to your school administrator</p>
+    </div>
+    <div class="header-actions">
+        <div class="search-box"><span aria-hidden="true">⌕</span><input type="search" id="dashboardSearch" placeholder="Search announcements, resources..." aria-label="Search announcements and resources"></div>
+        <button type="button" class="header-action" id="notificationBtn" aria-label="Notifications, 2 unread">♧<span class="notification-dot">2</span></button>
+        <button type="button" class="header-action" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">☾</button>
+        <a class="header-help" href="report.html" aria-label="Create a new report" title="Create a new report">＋</a>
+        <div class="profile-menu-wrap">
+            <button type="button" class="header-avatar" id="profileBtn" aria-label="Open profile menu" aria-expanded="false" aria-controls="profileDropdown">J</button>
+            <div class="profile-dropdown" id="profileDropdown" hidden><a href="profile.html">My Profile</a><button type="button" class="settings" id="openSettingsBtn">Settings</button><a href="login.html" class="logout" id="logoutBtn">Logout</a></div>
+        </div>
+    </div>
+</header>
 
+        <!-- PAGE CONTENT -->
         <div class="content">
-            <section class="page-title"><h1>Report an Incident</h1><p>Tell us what happened. Your report will be handled securely and confidentially.</p></section>
 
+            <!-- PAGE TITLE -->
+            <section class="page-title">
+                <h1>Report an Incident</h1>
+
+                <p>
+                    Tell us what happened. Your report will be handled
+                    securely and confidentially.
+                </p>
+            </section>
+
+            <!-- REPORT LAYOUT -->
             <section class="report-layout section">
-                <div class="report-info">
-                    <div class="report-info-icon">🛡</div>
+
+                <!-- INFORMATION PANEL -->
+                <aside class="report-info">
+                    <div class="report-info-icon" aria-hidden="true">
+                        🛡️
+                    </div>
+
                     <h2>Your safety matters.</h2>
-                    <p>Provide as much information as you can. Your report will only be accessible to authorized school safety personnel.</p>
+
+                    <p>
+                        Provide as much information as you can. Your report
+                        will only be accessible to authorized school safety
+                        personnel.
+                    </p>
+
                     <ul>
                         <li>Give accurate incident details.</li>
                         <li>Include the location and time if known.</li>
                         <li>Describe the people involved.</li>
                         <li>Your information is handled confidentially.</li>
                     </ul>
-                </div>
+                </aside>
 
-                <form class="report-form">
+                <!-- INCIDENT FORM -->
+                <form
+                    class="report-form"
+                    id="reportForm"
+                    action="#"
+                    method="post"
+                >
                     <h2>Incident Information</h2>
 
+                    <!-- INCIDENT TYPE -->
                     <label for="incident-type">Incident Type</label>
-                    <select id="incident-type" name="incident-type">
-                        <option>Select incident type</option>
-                        <option>Bullying</option>
-                        <option>Harassment</option>
-                        <option>Violence</option>
-                        <option>Threat</option>
-                        <option>Safety Concern</option>
-                        <option>Other</option>
+
+                    <select
+                        id="incident-type"
+                        name="incident-type"
+                        required
+                    >
+                        <option value="" selected disabled>
+                            Select incident type
+                        </option>
+                        <option value="Bullying">Bullying</option>
+                        <option value="Harassment">Harassment</option>
+                        <option value="Violence">Violence</option>
+                        <option value="Threat">Threat</option>
+                        <option value="Safety Concern">Safety Concern</option>
+                        <option value="Other">Other</option>
                     </select>
 
+                    <!-- INCIDENT DATE -->
                     <label for="incident-date">Date of Incident</label>
-                    <input type="date" id="incident-date" name="incident-date">
 
+                    <input
+                        type="date"
+                        id="incident-date"
+                        name="incident-date"
+                        required
+                    >
+
+                    <!-- LOCATION -->
                     <label for="location">Location</label>
-                    <input type="text" id="location" name="location" placeholder="Where did this happen?">
 
+                    <input
+                        type="text"
+                        id="location"
+                        name="location"
+                        placeholder="Where did this happen?"
+                        maxlength="200"
+                        required
+                    >
+
+                    <!-- INCIDENT TIME -->
                     <label for="time">Time</label>
-                    <input type="time" id="time" name="time">
 
+                    <input
+                        type="time"
+                        id="time"
+                        name="time"
+                    >
+
+                    <!-- INCIDENT DESCRIPTION -->
                     <label for="description">What happened?</label>
-                    <textarea id="description" name="description" placeholder="Please describe the incident..."></textarea>
 
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="5"
+                        placeholder="Please describe the incident..."
+                        maxlength="5000"
+                        required
+                    ></textarea>
+
+                    <!-- PEOPLE INVOLVED -->
                     <label for="people">People Involved</label>
-                    <input type="text" id="people" name="people" placeholder="Names or descriptions, if known">
 
+                    <input
+                        type="text"
+                        id="people"
+                        name="people"
+                        placeholder="Names or descriptions, if known"
+                        maxlength="500"
+                    >
+
+                    <!-- PRIVACY NOTICE -->
                     <div class="privacy-box">
-                        <strong>🔒 Privacy</strong>
-                        <p>Your report will only be accessible to authorized school safety personnel.</p>
+                        <strong>
+                            <span aria-hidden="true">🔒</span>
+                            Privacy
+                        </strong>
+
+                        <p>
+                            Your report will only be accessible to
+                            authorized school safety personnel.
+                        </p>
                     </div>
 
-                    <label class="checkbox">
-                        <input type="checkbox" id="confirm" name="confirm">
-                        I confirm that the information provided is accurate.
+                    <!-- CONFIRMATION -->
+                    <label class="checkbox" for="confirm">
+                        <input
+                            type="checkbox"
+                            id="confirm"
+                            name="confirm"
+                            required
+                        >
+
+                        <span>
+                            I confirm that the information provided is accurate.
+                        </span>
                     </label>
 
+                    <!-- FORM ACTIONS -->
                     <div class="form-buttons">
-                        <a class="secondary-button" style="color:#475569;border-color:#cbd5e1;" href="index.html">Cancel</a>
-                        <button class="primary-button" type="submit">Submit Report</button>
+                        <a class="secondary-button" href="index.html">
+                            Cancel
+                        </a>
+
+                        <button
+                            class="primary-button"
+                            type="submit"
+                        >
+                            Submit Report
+                        </button>
                     </div>
                 </form>
             </section>
         </div>
     </main>
 </div>
+
+<!-- SETTINGS PANEL -->
+<div
+    class="settings-overlay"
+    id="settingsOverlay"
+    hidden
+    aria-hidden="true"
+>
+    <section
+        class="settings-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="settingsTitle"
+    >
+        <!-- WHOLE HEADER RETURNS TO PROFILE DROPDOWN -->
+        <div class="settings-header">
+            <button
+                type="button"
+                class="settings-back"
+                id="settingsBackBtn"
+                aria-label="Return to profile dropdown"
+            >
+                <span aria-hidden="true">&#8592;</span>
+                <span id="settingsTitle">Settings</span>
+            </button>
+        </div>
+
+        <!-- SETTINGS OPTIONS -->
+        <div class="settings-menu">
+            <button
+                type="button"
+                class="settings-item"
+                data-setting="Privacy Settings"
+            >
+                <span>Privacy Settings</span>
+            </button>
+
+            <button
+                type="button"
+                class="settings-item"
+                data-setting="Notification Settings"
+            >
+                <span>Notification Settings</span>
+            </button>
+
+            <button
+                type="button"
+                class="settings-item"
+                data-setting="Security Settings"
+            >
+                <span>Security Settings</span>
+            </button>
+        </div>
+    </section>
+</div>
+
+<!-- EXISTING JAVASCRIPT FILES -->
+<script src="JS/Tito_Part/storage.js"></script>
+<script src="JS/Tito_Part/validation.js"></script>
+<script src="JS/Tito_Part/toast.js"></script>
+<script src="JS/Tito_Part/navbar.js"></script>
+<script src="JS/Tito_Part/modal.js"></script>
 <script src="JS/main.js"></script>
-<script src="JS/SHARED/storage.js"></script>
-<script src="JS/SHARED/validation.js"></script>
-<script src="JS/SHARED/toast.js"></script>
-<script src="JS/SHARED/navbar.js"></script>
-<script src="JS/SHARED/modal.js"></script>
 <script src="JS/Arcays_Part/reportForm.js"></script>
-<script src="JS/Arcays_Part/profile_feature.js" defer></script>
+
+<!-- PROFILE DROPDOWN AND SETTINGS -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const profileBtn = document.getElementById("profileBtn");
+    const profileDropdown = document.getElementById("profileDropdown");
+    const settingsBtn = document.getElementById("openSettingsBtn");
+    const settingsPanel = document.getElementById("settingsOverlay");
+    const backBtn = document.getElementById("settingsBackBtn");
+
+    function closeProfileDropdown() {
+        if (!profileDropdown) return;
+
+        profileDropdown.hidden = true;
+        profileBtn?.setAttribute("aria-expanded", "false");
+    }
+
+    function closeSettings() {
+        if (!settingsPanel) return;
+
+        settingsPanel.hidden = true;
+        settingsPanel.setAttribute("aria-hidden", "true");
+    }
+
+    // Toggle the profile dropdown
+    profileBtn?.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        closeSettings();
+
+        if (profileDropdown) {
+            profileDropdown.hidden = !profileDropdown.hidden;
+
+            profileBtn.setAttribute(
+                "aria-expanded",
+                String(!profileDropdown.hidden)
+            );
+        }
+    });
+
+    // Open Settings
+    settingsBtn?.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        closeProfileDropdown();
+
+        if (settingsPanel) {
+            settingsPanel.hidden = false;
+            settingsPanel.setAttribute("aria-hidden", "false");
+        }
+    });
+
+    // Clicking the entire Settings header returns to the profile dropdown
+    backBtn?.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        closeSettings();
+
+        if (profileDropdown) {
+            profileDropdown.hidden = false;
+            profileBtn?.setAttribute("aria-expanded", "true");
+        }
+    });
+
+    // Close menus when clicking outside
+    document.addEventListener("click", function (event) {
+        if (
+            profileDropdown &&
+            profileBtn &&
+            !profileDropdown.contains(event.target) &&
+            !profileBtn.contains(event.target)
+        ) {
+            closeProfileDropdown();
+        }
+
+        if (
+            settingsPanel &&
+            !settingsPanel.hidden &&
+            !settingsPanel.contains(event.target)
+        ) {
+            closeSettings();
+        }
+    });
+
+    // Close menus with Escape
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            closeSettings();
+            closeProfileDropdown();
+        }
+    });
+
+    // Temporary handlers until the settings pages are implemented
+    document.querySelectorAll("[data-setting]").forEach(function (button) {
+        button.addEventListener("click", function () {
+            alert(button.dataset.setting + " will be implemented in a later step.");
+        });
+    });
+});
+</script>
+
 </body>
 </html>
