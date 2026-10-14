@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,11 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#3157d5">
     <meta name="description" content="View and track your SafeReport safety reports.">
+
     <title>SafeReport | My Reports</title>
 
     <link rel="stylesheet" href="css/myreports.css">
     <link rel="stylesheet" href="css/profileF.css">
+    <link rel="stylesheet" href="css/myreports-shell.css">
 </head>
+
 <body>
 <div class="app">
 
@@ -27,14 +31,17 @@
                 <span class="side-icon">⌂</span>
                 <span>Dashboard</span>
             </a>
+
             <a href="report.html">
                 <span class="side-icon">＋</span>
                 <span>Report Incident</span>
             </a>
+
             <a class="active" href="myreports.html" aria-current="page">
                 <span class="side-icon">▤</span>
                 <span>My Reports</span>
             </a>
+
             <a href="profile.html">
                 <span class="side-icon">◯</span>
                 <span>Profile</span>
@@ -50,6 +57,7 @@
         <div class="sidebar-bottom">
             <div class="profile-mini">
                 <div class="avatar">J</div>
+
                 <div class="profile-details">
                     <strong>John Loyd Arcay. Panla-an</strong>
                     <small>Student Account</small>
@@ -64,6 +72,7 @@
 
     <!-- MAIN CONTENT -->
     <main>
+
         <!-- TOPBAR -->
         <header class="header">
             <div class="header-left">
@@ -72,14 +81,17 @@
                     <span class="breadcrumb-separator">/</span>
                     <strong>My Reports</strong>
                 </div>
+
                 <p class="header-subtitle">Your personal reporting center</p>
             </div>
 
             <div class="header-actions">
-                <a class="header-help"
-                   href="report.html"
-                   aria-label="Create a new report"
-                   title="Create a new report">＋</a>
+                <a
+                    class="header-help"
+                    href="report.html"
+                    aria-label="Create a new report"
+                    title="Create a new report"
+                >＋</a>
 
                 <div class="profile-menu-wrap">
                     <button
@@ -94,7 +106,9 @@
                     <div class="profile-dropdown" id="profileDropdown" hidden>
                         <a href="profile.html">My Profile</a>
                         <a href="settings.html" class="settings">Settings</a>
-                        <a href="login.html" class="logout" id="logoutBtn">Logout</a>
+                        <a href="login.html" class="logout" id="logoutBtn">
+                            Logout
+                        </a>
                     </div>
                 </div>
             </div>
@@ -109,8 +123,13 @@
                         <span class="eyebrow-dot"></span>
                         REPORTING CENTER
                     </div>
+
                     <h1>My Reports<span class="title-period">.</span></h1>
-                    <p>Keep track of your submitted reports and monitor their progress in one place.</p>
+
+                    <p>
+                        Keep track of your submitted reports and monitor
+                        their progress in one place.
+                    </p>
                 </div>
 
                 <a class="primary-button blue-button" href="report.html">
@@ -122,15 +141,18 @@
 
             <!-- SUMMARY -->
             <section class="stats" aria-label="Report summary">
+
                 <article class="stat-box total-stat">
                     <div class="stat-top">
                         <div class="stat-icon">▤</div>
                         <span class="stat-label">ALL REPORTS</span>
                     </div>
+
                     <div class="stat-bottom">
                         <h2 id="totalCount">0</h2>
                         <p>Total submissions</p>
                     </div>
+
                     <div class="stat-decoration" aria-hidden="true">▤</div>
                 </article>
 
@@ -139,10 +161,12 @@
                         <div class="stat-icon">◷</div>
                         <span class="stat-label">IN PROGRESS</span>
                     </div>
+
                     <div class="stat-bottom">
                         <h2 id="reviewCount">0</h2>
                         <p>Under review</p>
                     </div>
+
                     <div class="stat-decoration" aria-hidden="true">◷</div>
                 </article>
 
@@ -151,12 +175,15 @@
                         <div class="stat-icon">✓</div>
                         <span class="stat-label">COMPLETED</span>
                     </div>
+
                     <div class="stat-bottom">
                         <h2 id="resolvedCount">0</h2>
                         <p>Resolved reports</p>
                     </div>
+
                     <div class="stat-decoration" aria-hidden="true">✓</div>
                 </article>
+
             </section>
 
             <!-- REPORTS TABLE -->
@@ -167,26 +194,38 @@
                             <span class="heading-mark"></span>
                             <h2>Submitted Reports</h2>
                         </div>
-                        <p>Review the details and current status of your reports.</p>
+
+                        <p>
+                            Review the details and current status of your reports.
+                        </p>
                     </div>
 
                     <span class="report-count" id="visibleCount">0 reports</span>
                 </div>
 
                 <div class="panel-body">
+
+                    <!-- FILTER HEADER -->
                     <div class="filter-heading">
                         <div>
                             <h3>Find a report</h3>
                             <p>Search by report ID, type, date, or location.</p>
                         </div>
-                        <button class="reset-filters" id="resetFilters" type="button">
+
+                        <button
+                            class="reset-filters"
+                            id="resetFilters"
+                            type="button"
+                        >
                             Reset filters
                         </button>
                     </div>
 
+                    <!-- FILTER CONTROLS -->
                     <div class="filters">
                         <label class="search-field">
                             <span class="search-symbol" aria-hidden="true">⌕</span>
+
                             <input
                                 type="search"
                                 id="reportSearch"
@@ -197,15 +236,21 @@
 
                         <label class="select-field">
                             <span class="filter-label">STATUS</span>
-                            <select id="statusFilter" aria-label="Filter by status">
+
+                            <select
+                                id="statusFilter"
+                                aria-label="Filter by status"
+                            >
                                 <option value="all">All Statuses</option>
                                 <option value="under review">Under Review</option>
+                                <option value="in progress">In Progress</option>
                                 <option value="resolved">Resolved</option>
                             </select>
                         </label>
 
                         <label class="select-field">
                             <span class="filter-label">SORT BY</span>
+
                             <select id="sortFilter" aria-label="Sort reports">
                                 <option value="newest">Newest First</option>
                                 <option value="oldest">Oldest First</option>
@@ -213,6 +258,7 @@
                         </label>
                     </div>
 
+                    <!-- TABLE -->
                     <div class="table-wrap">
                         <table>
                             <thead>
@@ -226,79 +272,115 @@
                                 </tr>
                             </thead>
 
-                            <!-- report.js populates this from shared storage -->
                             <tbody id="reportsTableBody"></tbody>
                         </table>
 
+                        <!-- EMPTY STATE -->
                         <div class="empty-state" id="emptyState" hidden>
                             <div class="empty-icon">⌕</div>
                             <h3>No reports found</h3>
-                            <p>Try another search term or change your filters.</p>
-                            <button class="secondary-button" id="emptyReset" type="button">
+
+                            <p>
+                                Try another search term or change your filters.
+                            </p>
+
+                            <button
+                                class="secondary-button"
+                                id="emptyReset"
+                                type="button"
+                            >
                                 Clear filters
                             </button>
                         </div>
                     </div>
 
+                    <!-- TABLE FOOTER -->
                     <div class="table-footer">
                         <span id="tableFooterText">Showing 0 reports</span>
+
                         <span class="secure-note">
                             <span>✓</span> Your reports are private
                         </span>
                     </div>
+
                 </div>
             </section>
 
             <!-- SUPPORT BANNER -->
             <section class="support-banner">
                 <div class="support-symbol">盾</div>
+
                 <div class="support-copy">
                     <h2>Your voice helps keep our campus safe.</h2>
-                    <p>If you need to report another incident, you can submit a new report at any time.</p>
+
+                    <p>
+                        If you need to report another incident, you can submit
+                        a new report at any time.
+                    </p>
                 </div>
+
                 <a href="report.html" class="support-link">
                     Report an incident <span>→</span>
                 </a>
             </section>
 
+            <!-- FOOTER -->
             <footer class="page-footer">
-                <p>© 2026 SafeReport. Supporting a safer campus community.</p>
-                <span><span class="footer-status-dot"></span> Student reporting portal</span>
+                <p>
+                    © 2026 SafeReport. Supporting a safer campus community.
+                </p>
+
+                <span>
+                    <span class="footer-status-dot"></span>
+                    Student reporting portal
+                </span>
             </footer>
+
         </div>
     </main>
 </div>
 
 <!-- REPORT DETAILS DIALOG -->
 <div class="details-overlay" id="reportDetailsOverlay" hidden>
-    <section class="details-dialog"
-             role="dialog"
-             aria-modal="true"
-             aria-labelledby="detailsTitle">
-
+    <section
+        class="details-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="detailsTitle"
+    >
         <div class="details-header">
             <div>
                 <span class="details-eyebrow">REPORT DETAILS</span>
                 <h2 id="detailsTitle">Report information</h2>
             </div>
-            <button type="button"
-                    class="details-close"
-                    id="closeDetails"
-                    aria-label="Close report details">×</button>
+
+            <button
+                type="button"
+                class="details-close"
+                id="closeDetails"
+                aria-label="Close report details"
+            >×</button>
         </div>
 
         <div class="details-body" id="reportDetailsBody"></div>
 
         <div class="details-footer">
-            <p>For additional assistance, contact your school administrator.</p>
-            <button type="button" class="primary-button blue-button" id="doneDetails">
+            <p>
+                For additional assistance, contact your school administrator.
+            </p>
+
+            <button
+                type="button"
+                class="primary-button blue-button"
+                id="doneDetails"
+            >
                 Done
             </button>
         </div>
     </section>
 </div>
 
-<!-- EXISTING PROJECT SCRIPTS -->
+<!-- PROJECT SCRIPTS -->
 <script src="JS/main.js"></script>
 <script src="JS/Tito_Part/storage.js"></script>
 <script src="JS/Tito_Part/validation.js"></script>
@@ -308,6 +390,7 @@
 <script src="JS/Arcays_Part/report.js"></script>
 <script src="JS/Arcays_Part/profile_feature.js" defer></script>
 
+<!-- PAGE INTERACTIONS -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const tableBody = document.getElementById("reportsTableBody");
@@ -326,13 +409,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!tableBody) return;
 
-    /*
-     * Ignore any non-report placeholder rows.
-     * The report table is populated by report.js.
-     */
+    // Return only rows containing all six report columns.
     function getReportRows() {
-        return Array.from(tableBody.querySelectorAll("tr")).filter(row =>
-            row.querySelectorAll("td").length >= 6
+        return Array.from(tableBody.querySelectorAll("tr")).filter(
+            row => row.querySelectorAll("td").length >= 6
         );
     }
 
@@ -344,19 +424,21 @@ document.addEventListener("DOMContentLoaded", () => {
             .replace(/\s+/g, " ");
     }
 
-    /*
-     * Match a rendered row to its stored report so older reports
-     * can use createdAt even if report.js hasn't added data-submitted.
-     */
+    // Read reports from the shared storage API.
     function getStoredReports() {
         try {
-            if (window.SafeReportStorage &&
-                typeof window.SafeReportStorage.getReports === "function") {
+            if (
+                window.SafeReportStorage &&
+                typeof window.SafeReportStorage.getReports === "function"
+            ) {
                 const reports = window.SafeReportStorage.getReports();
                 return Array.isArray(reports) ? reports : [];
             }
 
-            const saved = JSON.parse(localStorage.getItem("reports") || "[]");
+            const saved = JSON.parse(
+                localStorage.getItem("reports") || "[]"
+            );
+
             return Array.isArray(saved) ? saved : [];
         } catch (error) {
             console.error("Unable to read saved reports:", error);
@@ -371,9 +453,11 @@ document.addEventListener("DOMContentLoaded", () => {
             .toUpperCase();
     }
 
+    // Match a displayed table row with its stored report.
     function findStoredReport(row, storedReports) {
         const explicitId = row.dataset.reportId;
-        const displayedId = row.querySelector(".report-id")?.textContent ||
+        const displayedId =
+            row.querySelector(".report-id")?.textContent ||
             row.cells[0]?.textContent;
 
         const wantedId = normalizeReportId(explicitId || displayedId);
@@ -389,22 +473,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 report.report_code
             ];
 
-            return possibleIds.some(id =>
-                normalizeReportId(id) === wantedId
+            return possibleIds.some(
+                id => normalizeReportId(id) === wantedId
             );
         });
     }
 
+    // Determine the timestamp used for sorting.
     function getSubmissionTime(row, storedReports) {
-        const storedReport = findStoredReport(row, storedReports);
+        const report = findStoredReport(row, storedReports);
 
         const timestamp =
             row.dataset.submitted ||
             row.dataset.createdAt ||
-            storedReport?.createdAt ||
-            storedReport?.created_at ||
-            storedReport?.submittedAt ||
-            storedReport?.submitted_at ||
+            report?.createdAt ||
+            report?.created_at ||
+            report?.submittedAt ||
+            report?.submitted_at ||
             "";
 
         const parsedTimestamp = Date.parse(timestamp);
@@ -413,10 +498,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return parsedTimestamp;
         }
 
-        /*
-         * Fallback for legacy reports that don't have createdAt.
-         * This uses the displayed date, which may be the incident date.
-         */
+        // Fallback for older records without a submission timestamp.
         const dateCell = row.cells[2];
         const fallbackDate =
             row.dataset.date ||
@@ -425,31 +507,28 @@ document.addEventListener("DOMContentLoaded", () => {
             "";
 
         const parsedDate = Date.parse(fallbackDate);
+
         return Number.isFinite(parsedDate) ? parsedDate : 0;
     }
 
+    // Update summary cards based on the full report list.
     function updateSummary(rows) {
         const total = rows.length;
 
-        const reviewing = rows.filter(row => {
-            const status = normalizeStatus(row.dataset.status);
-            return status === "under review" ||
-                   status === "in progress" ||
-                   status === "pending";
-        }).length;
-
         const resolved = rows.filter(row => {
             const status = normalizeStatus(row.dataset.status);
-            return status === "resolved" ||
-                   status === "completed" ||
-                   status === "closed";
+
+            return ["resolved", "completed", "closed"].includes(status);
         }).length;
 
+        const active = total - resolved;
+
         document.getElementById("totalCount").textContent = total;
-        document.getElementById("reviewCount").textContent = reviewing;
+        document.getElementById("reviewCount").textContent = active;
         document.getElementById("resolvedCount").textContent = resolved;
     }
 
+    // Apply search, status filtering, and sorting.
     function applyFilters() {
         const rows = getReportRows();
         const storedReports = getStoredReports();
@@ -457,15 +536,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const selectedStatus = normalizeStatus(statusFilter.value);
         const sortMode = sortFilter.value;
 
-        /*
-         * Oldest First = smallest submission timestamp first.
-         * Newest First = largest submission timestamp first.
-         */
         const sortedRows = [...rows].sort((a, b) => {
             const timeA = getSubmissionTime(a, storedReports);
             const timeB = getSubmissionTime(b, storedReports);
-
-            if (timeA === timeB) return 0;
 
             return sortMode === "oldest"
                 ? timeA - timeB
@@ -488,7 +561,9 @@ document.addEventListener("DOMContentLoaded", () => {
             row.hidden = !shouldShow;
             tableBody.appendChild(row);
 
-            if (shouldShow) visible++;
+            if (shouldShow) {
+                visible++;
+            }
         });
 
         emptyState.hidden = visible !== 0;
@@ -503,10 +578,15 @@ document.addEventListener("DOMContentLoaded", () => {
         updateSummary(rows);
     }
 
+    // Allow other scripts to request a filter refresh.
+    window.applySafeReportFilters = applyFilters;
+
+    // Reset all filters.
     function resetFilters() {
         searchInput.value = "";
         statusFilter.value = "all";
         sortFilter.value = "newest";
+
         applyFilters();
     }
 
@@ -516,7 +596,11 @@ document.addEventListener("DOMContentLoaded", () => {
     resetButton.addEventListener("click", resetFilters);
     emptyResetButton.addEventListener("click", resetFilters);
 
+    // Refresh filters when report data changes.
+    window.addEventListener("safereport:reports-updated", applyFilters);
+
     /* PROFILE DROPDOWN */
+
     function closeProfileDropdown() {
         if (!profileDropdown || !profileBtn) return;
 
@@ -530,6 +614,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!profileDropdown) return;
 
         profileDropdown.hidden = !profileDropdown.hidden;
+
         profileBtn.setAttribute(
             "aria-expanded",
             String(!profileDropdown.hidden)
@@ -547,7 +632,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    /* ESCAPE USER-ENTERED TEXT BEFORE DISPLAYING IT IN HTML */
+    /* SAFE TEXT DISPLAY */
+
     function escapeHTML(value) {
         return String(value ?? "").replace(/[&<>"']/g, character => ({
             "&": "&amp;",
@@ -557,6 +643,8 @@ document.addEventListener("DOMContentLoaded", () => {
             "'": "&#39;"
         })[character]);
     }
+
+    /* REPORT DETAILS DIALOG */
 
     function closeDetails() {
         detailsOverlay.hidden = true;
@@ -572,14 +660,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const location = cells[3]?.textContent.trim() || "N/A";
         const status = normalizeStatus(row.dataset.status);
 
-        const statusText = status === "resolved" ||
-                           status === "completed" ||
-                           status === "closed"
-            ? "Resolved"
-            : status === "pending"
-                ? "Pending"
-                : "Under Review";
+        const statusLabels = {
+            "under review": "Under Review",
+            "pending": "Pending",
+            "in progress": "In Progress",
+            "resolved": "Resolved",
+            "completed": "Resolved",
+            "closed": "Resolved"
+        };
 
+        const statusText = statusLabels[status] || "Under Review";
         const statusClass = statusText === "Resolved"
             ? "resolved"
             : "reviewing";
@@ -590,6 +680,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <span class="status-dot"></span>
                     ${escapeHTML(statusText)}
                 </span>
+
                 <span class="details-id">${escapeHTML(reportId)}</span>
             </div>
 
@@ -622,11 +713,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         detailsOverlay.hidden = false;
         document.body.style.overflow = "hidden";
+
         document.getElementById("closeDetails").focus();
     }
 
     tableBody.addEventListener("click", event => {
         const button = event.target.closest("[data-view-report]");
+
         if (!button) return;
 
         const row = button.closest("tr");
@@ -658,12 +751,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    /*
-     * Initial render.
-     * report.js should populate the table from shared storage first.
-     */
+    // Initial filters and summary update.
     applyFilters();
 });
 </script>
+
 </body>
 </html>

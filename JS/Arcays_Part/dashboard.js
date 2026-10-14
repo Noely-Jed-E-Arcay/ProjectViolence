@@ -1,26 +1,41 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const reports = getReports();
 
-    updateStatistics(reports);
-    renderRecentActivity(reports);
+/* =========================================
+   SAFEREPORT - DASHBOARD
+   Statistics, Recent Activity, and Reports
+========================================= */
+
+/* =========================================
+   INITIALIZATION
+========================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+    refreshDashboard();
     setupAnnouncementHeading();
 
-    // Update statistics when another browser tab changes saved reports.
+    // Refresh when reports change in another browser tab.
     window.addEventListener("storage", event => {
         if (
             event.key === null ||
             event.key === "reports" ||
             event.key === "safeReportReports"
         ) {
-            updateStatistics(getReports());
+            refreshDashboard();
         }
     });
 
-    // Check for updates made in the same browser every 2 seconds.
-    window.setInterval(() => {
-        updateStatistics(getReports());
-    }, 2000);
+    // Refresh when reports change in the current tab.
+    window.addEventListener(
+        "safereport:reports-updated",
+        refreshDashboard
+    );
 });
+
+function refreshDashboard() {
+    const reports = getReports();
+
+    updateStatistics(reports);
+    renderRecentActivity(reports);
+}
 
 /* =========================================
    REPORT STORAGE
@@ -33,6 +48,7 @@ function getReports() {
             typeof window.SafeReportStorage.getReports === "function"
         ) {
             const reports = window.SafeReportStorage.getReports();
+
             return Array.isArray(reports) ? reports : [];
         }
 
@@ -40,7 +56,10 @@ function getReports() {
 
         if (currentReports !== null) {
             const reports = JSON.parse(currentReports);
-            if (Array.isArray(reports)) return reports;
+
+            if (Array.isArray(reports)) {
+                return reports;
+            }
         }
 
         const legacyReports = JSON.parse(
@@ -55,6 +74,76 @@ function getReports() {
 }
 
 /* =========================================
+   STATUS HELPERS
+========================================= */
+
+function normalizeStatus(status) {
+    return String(status || "")
+        .trim()
+        .toLowerCase()
+        .replace(/[_-]+/g, " ")
+        .replace(/\s+/g, " ");
+}
+
+function isResolvedStatus(status) {
+    return ["completed", "resolved", "closed"].includes(
+        normalizeStatus(status)
+    );
+}
+
+function isReviewStatus(status) {
+    return [
+        "pending",
+        "under review",
+        "reviewing",
+        "in review"
+    ].includes(normalizeStatus(status));
+}
+
+function isActiveStatus(status) {
+    return (
+        isReviewStatus(status) ||
+        normalizeStatus(status) === "in progress"
+    );
+}
+
+function getStatusClass(status) {
+    const normalized = normalizeStatus(status);
+
+    if (isResolvedStatus(normalized)) {
+        return "resolved";
+    }
+
+    if (isReviewStatus(normalized)) {
+        return "reviewing";
+    }
+
+    if (normalized === "in progress") {
+        return "in-progress";
+    }
+
+    return "received";
+}
+
+function getStatusLabel(status) {
+    const normalized = normalizeStatus(status);
+
+    if (isResolvedStatus(normalized)) {
+        return "Resolved";
+    }
+
+    if (normalized === "in progress") {
+        return "In Progress";
+    }
+
+    if (isReviewStatus(normalized)) {
+        return "Under Review";
+    }
+
+    return status ? String(status) : "Received";
+}
+
+/* =========================================
    REPORT STATISTICS
 ========================================= */
 
@@ -65,6 +154,10 @@ function updateStatistics(reports) {
 
     const resolvedReports = reports.filter(report =>
         isResolvedStatus(report.status)
+    ).length;
+
+    const activeReports = reports.filter(report =>
+        isActiveStatus(report.status)
     ).length;
 
     const resolutionRate = totalReports > 0
@@ -82,19 +175,11 @@ function updateStatistics(reports) {
 
         if (label.includes("submitted")) {
             value.textContent = totalReports;
-        }
-
-        if (label.includes("under review")) {
-            value.textContent = reports.filter(report =>
-                isReviewStatus(report.status)
-            ).length;
-        }
-
-        if (label === "resolved") {
+        } else if (label.includes("under review")) {
+            value.textContent = activeReports;
+        } else if (label === "resolved") {
             value.textContent = resolvedReports;
-        }
-
-        if (label.includes("resolution rate")) {
+        } else if (label.includes("resolution rate")) {
             value.textContent = `${resolutionRate}%`;
 
             const description = statBox.querySelector("small");
@@ -108,57 +193,8 @@ function updateStatistics(reports) {
 }
 
 /* =========================================
-   STATUS HELPERS
-========================================= */
-
-function isReviewStatus(status) {
-    return [
-        "pending",
-        "under review",
-        "reviewing",
-        "in review"
-    ].includes(String(status || "").trim().toLowerCase());
-}
-
-function isResolvedStatus(status) {
-    return [
-        "completed",
-        "resolved",
-        "closed"
-    ].includes(String(status || "").trim().toLowerCase());
-}
-
-function getStatusClass(status) {
-    const normalized = String(status || "")
-        .trim()
-        .toLowerCase();
-
-    if (isResolvedStatus(normalized)) {
-        return "resolved";
-    }
-
-    if (isReviewStatus(normalized)) {
-        return "reviewing";
-    }
-
-    return "received";
-}
-
-function getStatusLabel(status) {
-    const normalized = String(status || "")
-        .trim()
-        .toLowerCase();
-
-    if (isResolvedStatus(normalized)) return "Resolved";
-    if (isReviewStatus(normalized)) return "Under Review";
-
-    return status ? String(status) : "Received";
-}
-
-/* =========================================
    RECENT ACTIVITY
 ========================================= */
-
 
 function renderRecentActivity(reports) {
     const activityList = document.querySelector(
@@ -167,13 +203,14 @@ function renderRecentActivity(reports) {
 
     if (!activityList) return;
 
-    // Remove stale sample activities when there are no reports.
-    if (!reports.length) {
-        activityList.replaceChildren();
+    activityList.replaceChildren();
 
+    if (reports.length === 0) {
         const emptyMessage = document.createElement("p");
+
         emptyMessage.className = "activity-empty";
         emptyMessage.textContent = "No recent report activity yet.";
+
         emptyMessage.style.padding = "16px";
         emptyMessage.style.textAlign = "center";
         emptyMessage.style.color = "#64748b";
@@ -182,55 +219,61 @@ function renderRecentActivity(reports) {
         return;
     }
 
-    // Show the three most recent reports.
+    // Display the three most recent reports.
     const latestReports = [...reports]
         .sort((a, b) => getReportTimestamp(b) - getReportTimestamp(a))
         .slice(0, 3);
 
-    activityList.replaceChildren();
-
-    latestReports.forEach((report) => {
+    latestReports.forEach(report => {
         const activity = document.createElement("article");
+        const reportId = getReportId(report);
+
         activity.className = "activity";
         activity.tabIndex = 0;
         activity.setAttribute("role", "button");
-
-        const reportId = getReportId(report);
-
         activity.setAttribute(
             "aria-label",
             `Open options for report ${reportId}`
         );
 
-        activity.style.cursor = "pointer";
-
+        // Activity icon.
         const icon = document.createElement("div");
+
         icon.className = "activity-icon";
         icon.setAttribute("aria-hidden", "true");
         icon.textContent = isResolvedStatus(report.status) ? "✓" : "◷";
 
+        // Activity details.
         const details = document.createElement("div");
+        const id = document.createElement("strong");
+        const summary = document.createElement("p");
+
         details.className = "activity-details";
 
-        const id = document.createElement("strong");
-
-        // Avoid displaying ## when the saved ID already contains #.
         id.textContent = reportId.startsWith("#")
             ? reportId
             : `#${reportId}`;
 
-        const summary = document.createElement("p");
         summary.textContent = getReportSummary(report);
 
         details.append(id, summary);
 
+        // Current status.
         const status = document.createElement("span");
+
         status.className = `status ${getStatusClass(report.status)}`;
         status.textContent = getStatusLabel(report.status);
 
+        // Relative submission time.
         const time = document.createElement("time");
+
         time.textContent = getRelativeTime(report);
-        time.dateTime = getReportDateTime(report);
+
+        const dateTime = getReportDateTime(report);
+
+        if (dateTime) {
+            time.dateTime = dateTime;
+        }
 
         activity.append(icon, details, status, time);
 
@@ -240,35 +283,9 @@ function renderRecentActivity(reports) {
     });
 }
 
-
-function makeExistingActivitiesClickable(activityList, reports) {
-    const activities = activityList.querySelectorAll(".activity");
-
-    activities.forEach((activity) => {
-        const idElement = activity.querySelector(
-            ".activity-details strong"
-        );
-
-        if (!idElement) return;
-
-        const reportId = idElement.textContent
-            .trim()
-            .replace(/^#/, "");
-
-        const report = findReportById(reports, reportId);
-
-        activity.tabIndex = 0;
-        activity.setAttribute("role", "button");
-        activity.setAttribute(
-            "aria-label",
-            `Open options for report ${reportId}`
-        );
-
-        activity.style.cursor = "pointer";
-
-        attachActivityEvents(activity, reportId, report);
-    });
-}
+/* =========================================
+   ACTIVITY INTERACTIONS
+========================================= */
 
 function attachActivityEvents(activity, reportId, report) {
     if (activity.dataset.activityEventsAttached === "true") {
@@ -276,6 +293,7 @@ function attachActivityEvents(activity, reportId, report) {
     }
 
     activity.dataset.activityEventsAttached = "true";
+    activity.style.cursor = "pointer";
 
     activity.addEventListener("click", () => {
         if (typeof showReportChoices === "function") {
@@ -287,7 +305,7 @@ function attachActivityEvents(activity, reportId, report) {
         }
     });
 
-    activity.addEventListener("keydown", (event) => {
+    activity.addEventListener("keydown", event => {
         if (event.target !== activity) return;
 
         if (event.key === "Enter" || event.key === " ") {
@@ -328,16 +346,6 @@ function getReportId(report) {
     );
 }
 
-function findReportById(reports, reportId) {
-    const requestedId = normalizeReportId(reportId);
-
-    return reports.find((report) => {
-        const savedId = normalizeReportId(getReportId(report));
-
-        return savedId === requestedId;
-    }) || null;
-}
-
 function normalizeReportId(id) {
     return String(id || "")
         .trim()
@@ -345,21 +353,27 @@ function normalizeReportId(id) {
         .toLowerCase();
 }
 
+function findReportById(reports, reportId) {
+    const requestedId = normalizeReportId(reportId);
+
+    return reports.find(report =>
+        normalizeReportId(getReportId(report)) === requestedId
+    ) || null;
+}
+
 function getReportSummary(report) {
     const type = String(
-        report.type || report.incidentType || "Safety concern"
+        report.type ||
+        report.incidentType ||
+        "Safety concern"
     ).trim();
 
-    const status = String(report.status || "")
-        .trim()
-        .toLowerCase();
-
-    if (isResolvedStatus(status)) {
+    if (isResolvedStatus(report.status)) {
         return `${type} incident resolved`;
     }
 
-    if (isReviewStatus(status)) {
-        return `${type} incident under review`;
+    if (isActiveStatus(report.status)) {
+        return `${type} incident in progress`;
     }
 
     return `${type} incident submitted`;
@@ -401,6 +415,8 @@ function getReportDateTime(report) {
         report.date ||
         "";
 
+    if (!value) return "";
+
     const date = new Date(value);
 
     return Number.isFinite(date.getTime())
@@ -412,7 +428,9 @@ function getRelativeTime(report) {
     const timestamp = getReportTimestamp(report);
 
     if (!timestamp) {
-        return report.date ? String(report.date) : "Date unavailable";
+        return report.date
+            ? String(report.date)
+            : "Date unavailable";
     }
 
     const difference = Math.max(0, Date.now() - timestamp);
@@ -434,7 +452,7 @@ function getRelativeTime(report) {
 }
 
 /* =========================================
-   STAY INFORMED HEADING
+   ANNOUNCEMENT HEADING
 ========================================= */
 
 function setupAnnouncementHeading() {
@@ -450,16 +468,12 @@ function setupAnnouncementHeading() {
 
     if (!headingContent) return;
 
-    /*
-     * These are labels, not buttons.
-     * Keep the default cursor and prevent text selection.
-     * The separate "View All" link remains functional.
-     */
+    // Keep heading labels visually static, not clickable.
     const headingElements = headingContent.querySelectorAll(
         ".small-title, h2"
     );
 
-    headingElements.forEach((element) => {
+    headingElements.forEach(element => {
         element.style.cursor = "default";
         element.style.userSelect = "none";
         element.style.webkitUserSelect = "none";

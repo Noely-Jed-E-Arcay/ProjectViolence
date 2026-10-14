@@ -9,40 +9,9 @@
 
     const STORAGE_KEY = "reports";
     const LEGACY_KEY = "safeReportReports";
+    const DEFAULT_REPORTS = [];
 
-    const DEFAULT_REPORTS = [
-        {
-            id: "#SR-2024-003",
-            type: "Harassment",
-            date: "2026-05-22",
-            location: "School Building",
-            time: "",
-            description: "Harassment incident reported.",
-            people: "",
-            status: "Under Review"
-        },
-        {
-            id: "#SR-2024-002",
-            type: "Bullying",
-            date: "2026-06-15",
-            location: "Lab 101",
-            time: "",
-            description: "Bullying incident.",
-            people: "",
-            status: "Resolved"
-        },
-        {
-            id: "#SR-2024-001",
-            type: "Safety Concern",
-            date: "2026-05-08",
-            location: "School Grounds",
-            time: "",
-            description: "Safety concern submitted.",
-            people: "",
-            status: "Resolved"
-        }
-    ];
-
+    // Read and validate an array from localStorage.
     function readArray(key) {
         const raw = localStorage.getItem(key);
 
@@ -57,13 +26,14 @@
         }
     }
 
+    // Initialize storage and migrate legacy data if necessary.
     function initializeStorage() {
-        // Keep existing report data, including an intentionally empty array.
+        // Preserve existing data, including an empty array.
         if (localStorage.getItem(STORAGE_KEY) !== null) {
             return;
         }
 
-        // Migrate records from the previous storage key.
+        // Migrate data from the previous storage key.
         if (localStorage.getItem(LEGACY_KEY) !== null) {
             const legacyReports = readArray(LEGACY_KEY);
 
@@ -77,23 +47,25 @@
                 return;
             }
 
-            // Do not overwrite malformed legacy data with sample records.
+            // Avoid overwriting malformed legacy data with sample records.
             localStorage.setItem(STORAGE_KEY, "[]");
             return;
         }
 
-        // Seed demo records only on a genuinely fresh installation.
+        // Initialize a fresh installation with an empty array.
         localStorage.setItem(
             STORAGE_KEY,
             JSON.stringify(DEFAULT_REPORTS)
         );
     }
 
+    // Retrieve all reports.
     function getReports() {
         initializeStorage();
         return readArray(STORAGE_KEY) || [];
     }
 
+    // Save reports and notify scripts in the current tab.
     function saveReports(reports) {
         if (!Array.isArray(reports)) {
             throw new TypeError("Reports must be an array.");
@@ -103,20 +75,27 @@
             STORAGE_KEY,
             JSON.stringify(reports)
         );
+
+        window.dispatchEvent(
+            new Event("safereport:reports-updated")
+        );
     }
 
+    // Add a new report to the beginning of the list.
     function addReport(report) {
         if (!report || typeof report !== "object") {
             throw new TypeError("A valid report is required.");
         }
 
         const reports = getReports();
+
         reports.unshift(report);
         saveReports(reports);
 
         return report;
     }
 
+    // Find a report using its ID.
     function getReportById(id) {
         const requestedId = String(id ?? "")
             .trim()
@@ -133,7 +112,7 @@
         }) || null;
     }
 
-    // Namespaced API for new code.
+    // Expose the namespaced API for new scripts.
     window.SafeReportStorage = {
         getReports,
         saveReports,
@@ -141,16 +120,19 @@
         getReportById
     };
 
-    // Keep compatibility with existing scripts.
+    // Preserve compatibility with existing scripts.
     window.getReports = getReports;
     window.saveReports = saveReports;
     window.addReport = addReport;
     window.getReportById = getReportById;
 
-    // Run migration before other page scripts execute.
+    // Run storage initialization before other scripts execute.
     try {
         initializeStorage();
     } catch (error) {
-        console.error("SafeReport storage initialization failed:", error);
+        console.error(
+            "SafeReport storage initialization failed:",
+            error
+        );
     }
 })();
