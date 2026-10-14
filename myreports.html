@@ -76,7 +76,10 @@
             </div>
 
             <div class="header-actions">
-                <a class="header-help" href="report.html" aria-label="Create a new report" title="Create a new report">＋</a>
+                <a class="header-help"
+                   href="report.html"
+                   aria-label="Create a new report"
+                   title="Create a new report">＋</a>
 
                 <div class="profile-menu-wrap">
                     <button
@@ -125,7 +128,7 @@
                         <span class="stat-label">ALL REPORTS</span>
                     </div>
                     <div class="stat-bottom">
-                        <h2 id="totalCount">3</h2>
+                        <h2 id="totalCount">0</h2>
                         <p>Total submissions</p>
                     </div>
                     <div class="stat-decoration" aria-hidden="true">▤</div>
@@ -137,7 +140,7 @@
                         <span class="stat-label">IN PROGRESS</span>
                     </div>
                     <div class="stat-bottom">
-                        <h2 id="reviewCount">1</h2>
+                        <h2 id="reviewCount">0</h2>
                         <p>Under review</p>
                     </div>
                     <div class="stat-decoration" aria-hidden="true">◷</div>
@@ -149,7 +152,7 @@
                         <span class="stat-label">COMPLETED</span>
                     </div>
                     <div class="stat-bottom">
-                        <h2 id="resolvedCount">2</h2>
+                        <h2 id="resolvedCount">0</h2>
                         <p>Resolved reports</p>
                     </div>
                     <div class="stat-decoration" aria-hidden="true">✓</div>
@@ -167,7 +170,7 @@
                         <p>Review the details and current status of your reports.</p>
                     </div>
 
-                    <span class="report-count" id="visibleCount">3 reports</span>
+                    <span class="report-count" id="visibleCount">0 reports</span>
                 </div>
 
                 <div class="panel-body">
@@ -176,7 +179,9 @@
                             <h3>Find a report</h3>
                             <p>Search by report ID, type, date, or location.</p>
                         </div>
-                        <button class="reset-filters" id="resetFilters" type="button">Reset filters</button>
+                        <button class="reset-filters" id="resetFilters" type="button">
+                            Reset filters
+                        </button>
                     </div>
 
                     <div class="filters">
@@ -221,62 +226,25 @@
                                 </tr>
                             </thead>
 
-                            <tbody id="reportsTableBody">
-                                <tr data-status="under review" data-date="2026-05-22">
-                                    <td><span class="report-id">#SR-2024-003</span></td>
-                                    <td>
-                                        <span class="incident-type">
-                                            <span class="type-dot harassment-dot"></span>
-                                            Harassment
-                                        </span>
-                                    </td>
-                                    <td data-date-cell="2026-05-22">May 22, 2026</td>
-                                    <td>School Building</td>
-                                    <td><span class="status reviewing"><span class="status-dot"></span>Under Review</span></td>
-                                    <td><button class="view-button" type="button" data-view-report>View <span>→</span></button></td>
-                                </tr>
-
-                                <tr data-status="resolved" data-date="2026-06-15">
-                                    <td><span class="report-id">#SR-2024-002</span></td>
-                                    <td>
-                                        <span class="incident-type">
-                                            <span class="type-dot bullying-dot"></span>
-                                            Bullying
-                                        </span>
-                                    </td>
-                                    <td data-date-cell="2026-06-15">June 15, 2026</td>
-                                    <td>Lab 101</td>
-                                    <td><span class="status resolved"><span class="status-dot"></span>Resolved</span></td>
-                                    <td><button class="view-button" type="button" data-view-report>View <span>→</span></button></td>
-                                </tr>
-
-                                <tr data-status="resolved" data-date="2026-05-08">
-                                    <td><span class="report-id">#SR-2024-001</span></td>
-                                    <td>
-                                        <span class="incident-type">
-                                            <span class="type-dot safety-dot"></span>
-                                            Safety Concern
-                                        </span>
-                                    </td>
-                                    <td data-date-cell="2026-05-08">May 8, 2026</td>
-                                    <td>School Grounds</td>
-                                    <td><span class="status resolved"><span class="status-dot"></span>Resolved</span></td>
-                                    <td><button class="view-button" type="button" data-view-report>View <span>→</span></button></td>
-                                </tr>
-                            </tbody>
+                            <!-- report.js populates this from shared storage -->
+                            <tbody id="reportsTableBody"></tbody>
                         </table>
 
                         <div class="empty-state" id="emptyState" hidden>
                             <div class="empty-icon">⌕</div>
                             <h3>No reports found</h3>
                             <p>Try another search term or change your filters.</p>
-                            <button class="secondary-button" id="emptyReset" type="button">Clear filters</button>
+                            <button class="secondary-button" id="emptyReset" type="button">
+                                Clear filters
+                            </button>
                         </div>
                     </div>
 
                     <div class="table-footer">
-                        <span id="tableFooterText">Showing 3 reports</span>
-                        <span class="secure-note"><span>✓</span> Your reports are private</span>
+                        <span id="tableFooterText">Showing 0 reports</span>
+                        <span class="secure-note">
+                            <span>✓</span> Your reports are private
+                        </span>
                     </div>
                 </div>
             </section>
@@ -288,7 +256,9 @@
                     <h2>Your voice helps keep our campus safe.</h2>
                     <p>If you need to report another incident, you can submit a new report at any time.</p>
                 </div>
-                <a href="report.html" class="support-link">Report an incident <span>→</span></a>
+                <a href="report.html" class="support-link">
+                    Report an incident <span>→</span>
+                </a>
             </section>
 
             <footer class="page-footer">
@@ -301,24 +271,34 @@
 
 <!-- REPORT DETAILS DIALOG -->
 <div class="details-overlay" id="reportDetailsOverlay" hidden>
-    <section class="details-dialog" role="dialog" aria-modal="true" aria-labelledby="detailsTitle">
+    <section class="details-dialog"
+             role="dialog"
+             aria-modal="true"
+             aria-labelledby="detailsTitle">
+
         <div class="details-header">
             <div>
                 <span class="details-eyebrow">REPORT DETAILS</span>
                 <h2 id="detailsTitle">Report information</h2>
             </div>
-            <button type="button" class="details-close" id="closeDetails" aria-label="Close report details">×</button>
+            <button type="button"
+                    class="details-close"
+                    id="closeDetails"
+                    aria-label="Close report details">×</button>
         </div>
 
         <div class="details-body" id="reportDetailsBody"></div>
 
         <div class="details-footer">
             <p>For additional assistance, contact your school administrator.</p>
-            <button type="button" class="primary-button blue-button" id="doneDetails">Done</button>
+            <button type="button" class="primary-button blue-button" id="doneDetails">
+                Done
+            </button>
         </div>
     </section>
 </div>
 
+<!-- EXISTING PROJECT SCRIPTS -->
 <script src="JS/main.js"></script>
 <script src="JS/Tito_Part/storage.js"></script>
 <script src="JS/Tito_Part/validation.js"></script>
@@ -346,12 +326,124 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!tableBody) return;
 
-    const rows = Array.from(tableBody.querySelectorAll("tr"));
+    /*
+     * Ignore any non-report placeholder rows.
+     * The report table is populated by report.js.
+     */
+    function getReportRows() {
+        return Array.from(tableBody.querySelectorAll("tr")).filter(row =>
+            row.querySelectorAll("td").length >= 6
+        );
+    }
 
-    function updateSummary() {
+    function normalizeStatus(value) {
+        return String(value || "")
+            .trim()
+            .toLowerCase()
+            .replace(/[_-]+/g, " ")
+            .replace(/\s+/g, " ");
+    }
+
+    /*
+     * Match a rendered row to its stored report so older reports
+     * can use createdAt even if report.js hasn't added data-submitted.
+     */
+    function getStoredReports() {
+        try {
+            if (window.SafeReportStorage &&
+                typeof window.SafeReportStorage.getReports === "function") {
+                const reports = window.SafeReportStorage.getReports();
+                return Array.isArray(reports) ? reports : [];
+            }
+
+            const saved = JSON.parse(localStorage.getItem("reports") || "[]");
+            return Array.isArray(saved) ? saved : [];
+        } catch (error) {
+            console.error("Unable to read saved reports:", error);
+            return [];
+        }
+    }
+
+    function normalizeReportId(value) {
+        return String(value || "")
+            .trim()
+            .replace(/^#/, "")
+            .toUpperCase();
+    }
+
+    function findStoredReport(row, storedReports) {
+        const explicitId = row.dataset.reportId;
+        const displayedId = row.querySelector(".report-id")?.textContent ||
+            row.cells[0]?.textContent;
+
+        const wantedId = normalizeReportId(explicitId || displayedId);
+
+        return storedReports.find(report => {
+            const possibleIds = [
+                report.id,
+                report.reportId,
+                report.report_id,
+                report.referenceNumber,
+                report.reference_number,
+                report.reportCode,
+                report.report_code
+            ];
+
+            return possibleIds.some(id =>
+                normalizeReportId(id) === wantedId
+            );
+        });
+    }
+
+    function getSubmissionTime(row, storedReports) {
+        const storedReport = findStoredReport(row, storedReports);
+
+        const timestamp =
+            row.dataset.submitted ||
+            row.dataset.createdAt ||
+            storedReport?.createdAt ||
+            storedReport?.created_at ||
+            storedReport?.submittedAt ||
+            storedReport?.submitted_at ||
+            "";
+
+        const parsedTimestamp = Date.parse(timestamp);
+
+        if (Number.isFinite(parsedTimestamp)) {
+            return parsedTimestamp;
+        }
+
+        /*
+         * Fallback for legacy reports that don't have createdAt.
+         * This uses the displayed date, which may be the incident date.
+         */
+        const dateCell = row.cells[2];
+        const fallbackDate =
+            row.dataset.date ||
+            dateCell?.dataset.date ||
+            dateCell?.textContent ||
+            "";
+
+        const parsedDate = Date.parse(fallbackDate);
+        return Number.isFinite(parsedDate) ? parsedDate : 0;
+    }
+
+    function updateSummary(rows) {
         const total = rows.length;
-        const reviewing = rows.filter(row => row.dataset.status === "under review").length;
-        const resolved = rows.filter(row => row.dataset.status === "resolved").length;
+
+        const reviewing = rows.filter(row => {
+            const status = normalizeStatus(row.dataset.status);
+            return status === "under review" ||
+                   status === "in progress" ||
+                   status === "pending";
+        }).length;
+
+        const resolved = rows.filter(row => {
+            const status = normalizeStatus(row.dataset.status);
+            return status === "resolved" ||
+                   status === "completed" ||
+                   status === "closed";
+        }).length;
 
         document.getElementById("totalCount").textContent = total;
         document.getElementById("reviewCount").textContent = reviewing;
@@ -359,30 +451,56 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function applyFilters() {
+        const rows = getReportRows();
+        const storedReports = getStoredReports();
         const query = searchInput.value.trim().toLowerCase();
-        const selectedStatus = statusFilter.value;
+        const selectedStatus = normalizeStatus(statusFilter.value);
+        const sortMode = sortFilter.value;
 
+        /*
+         * Oldest First = smallest submission timestamp first.
+         * Newest First = largest submission timestamp first.
+         */
         const sortedRows = [...rows].sort((a, b) => {
-            const dateA = new Date(a.dataset.date || "1970-01-01").getTime();
-            const dateB = new Date(b.dataset.date || "1970-01-01").getTime();
-            return sortFilter.value === "oldest" ? dateA - dateB : dateB - dateA;
+            const timeA = getSubmissionTime(a, storedReports);
+            const timeB = getSubmissionTime(b, storedReports);
+
+            if (timeA === timeB) return 0;
+
+            return sortMode === "oldest"
+                ? timeA - timeB
+                : timeB - timeA;
         });
+
+        let visible = 0;
 
         sortedRows.forEach(row => {
-            const matchesSearch = row.textContent.toLowerCase().includes(query);
-            const matchesStatus = selectedStatus === "all" || row.dataset.status === selectedStatus;
-            const matches = matchesSearch && matchesStatus;
+            const rowText = row.textContent.toLowerCase();
+            const rowStatus = normalizeStatus(row.dataset.status);
 
-            row.hidden = !matches;
+            const matchesSearch = rowText.includes(query);
+            const matchesStatus =
+                selectedStatus === "all" ||
+                rowStatus === selectedStatus;
+
+            const shouldShow = matchesSearch && matchesStatus;
+
+            row.hidden = !shouldShow;
             tableBody.appendChild(row);
+
+            if (shouldShow) visible++;
         });
 
-        const count = sortedRows.filter(row => !row.hidden).length;
-        emptyState.hidden = count !== 0;
-        visibleCount.textContent = `${count} ${count === 1 ? "report" : "reports"}`;
-        tableFooterText.textContent = count === 0
+        emptyState.hidden = visible !== 0;
+
+        visibleCount.textContent =
+            `${visible} ${visible === 1 ? "report" : "reports"}`;
+
+        tableFooterText.textContent = visible === 0
             ? "No reports to display"
-            : `Showing ${count} ${count === 1 ? "report" : "reports"}`;
+            : `Showing ${visible} ${visible === 1 ? "report" : "reports"}`;
+
+        updateSummary(rows);
     }
 
     function resetFilters() {
@@ -398,17 +516,24 @@ document.addEventListener("DOMContentLoaded", () => {
     resetButton.addEventListener("click", resetFilters);
     emptyResetButton.addEventListener("click", resetFilters);
 
+    /* PROFILE DROPDOWN */
     function closeProfileDropdown() {
         if (!profileDropdown || !profileBtn) return;
+
         profileDropdown.hidden = true;
         profileBtn.setAttribute("aria-expanded", "false");
     }
 
     profileBtn?.addEventListener("click", event => {
         event.stopPropagation();
+
         if (!profileDropdown) return;
+
         profileDropdown.hidden = !profileDropdown.hidden;
-        profileBtn.setAttribute("aria-expanded", String(!profileDropdown.hidden));
+        profileBtn.setAttribute(
+            "aria-expanded",
+            String(!profileDropdown.hidden)
+        );
     });
 
     document.addEventListener("click", event => {
@@ -422,55 +547,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    function closeDetails() {
-        detailsOverlay.hidden = true;
-        document.body.style.overflow = "";
-    }
-
-    function showReportDetails(row) {
-        const cells = row.querySelectorAll("td");
-        const status = row.dataset.status;
-        const reportId = cells[0].textContent.trim();
-        const incidentType = cells[1].textContent.trim();
-        const date = cells[2].textContent.trim();
-        const location = cells[3].textContent.trim();
-        const statusText = status === "resolved" ? "Resolved" : "Under Review";
-        const statusClass = status === "resolved" ? "resolved" : "reviewing";
-
-        detailsBody.innerHTML = `
-            <div class="details-status-row">
-                <span class="status ${statusClass}">
-                    <span class="status-dot"></span>${statusText}
-                </span>
-                <span class="details-id">${reportId}</span>
-            </div>
-            <div class="details-grid">
-                <div class="details-field">
-                    <span>Incident Type</span>
-                    <strong>${escapeHTML(incidentType)}</strong>
-                </div>
-                <div class="details-field">
-                    <span>Date Submitted</span>
-                    <strong>${escapeHTML(date)}</strong>
-                </div>
-                <div class="details-field details-field-full">
-                    <span>Location</span>
-                    <strong>${escapeHTML(location)}</strong>
-                </div>
-            </div>
-            <div class="details-notice">
-                <span>ⓘ</span>
-                <p>This page displays the report information currently available in your reports list. Additional case notes or administrator updates will appear here when connected to your reporting database.</p>
-            </div>
-        `;
-
-        detailsOverlay.hidden = false;
-        document.body.style.overflow = "hidden";
-        document.getElementById("closeDetails").focus();
-    }
-
+    /* ESCAPE USER-ENTERED TEXT BEFORE DISPLAYING IT IN HTML */
     function escapeHTML(value) {
-        return String(value).replace(/[&<>"']/g, character => ({
+        return String(value ?? "").replace(/[&<>"']/g, character => ({
             "&": "&amp;",
             "<": "&lt;",
             ">": "&gt;",
@@ -479,28 +558,110 @@ document.addEventListener("DOMContentLoaded", () => {
         })[character]);
     }
 
+    function closeDetails() {
+        detailsOverlay.hidden = true;
+        document.body.style.overflow = "";
+    }
+
+    function showReportDetails(row) {
+        const cells = row.querySelectorAll("td");
+
+        const reportId = cells[0]?.textContent.trim() || "N/A";
+        const incidentType = cells[1]?.textContent.trim() || "N/A";
+        const date = cells[2]?.textContent.trim() || "N/A";
+        const location = cells[3]?.textContent.trim() || "N/A";
+        const status = normalizeStatus(row.dataset.status);
+
+        const statusText = status === "resolved" ||
+                           status === "completed" ||
+                           status === "closed"
+            ? "Resolved"
+            : status === "pending"
+                ? "Pending"
+                : "Under Review";
+
+        const statusClass = statusText === "Resolved"
+            ? "resolved"
+            : "reviewing";
+
+        detailsBody.innerHTML = `
+            <div class="details-status-row">
+                <span class="status ${statusClass}">
+                    <span class="status-dot"></span>
+                    ${escapeHTML(statusText)}
+                </span>
+                <span class="details-id">${escapeHTML(reportId)}</span>
+            </div>
+
+            <div class="details-grid">
+                <div class="details-field">
+                    <span>Incident Type</span>
+                    <strong>${escapeHTML(incidentType)}</strong>
+                </div>
+
+                <div class="details-field">
+                    <span>Date Submitted</span>
+                    <strong>${escapeHTML(date)}</strong>
+                </div>
+
+                <div class="details-field details-field-full">
+                    <span>Location</span>
+                    <strong>${escapeHTML(location)}</strong>
+                </div>
+            </div>
+
+            <div class="details-notice">
+                <span>ⓘ</span>
+                <p>
+                    This dialog displays the information available in the
+                    reports table. Additional case notes or administrator
+                    updates require the corresponding saved report data.
+                </p>
+            </div>
+        `;
+
+        detailsOverlay.hidden = false;
+        document.body.style.overflow = "hidden";
+        document.getElementById("closeDetails").focus();
+    }
+
     tableBody.addEventListener("click", event => {
         const button = event.target.closest("[data-view-report]");
         if (!button) return;
+
         const row = button.closest("tr");
-        if (row) showReportDetails(row);
+
+        if (row) {
+            showReportDetails(row);
+        }
     });
 
-    document.getElementById("closeDetails").addEventListener("click", closeDetails);
-    document.getElementById("doneDetails").addEventListener("click", closeDetails);
+    document.getElementById("closeDetails")
+        .addEventListener("click", closeDetails);
+
+    document.getElementById("doneDetails")
+        .addEventListener("click", closeDetails);
 
     detailsOverlay.addEventListener("click", event => {
-        if (event.target === detailsOverlay) closeDetails();
+        if (event.target === detailsOverlay) {
+            closeDetails();
+        }
     });
 
     document.addEventListener("keydown", event => {
         if (event.key === "Escape") {
-            if (!detailsOverlay.hidden) closeDetails();
+            if (!detailsOverlay.hidden) {
+                closeDetails();
+            }
+
             closeProfileDropdown();
         }
     });
 
-    updateSummary();
+    /*
+     * Initial render.
+     * report.js should populate the table from shared storage first.
+     */
     applyFilters();
 });
 </script>

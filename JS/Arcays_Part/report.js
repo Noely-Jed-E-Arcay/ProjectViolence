@@ -1,196 +1,276 @@
+/* =========================================
+   SAFEREPORT — MY REPORTS
+   Renders saved reports for myreports.html
+========================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
     const tableBody = document.getElementById("reportsTableBody");
 
     if (!tableBody) return;
-    
-    function getSubmissionTime(report) {
-      const timestamp = Date.parse(report.createdAt || "");
 
-      if (Number.isFinite(timestamp)) {
-         return timestamp;
-    }
+    renderReports();
 
-    // Fallback for older records without createdAt.
-    const id = Number(report.id);
+    /*
+     * Render again when another part of the page
+     * requests a refresh after adding a report.
+     */
+    window.renderSafeReportTable = renderReports;
 
-      if (Number.isFinite(id) && id > 0) {
-        return id;
-      }
-
-      return 0;
-    }
-
-    function sortReportsByNewest(reports) {
-      return [...reports].sort(
-        (a, b) => getSubmissionTime(b) - getSubmissionTime(a)
-      );
-    }
-
-
-    // Use the same storage key as reportForm.js.
     function getStoredReports() {
         try {
+            if (
+                window.SafeReportStorage &&
+                typeof window.SafeReportStorage.getReports === "function"
+            ) {
+                const reports = window.SafeReportStorage.getReports();
+                return Array.isArray(reports) ? reports : [];
+            }
+
             const reports = JSON.parse(
                 localStorage.getItem("reports") || "[]"
             );
 
             return Array.isArray(reports) ? reports : [];
         } catch (error) {
-            console.error("Unable to load reports:", error);
+            console.error("Unable to load SafeReport records:", error);
             return [];
         }
     }
 
     function normalizeStatus(status) {
-        const value = String(status || "").toLowerCase();
+        const value = String(status || "")
+            .trim()
+            .toLowerCase()
+            .replace(/[_-]+/g, " ")
+            .replace(/\s+/g, " ");
 
-        if (["pending", "under review"].includes(value)) {
+        if (["pending", "in progress", "under review"].includes(value)) {
             return "under review";
         }
 
-        if (["completed", "resolved"].includes(value)) {
+        if (["completed", "closed"].includes(value)) {
             return "resolved";
         }
 
-        return "under review";
+        return value || "under review";
     }
 
-    function formatDate(date) {
-        if (!date) return "Not provided";
+    function formatDate(value) {
+        if (!value) return "Not provided";
 
-        const parsedDate = new Date(date);
+        /*
+         * Preserve date-only values so they don't shift
+         * to the previous day because of timezone conversion.
+         */
+        const dateOnly = /^(\d{4})-(\d{2})-(\d{2})$/.exec(
+            String(value).trim()
+        );
 
-        if (Number.isNaN(parsedDate.getTime())) {
-            return String(date);
+        let date;
+
+        if (dateOnly) {
+            date = new Date(
+                Number(dateOnly[1]),
+                Number(dateOnly[2]) - 1,
+                Number(dateOnly[3])
+            );
+        } else {
+            date = new Date(value);
         }
 
-        return parsedDate.toLocaleDateString("en-US", {
+        if (Number.isNaN(date.getTime())) {
+            return String(value);
+        }
+
+        return date.toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
             day: "numeric"
         });
     }
 
-    function formatReportId(id, index) {
-        const value = String(id || index + 1);
+    function getReportId(report, index) {
+        const rawId = String(
+            report.id ??
+            report.reportId ??
+            report.report_id ??
+            index + 1
+        ).trim();
 
-        if (value.startsWith("#SR-")) return value;
+        /*
+         * Keep IDs already formatted as SR-...
+         * Numeric IDs receive the last six digits.
+         */
+        if (/^#?SR-/i.test(rawId)) {
+            return rawId.startsWith("#") ? rawId : `#${rawId}`;
+        }
 
-        return `#SR-${value.slice(-6).padStart(6, "0")}`;
+        const digits = rawId.replace(/\D/g, "");
+
+        if (digits) {
+            return `#SR-${digits.slice(-6).padStart(6, "0")}`;
+        }
+
+        return `#SR-${String(index + 1).padStart(6, "0")}`;
     }
 
-    function getTypeClass(type) {
+    function getSubmissionTimestamp(report) {
+        const value =
+            report.createdAt ||
+            report.created_at ||
+            report.submittedAt ||
+            report.submitted_at ||
+            "";
+
+        const timestamp = Date.parse(value);
+
+        if (Number.isFinite(timestamp)) {
+            return new Date(timestamp).toISOString();
+        }
+
+        /*
+         * Older reports may not have a submission timestamp.
+         * A date-only fallback is approximate, not an exact
+         * record of when the report was submitted.
+         */
+        return "";
+    }
+
+    function getIncidentTypeClass(type) {
         const value = String(type || "").toLowerCase();
 
+        if (value.includes("bully")) return "bullying-dot";
         if (value.includes("harass")) return "harassment-dot";
-        if (value.includes("bull")) return "bullying-dot";
-        if (value.includes("violence")) return "violence-dot";
-        if (value.includes("threat")) return "threat-dot";
+        if (value.includes("threat")) return "safety-dot";
+        if (value.includes("violence")) return "safety-dot";
 
         return "safety-dot";
     }
 
-    function renderReports(reports) {
+    function createCell(text) {
+        const cell = document.createElement("td");
+        cell.textContent = text;
+        return cell;
+    }
+
+    function renderReports() {
+        const reports = getStoredReports();
         tableBody.replaceChildren();
 
         reports.forEach((report, index) => {
             const row = document.createElement("tr");
-            const status = normalizeStatus(report.status);
 
-            // Used by My Reports search, filters, and sorting.
+            const reportId = getReportId(report, index);
+            const status = normalizeStatus(report.status);
+            const submittedAt = getSubmissionTimestamp(report);
+
+            /*
+             * These attributes are used by the filter and
+             * sorting code in myreports.html.
+             */
+            row.dataset.reportId = reportId;
             row.dataset.status = status;
             row.dataset.date = report.date || "";
+            row.dataset.submitted = submittedAt;
 
+            // Report ID
             const idCell = document.createElement("td");
             const idLabel = document.createElement("span");
 
             idLabel.className = "report-id";
-            idLabel.textContent = formatReportId(report.id, index);
+            idLabel.textContent = reportId;
+
             idCell.appendChild(idLabel);
             row.appendChild(idCell);
 
+            // Incident type
             const typeCell = document.createElement("td");
             const typeLabel = document.createElement("span");
             const typeDot = document.createElement("span");
 
             typeLabel.className = "incident-type";
-            typeDot.className = `type-dot ${getTypeClass(report.type)}`;
+            typeDot.className =
+                `type-dot ${getIncidentTypeClass(report.type)}`;
 
-            typeLabel.append(typeDot, document.createTextNode(
-                report.type || "Safety Concern"
-            ));
+            typeLabel.appendChild(typeDot);
+            typeLabel.appendChild(
+                document.createTextNode(report.type || "Safety Concern")
+            );
 
             typeCell.appendChild(typeLabel);
             row.appendChild(typeCell);
 
-            const dateCell = document.createElement("td");
+            // Date submitted
+            const dateCell = createCell(
+                submittedAt
+                    ? formatDate(submittedAt)
+                    : formatDate(report.date)
+            );
 
-            dateCell.textContent = formatDate(report.date);
-            dateCell.dataset.dateCell = report.date || "";
+            dateCell.dataset.date = report.date || "";
+            dateCell.dataset.dateCell = submittedAt || report.date || "";
+
             row.appendChild(dateCell);
 
-            const locationCell = document.createElement("td");
+            // Location
+            row.appendChild(
+                createCell(report.location || "Not provided")
+            );
 
-            locationCell.textContent = report.location || "Not provided";
-            row.appendChild(locationCell);
-
+            // Status
             const statusCell = document.createElement("td");
             const statusLabel = document.createElement("span");
             const statusDot = document.createElement("span");
 
-            statusLabel.className =
-                status === "resolved" ? "status resolved" : "status reviewing";
+            statusLabel.className = status === "resolved"
+                ? "status resolved"
+                : "status reviewing";
 
             statusDot.className = "status-dot";
-            statusLabel.append(
-                statusDot,
-                document.createTextNode(
-                    status === "resolved" ? "Resolved" : "Under Review"
-                )
+            statusLabel.appendChild(statusDot);
+
+            const statusText = status === "resolved"
+                ? "Resolved"
+                : status === "under review"
+                    ? "Under Review"
+                    : status.replace(/\b\w/g, letter =>
+                        letter.toUpperCase()
+                    );
+
+            statusLabel.appendChild(
+                document.createTextNode(statusText)
             );
 
             statusCell.appendChild(statusLabel);
             row.appendChild(statusCell);
 
+            // View button — used by the details dialog
             const actionCell = document.createElement("td");
             const viewButton = document.createElement("button");
 
             viewButton.type = "button";
             viewButton.className = "view-button";
             viewButton.dataset.viewReport = "";
-            viewButton.append(
-                document.createTextNode("View "),
-                document.createTextNode("→")
+            viewButton.appendChild(
+                document.createTextNode("View ")
             );
+
+            const arrow = document.createElement("span");
+            arrow.textContent = "→";
+            viewButton.appendChild(arrow);
 
             actionCell.appendChild(viewButton);
             row.appendChild(actionCell);
 
             tableBody.appendChild(row);
         });
+
+        /*
+         * Reapply the current search, status and sort selections
+         * after the table has been rendered.
+         */
+        if (typeof window.applySafeReportFilters === "function") {
+            window.applySafeReportFilters();
+        }
     }
-
-    function updateStats(reports) {
-        const total = reports.length;
-        const reviewing = reports.filter(
-            report => normalizeStatus(report.status) === "under review"
-        ).length;
-        const resolved = reports.filter(
-            report => normalizeStatus(report.status) === "resolved"
-        ).length;
-
-        const totalCount = document.getElementById("totalCount");
-        const reviewCount = document.getElementById("reviewCount");
-        const resolvedCount = document.getElementById("resolvedCount");
-
-        if (totalCount) totalCount.textContent = total;
-        if (reviewCount) reviewCount.textContent = reviewing;
-        if (resolvedCount) resolvedCount.textContent = resolved;
-    }
-
-    const reports = sortReportsByNewest(getStoredReports());
-
-    renderReports(reports);
-    updateStats(reports);
 });

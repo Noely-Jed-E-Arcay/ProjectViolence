@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     description,
     people,
     status: "Under Review"
-});
+  });
 
     localStorage.setItem("reports", JSON.stringify(reports));
     form.reset();
