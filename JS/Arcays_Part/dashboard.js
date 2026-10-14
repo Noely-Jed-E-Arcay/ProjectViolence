@@ -4,6 +4,22 @@ document.addEventListener("DOMContentLoaded", () => {
     updateStatistics(reports);
     renderRecentActivity(reports);
     setupAnnouncementHeading();
+
+    // Update statistics when another browser tab changes saved reports.
+    window.addEventListener("storage", event => {
+        if (
+            event.key === null ||
+            event.key === "reports" ||
+            event.key === "safeReportReports"
+        ) {
+            updateStatistics(getReports());
+        }
+    });
+
+    // Check for updates made in the same browser every 2 seconds.
+    window.setInterval(() => {
+        updateStatistics(getReports());
+    }, 2000);
 });
 
 /* =========================================
@@ -12,11 +28,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function getReports() {
     try {
-        const reports = JSON.parse(
-            localStorage.getItem("reports") || "[]"
+        if (
+            window.SafeReportStorage &&
+            typeof window.SafeReportStorage.getReports === "function"
+        ) {
+            const reports = window.SafeReportStorage.getReports();
+            return Array.isArray(reports) ? reports : [];
+        }
+
+        const currentReports = localStorage.getItem("reports");
+
+        if (currentReports !== null) {
+            const reports = JSON.parse(currentReports);
+            if (Array.isArray(reports)) return reports;
+        }
+
+        const legacyReports = JSON.parse(
+            localStorage.getItem("safeReportReports") || "[]"
         );
 
-        return Array.isArray(reports) ? reports : [];
+        return Array.isArray(legacyReports) ? legacyReports : [];
     } catch (error) {
         console.error("Unable to load saved reports:", error);
         return [];
@@ -28,11 +59,19 @@ function getReports() {
 ========================================= */
 
 function updateStatistics(reports) {
-    const statBoxes = document.querySelectorAll(
-        ".stats .stat-box"
-    );
+    const statBoxes = document.querySelectorAll(".stats .stat-box");
 
-    statBoxes.forEach((statBox) => {
+    const totalReports = reports.length;
+
+    const resolvedReports = reports.filter(report =>
+        isResolvedStatus(report.status)
+    ).length;
+
+    const resolutionRate = totalReports > 0
+        ? Math.round((resolvedReports / totalReports) * 100)
+        : 0;
+
+    statBoxes.forEach(statBox => {
         const label = statBox
             .querySelector("p")
             ?.textContent.trim().toLowerCase();
@@ -42,19 +81,28 @@ function updateStatistics(reports) {
         if (!value || !label) return;
 
         if (label.includes("submitted")) {
-            value.textContent = reports.length;
+            value.textContent = totalReports;
         }
 
         if (label.includes("under review")) {
-            value.textContent = reports.filter((report) =>
+            value.textContent = reports.filter(report =>
                 isReviewStatus(report.status)
             ).length;
         }
 
-        if (label.includes("resolved")) {
-            value.textContent = reports.filter((report) =>
-                isResolvedStatus(report.status)
-            ).length;
+        if (label === "resolved") {
+            value.textContent = resolvedReports;
+        }
+
+        if (label.includes("resolution rate")) {
+            value.textContent = `${resolutionRate}%`;
+
+            const description = statBox.querySelector("small");
+
+            if (description) {
+                description.textContent =
+                    `${resolvedReports} of ${totalReports} reports resolved`;
+            }
         }
     });
 }
