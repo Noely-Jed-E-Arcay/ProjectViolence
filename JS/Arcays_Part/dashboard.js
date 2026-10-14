@@ -111,6 +111,7 @@ function getStatusLabel(status) {
    RECENT ACTIVITY
 ========================================= */
 
+
 function renderRecentActivity(reports) {
     const activityList = document.querySelector(
         "#recentActivity .activity-list"
@@ -118,15 +119,22 @@ function renderRecentActivity(reports) {
 
     if (!activityList) return;
 
-    /*
-     * Preserve the original sample activities if there
-     * are no reports saved in localStorage.
-     */
-    if (reports.length === 0) {
-        makeExistingActivitiesClickable(activityList, reports);
+    // Remove stale sample activities when there are no reports.
+    if (!reports.length) {
+        activityList.replaceChildren();
+
+        const emptyMessage = document.createElement("p");
+        emptyMessage.className = "activity-empty";
+        emptyMessage.textContent = "No recent report activity yet.";
+        emptyMessage.style.padding = "16px";
+        emptyMessage.style.textAlign = "center";
+        emptyMessage.style.color = "#64748b";
+
+        activityList.appendChild(emptyMessage);
         return;
     }
 
+    // Show the three most recent reports.
     const latestReports = [...reports]
         .sort((a, b) => getReportTimestamp(b) - getReportTimestamp(a))
         .slice(0, 3);
@@ -157,7 +165,11 @@ function renderRecentActivity(reports) {
         details.className = "activity-details";
 
         const id = document.createElement("strong");
-        id.textContent = `#${reportId}`;
+
+        // Avoid displaying ## when the saved ID already contains #.
+        id.textContent = reportId.startsWith("#")
+            ? reportId
+            : `#${reportId}`;
 
         const summary = document.createElement("p");
         summary.textContent = getReportSummary(report);
@@ -179,6 +191,7 @@ function renderRecentActivity(reports) {
         activityList.appendChild(activity);
     });
 }
+
 
 function makeExistingActivitiesClickable(activityList, reports) {
     const activities = activityList.querySelectorAll(".activity");

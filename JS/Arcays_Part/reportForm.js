@@ -27,15 +27,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!Array.isArray(reports)) reports = [];
 
     reports.push({
-      id: Date.now(),
-      type: incidentType,
-      date,
-      location,
-      time,
-      description,
-      people,
-      status: "Under Review"
-    });
+    id: Date.now(),
+    type: incidentType,
+    date,
+    createdAt: new Date().toISOString(),
+    location,
+    time,
+    description,
+    people,
+    status: "Under Review"
+});
 
     localStorage.setItem("reports", JSON.stringify(reports));
     form.reset();
