@@ -1,1126 +1,590 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>SafeReport | Admin Dashboard</title>
 
+    <!-- CSS Stylesheets -->
     <link rel="stylesheet" href="css/myreports-shell.css">
     <link rel="stylesheet" href="css/admin-reports.css">
-
-    <style>
-        /* DASHBOARD CONTENT */
-        .admin-dashboard {
-            width: 100%;
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 26px;
-            color: #202b40;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        .admin-dashboard *,
-        .admin-dashboard *::before,
-        .admin-dashboard *::after {
-            box-sizing: border-box;
-        }
-
-        .admin-dashboard section {
-            margin: 0 0 22px;
-        }
-
-        .admin-dashboard h1,
-        .admin-dashboard h2,
-        .admin-dashboard h3,
-        .admin-dashboard p {
-            margin-top: 0;
-        }
-
-        /* WELCOME BANNER */
-        .admin-hero {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 24px;
-            min-height: 225px;
-            padding: 35px;
-            color: #fff;
-            background: linear-gradient(115deg, #294ecb, #4560e8);
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(49, 87, 213, .12);
-        }
-
-        .admin-hero-copy {
-            max-width: 700px;
-        }
-
-        .admin-eyebrow {
-            display: block;
-            margin-bottom: 12px;
-            color: inherit;
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-        }
-
-        .admin-hero h1 {
-            margin-bottom: 12px;
-            color: #fff;
-            font-size: clamp(27px, 3vw, 38px);
-            line-height: 1.2;
-            letter-spacing: -.8px;
-        }
-
-        .admin-hero p {
-            max-width: 650px;
-            margin-bottom: 20px;
-            color: #edf2ff;
-            font-size: 13px;
-            line-height: 1.8;
-        }
-
-        .admin-hero-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .admin-hero-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            min-height: 40px;
-            padding: 0 16px;
-            border: 1px solid rgba(255,255,255,.45);
-            border-radius: 9px;
-            font-size: 12px;
-            font-weight: 700;
-            text-decoration: none;
-        }
-
-        .admin-hero-btn.primary {
-            color: #3157d5;
-            background: #fff;
-            border-color: #fff;
-        }
-
-        .admin-hero-btn.secondary {
-            color: #fff;
-            background: transparent;
-        }
-
-        .admin-hero-art {
-            display: grid;
-            flex: 0 0 145px;
-            width: 145px;
-            height: 145px;
-            place-items: center;
-            border: 1px solid rgba(255,255,255,.24);
-            border-radius: 50%;
-            background: rgba(255,255,255,.08);
-        }
-
-        .admin-hero-art span {
-            display: grid;
-            width: 100px;
-            height: 100px;
-            place-items: center;
-            border: 1px solid rgba(255,255,255,.35);
-            border-radius: 50%;
-            background: rgba(255,255,255,.1);
-            font-size: 45px;
-        }
-
-        /* STATISTICS */
-        .admin-stat-grid {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 16px;
-        }
-
-        .admin-stat {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            min-width: 0;
-            min-height: 105px;
-            padding: 19px;
-            background: #fff;
-            border: 1px solid #e1e8f3;
-            border-radius: 14px;
-            box-shadow: 0 4px 12px rgba(31,51,91,.035);
-        }
-
-        .admin-stat-icon {
-            display: grid;
-            flex: 0 0 44px;
-            width: 44px;
-            height: 44px;
-            place-items: center;
-            border-radius: 12px;
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        .stat-blue { color: #3157d5; background: #edf2ff; }
-        .stat-orange { color: #d98516; background: #fff4e2; }
-        .stat-purple { color: #7955d9; background: #f0eaff; }
-        .stat-green { color: #208d5b; background: #e7f7ef; }
-
-        .admin-stat-info {
-            min-width: 0;
-        }
-
-        .admin-stat-info h2 {
-            margin: 0 0 4px;
-            color: #202b40;
-            font-size: 27px;
-            line-height: 1;
-        }
-
-        .admin-stat-info p {
-            margin: 5px 0 0;
-            color: #52617b;
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .admin-stat-info small {
-            display: block;
-            margin-top: 5px;
-            color: #8291aa;
-            font-size: 10px;
-        }
-
-        /* COMMON PANELS */
-        .admin-panel {
-            min-width: 0;
-            overflow: hidden;
-            background: #fff;
-            border: 1px solid #e1e8f3;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(31,51,91,.035);
-        }
-
-        .admin-panel-heading {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-height: 75px;
-            padding: 16px 20px;
-            border-bottom: 1px solid #e1e8f3;
-        }
-
-        .admin-panel-icon {
-            display: grid;
-            flex: 0 0 40px;
-            width: 40px;
-            height: 40px;
-            place-items: center;
-            color: #3157d5;
-            background: #edf2ff;
-            border-radius: 11px;
-            font-size: 19px;
-        }
-
-        .admin-panel-heading > div:nth-child(2) {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .admin-panel-heading h3 {
-            margin: 0 0 5px;
-            color: #202b40;
-            font-size: 14px;
-            line-height: 1.4;
-        }
-
-        .admin-panel-heading p {
-            margin: 0;
-            color: #8291aa;
-            font-size: 10px;
-            line-height: 1.5;
-        }
-
-        /* ANALYTICS LAYOUT */
-        .admin-analytics {
-            display: grid;
-            grid-template-columns: minmax(0, 1.4fr) minmax(300px, 1fr);
-            gap: 20px;
-            align-items: stretch;
-        }
-
-        .admin-date-select {
-            max-width: 125px;
-            padding: 9px;
-            color: #52617b;
-            background: #fff;
-            border: 1px solid #e1e8f3;
-            border-radius: 8px;
-            font-size: 10px;
-        }
-
-        /* BAR CHART */
-        .admin-chart {
-            display: flex;
-            height: 255px;
-            gap: 12px;
-            padding: 20px;
-        }
-
-        .admin-chart-y {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding-bottom: 24px;
-            color: #8291aa;
-            font-size: 9px;
-        }
-
-        .admin-chart-main {
-            position: relative;
-            flex: 1;
-            min-width: 0;
-        }
-
-        .admin-chart-lines {
-            position: absolute;
-            inset: 0 0 24px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .admin-chart-lines span {
-            border-top: 1px solid #edf1f7;
-        }
-
-        .admin-bars {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            justify-content: space-around;
-            gap: 8px;
-        }
-
-        .admin-bar-item {
-            display: flex;
-            flex: 1;
-            min-width: 0;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 9px;
-            color: #8291aa;
-            font-size: 9px;
-        }
-
-        .admin-bar {
-            width: min(65%, 32px);
-            height: var(--bar-height);
-            min-height: 6px;
-            background: linear-gradient(180deg, #648dff, #3157d5);
-            border-radius: 5px 5px 0 0;
-        }
-
-        /* STATUS CHART */
-        .admin-donut-area {
-            display: grid;
-            padding: 24px 15px 15px;
-            place-items: center;
-        }
-
-        .admin-donut {
-            display: grid;
-            width: 150px;
-            height: 150px;
-            place-items: center;
-            border-radius: 50%;
-            background: #e9eef7;
-        }
-
-        .admin-donut-center {
-            display: flex;
-            width: 94px;
-            height: 94px;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: #fff;
-        }
-
-        .admin-donut-center strong {
-            color: #202b40;
-            font-size: 25px;
-        }
-
-        .admin-donut-center span {
-            margin-top: 4px;
-            color: #8291aa;
-            font-size: 10px;
-        }
-
-        .admin-legend {
-            display: grid;
-            gap: 14px;
-            padding: 8px 20px 22px;
-        }
-
-        .admin-legend-row {
-            display: grid;
-            grid-template-columns: 10px minmax(0, 1fr) 25px 35px;
-            align-items: center;
-            gap: 9px;
-            color: #52617b;
-            font-size: 10px;
-        }
-
-        .admin-legend-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-        }
-
-        .dot-review { background: #f5ae32; }
-        .dot-progress { background: #416ff0; }
-        .dot-resolved { background: #23a77f; }
-
-        .admin-legend-row strong {
-            color: #202b40;
-            text-align: right;
-        }
-
-        .admin-legend-row small {
-            color: #8291aa;
-            text-align: right;
-        }
-
-        /* SECONDARY PANELS */
-        .admin-secondary {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 20px;
-            align-items: start;
-        }
-
-        .admin-quick-list {
-            padding: 6px 18px;
-        }
-
-        .admin-quick-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            width: 100%;
-            min-height: 76px;
-            padding: 13px 4px;
-            color: inherit;
-            text-align: left;
-            text-decoration: none;
-            background: #fff;
-            border: 0;
-            border-bottom: 1px solid #e6edf7;
-            cursor: pointer;
-        }
-
-        .admin-quick-item:last-child {
-            border-bottom: 0;
-        }
-
-        .admin-quick-item:hover {
-            background: #f8faff;
-        }
-
-        .admin-quick-icon {
-            display: grid;
-            flex: 0 0 42px;
-            width: 42px;
-            height: 42px;
-            place-items: center;
-            color: #3157d5;
-            background: #edf2ff;
-            border-radius: 11px;
-            font-size: 19px;
-        }
-
-        .admin-quick-copy {
-            display: flex;
-            flex: 1;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .admin-quick-copy strong {
-            color: #202b40;
-            font-size: 11px;
-        }
-
-        .admin-quick-copy small {
-            color: #8291aa;
-            font-size: 10px;
-            line-height: 1.5;
-        }
-
-        .admin-quick-arrow {
-            color: #829ac2;
-            font-size: 20px;
-        }
-
-        /* RECENT ACTIVITY */
-        .admin-activity-list {
-            padding: 22px;
-        }
-
-        .admin-activity-item {
-            position: relative;
-            display: flex;
-            gap: 13px;
-            padding-bottom: 24px;
-        }
-
-        .admin-activity-item:last-child {
-            padding-bottom: 0;
-        }
-
-        .admin-activity-item:not(:last-child)::before {
-            position: absolute;
-            top: 12px;
-            bottom: 0;
-            left: 5px;
-            width: 1px;
-            background: #e1e8f3;
-            content: "";
-        }
-
-        .admin-activity-dot {
-            position: relative;
-            z-index: 1;
-            flex: 0 0 11px;
-            width: 11px;
-            height: 11px;
-            margin-top: 4px;
-            border-radius: 50%;
-        }
-
-        .admin-activity-item p {
-            margin: 0 0 6px;
-            color: #52617b;
-            font-size: 11px;
-            line-height: 1.7;
-        }
-
-        .admin-activity-item strong {
-            color: #202b40;
-        }
-
-        .admin-activity-item small {
-            color: #8291aa;
-            font-size: 10px;
-        }
-
-        /* REPORT TABLE */
-        .admin-report-section {
-            width: 100%;
-        }
-
-        .admin-report-toolbar {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 17px 20px;
-            border-bottom: 1px solid #e1e8f3;
-        }
-
-        .admin-search {
-            display: flex;
-            flex: 1;
-            align-items: center;
-            gap: 10px;
-            min-width: 0;
-            padding: 0 12px;
-            background: #f8faff;
-            border: 1px solid #e1e8f3;
-            border-radius: 9px;
-        }
-
-        .admin-search span {
-            color: #8291aa;
-            font-size: 18px;
-        }
-
-        .admin-search input {
-            width: 100%;
-            min-width: 0;
-            height: 39px;
-            color: #202b40;
-            background: transparent;
-            border: 0;
-            outline: none;
-            font: inherit;
-            font-size: 11px;
-        }
-
-        .admin-report-toolbar select {
-            min-height: 40px;
-            max-width: 170px;
-            padding: 0 12px;
-            color: #52617b;
-            background: #fff;
-            border: 1px solid #e1e8f3;
-            border-radius: 9px;
-            font-size: 11px;
-        }
-
-        .admin-message {
-            padding: 10px 20px;
-            color: #8291aa;
-            font-size: 11px;
-        }
-
-        .admin-message:empty {
-            display: none;
-        }
-
-        .admin-table-scroll {
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        .admin-reports-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        .admin-reports-table th {
-            padding: 14px 17px;
-            color: #71819e;
-            background: #f8faff;
-            border-bottom: 1px solid #e1e8f3;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-
-        .admin-reports-table td {
-            padding: 15px 17px;
-            color: #52617b;
-            border-bottom: 1px solid #edf1f7;
-            font-size: 11px;
-            vertical-align: middle;
-        }
-
-        .admin-reports-table tbody tr:hover {
-            background: #f8faff;
-        }
-
-        .admin-reports-table .admin-report-id {
-            color: #3157d5;
-            font-weight: 700;
-        }
-
-        .admin-reports-table .status-select {
-            max-width: 145px;
-            padding: 8px;
-            border: 1px solid #e1e8f3;
-            border-radius: 7px;
-            font-size: 10px;
-        }
-
-        .status-under-review {
-            color: #b9790a;
-            background: #fff4df;
-        }
-
-        .status-in-progress {
-            color: #3157d5;
-            background: #edf2ff;
-        }
-
-        .status-resolved {
-            color: #18845f;
-            background: #e3f7ed;
-        }
-
-        .admin-table-footer {
-            display: flex;
-            justify-content: space-between;
-            gap: 12px;
-            padding: 15px 20px;
-            color: #8291aa;
-            font-size: 10px;
-        }
-
-        .admin-demo-note {
-            margin: 15px 0 0;
-            color: #8291aa;
-            font-size: 10px;
-            text-align: right;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 1150px) {
-            .admin-dashboard {
-                padding: 22px;
-            }
-
-            .admin-stat-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .admin-analytics {
-                grid-template-columns: minmax(0, 1fr);
-            }
-        }
-
-        @media (max-width: 760px) {
-            .admin-dashboard {
-                padding: 15px;
-            }
-
-            .admin-secondary {
-                grid-template-columns: minmax(0, 1fr);
-            }
-
-            .admin-hero {
-                padding: 25px 20px;
-            }
-
-            .admin-hero-art {
-                display: none;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .admin-stat-grid {
-                grid-template-columns: minmax(0, 1fr);
-                gap: 12px;
-            }
-
-            .admin-panel-heading {
-                padding: 14px;
-            }
-
-            .admin-report-toolbar {
-                align-items: stretch;
-                flex-direction: column;
-                padding: 14px;
-            }
-
-            .admin-report-toolbar select {
-                max-width: none;
-                width: 100%;
-            }
-
-            .admin-chart {
-                padding: 15px 10px;
-            }
-
-            .admin-table-footer {
-                flex-direction: column;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/admin-design.css">
 </head>
 
 <body>
 <div class="app">
 
-    <!-- SIDEBAR -->
+    <!-- =========================
+         ADMIN SIDEBAR
+    ========================== -->
     <aside class="sidebar">
-        <a href="index.html" class="sidebar-brand">
-            <span class="shield">S</span>
+
+        <a class="sidebar-brand" href="admin-reports.html"
+           aria-label="SafeReport admin dashboard">
+            <span class="shield" aria-hidden="true">🛡</span>
             <span>SafeReport</span>
         </a>
 
-        <nav aria-label="Main navigation">
-            <a href="admin-reports.html" class="active" aria-current="page">
-                <span class="side-icon">▣</span>
+        <div class="sidebar-label">ADMINISTRATION</div>
+
+        <nav aria-label="Admin navigation">
+            <a class="active" href="admin-reports.html" aria-current="page">
+                <span class="side-icon" aria-hidden="true">▤</span>
                 <span>Manage Reports</span>
             </a>
 
-            <a href="profile.html">
-                <span class="side-icon">♙</span>
-                <span>Profile</span>
+            <a href="admin-profile.html">
+                <span class="side-icon" aria-hidden="true">◯</span>
+                <span>My Profile</span>
             </a>
         </nav>
 
         <div class="sidebar-bottom">
+
             <div class="sidebar-help">
-                <div class="sidebar-help-icon">ⓘ</div>
-                <div>
-                    <strong>Need Assistance?</strong>
-                    <p>Contact your campus support team.</p>
-                </div>
+                <div class="help-icon" aria-hidden="true">ⓘ</div>
+                <strong>Need assistance?</strong>
+                <p>Contact your system administrator for account support.</p>
             </div>
 
             <div class="profile-mini">
-                <div class="avatar">A</div>
-                <div class="profile-mini-info">
-                    <strong>Administrator</strong>
-                    <small>Report Management</small>
+                <div class="avatar" aria-hidden="true">N</div>
+
+                <div class="profile-details">
+                    <strong>Noely Arcay</strong>
+                    <small>Admin Account</small>
                 </div>
             </div>
 
-           
+            <a class="logout" href="login.html">
+                <span aria-hidden="true">↪</span>
+                <span>Logout</span>
+            </a>
+
         </div>
     </aside>
 
-    <!-- HEADER -->
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
     <main>
+
+        <!-- HEADER -->
         <header class="header">
-            <div class="admin-breadcrumb">
-                <span>SafeReport</span>
-                <span>/</span>
-                <strong>Admin Dashboard</strong>
+
+            <div class="header-left">
+                <div class="breadcrumb">
+                    <span>Administration</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <strong>Manage Reports</strong>
+                </div>
+
+                <p class="header-subtitle">
+                    Review reports and monitor their progress
+                </p>
             </div>
 
             <div class="header-actions">
-                <div class="profile-menu-container">
+
+                <div class="search-box">
+                    <span aria-hidden="true">⌕</span>
+                    <input
+                        type="search"
+                        id="dashboardSearch"
+                        placeholder="Search reports..."
+                        aria-label="Search reports"
+                    >
+                </div>
+
+                <button
+                    type="button"
+                    class="header-action"
+                    id="notificationBtn"
+                    aria-label="Notifications"
+                >♧</button>
+
+                <button
+                    type="button"
+                    class="header-action"
+                    id="themeToggle"
+                    aria-label="Toggle dark mode"
+                    title="Toggle dark mode"
+                >☾</button>
+
+                <a
+                    class="header-help"
+                    href="admin-profile.html"
+                    aria-label="View admin profile"
+                    title="Admin profile"
+                >＋</a>
+
+                <div class="profile-menu-wrap">
+
                     <button
                         type="button"
                         class="header-avatar"
-                        id="profileToggle"
+                        id="profileBtn"
                         aria-label="Open profile menu"
                         aria-expanded="false"
-                        aria-controls="profileDropdown">
-                        A
-                    </button>
+                        aria-controls="profileDropdown"
+                    >N</button>
 
                     <div class="profile-dropdown" id="profileDropdown" hidden>
-                        <a href="profile.html">My Profile</a>
-                        <a href="index.html">Student Dashboard</a>
+                        <a href="admin-profile.html">My Profile</a>
+                        <a href="login.html">Logout</a>
                     </div>
+
                 </div>
             </div>
         </header>
 
         <!-- DASHBOARD -->
         <div class="content">
-            <div class="admin-dashboard">
+        <div class="admin-dashboard">
 
-                <!-- WELCOME -->
-                <section class="admin-hero">
-                    <div class="admin-hero-copy">
-                        <span class="admin-eyebrow">SAFEREPORT ADMINISTRATION</span>
-                        <h1>Campus Safety Overview</h1>
-                        <p>
-                            Monitor incident reports, review submissions, and track
-                            campus safety activities from one place.
-                        </p>
+            <!-- HERO BANNER -->
+            <section class="admin-hero">
 
-                        <div class="admin-hero-actions">
-                            <a href="#admin-recent-reports" class="admin-hero-btn primary">
-                                ▤ View Reports
-                            </a>
-                            <a href="#admin-quick-actions" class="admin-hero-btn secondary">
-                                ＋ Quick Actions
-                            </a>
+                <div class="admin-hero-copy">
+                    <span class="admin-eyebrow">
+                        SAFEREPORT ADMINISTRATION
+                    </span>
+
+                    <h1>Campus Safety Overview</h1>
+
+                    <p>
+                        Monitor incident reports, review submissions, and
+                        track campus safety activities from one place.
+                    </p>
+
+                    <div class="admin-hero-actions">
+                        <a href="#admin-recent-reports"
+                           class="admin-hero-btn primary">
+                            ▤ View Reports
+                        </a>
+
+                        <a href="#admin-quick-actions"
+                           class="admin-hero-btn secondary">
+                            ＋ Quick Actions
+                        </a>
+                    </div>
+                </div>
+
+                <div class="admin-hero-art" aria-hidden="true">
+                    <span>🛡</span>
+                </div>
+
+            </section>
+
+            <!-- =========================
+                 REPORT STATISTICS
+            ========================== -->
+            <section class="admin-stat-grid" aria-label="Report statistics">
+
+                <article class="admin-stat">
+                    <div class="admin-stat-icon stat-blue">▤</div>
+
+                    <div class="admin-stat-info">
+                        <h2 id="totalCount">0</h2>
+                        <p>Total Reports</p>
+                        <small>All submitted reports</small>
+                    </div>
+                </article>
+
+                <article class="admin-stat">
+                    <div class="admin-stat-icon stat-orange">◷</div>
+
+                    <div class="admin-stat-info">
+                        <h2 id="reviewCount">0</h2>
+                        <p>Under Review</p>
+                        <small>Awaiting review</small>
+                    </div>
+                </article>
+
+                <article class="admin-stat">
+                    <div class="admin-stat-icon stat-purple">↗</div>
+
+                    <div class="admin-stat-info">
+                        <h2 id="progressCount">0</h2>
+                        <p>In Progress</p>
+                        <small>Being handled</small>
+                    </div>
+                </article>
+
+                <article class="admin-stat">
+                    <div class="admin-stat-icon stat-green">✓</div>
+
+                    <div class="admin-stat-info">
+                        <h2 id="resolvedCount">0</h2>
+                        <p>Resolved</p>
+                        <small>Completed reports</small>
+                    </div>
+                </article>
+
+            </section>
+
+            <!-- =========================
+                 REPORT ANALYTICS
+            ========================== -->
+            <section class="admin-analytics">
+
+                <!-- REPORT OVERVIEW CHART -->
+                <article class="admin-panel">
+
+                    <div class="admin-panel-heading">
+                        <div class="admin-panel-icon">▤</div>
+
+                        <div>
+                            <h3>Report Overview</h3>
+                            <p>Illustrative report activity for seven days</p>
+                        </div>
+
+                        <select class="admin-date-select"
+                                aria-label="Chart date range">
+                            <option>Last 7 days</option>
+                            <option>Last 30 days</option>
+                        </select>
+                    </div>
+
+                    <div class="admin-chart">
+
+                        <div class="admin-chart-y">
+                            <span>10</span>
+                            <span>8</span>
+                            <span>6</span>
+                            <span>4</span>
+                            <span>2</span>
+                            <span>0</span>
+                        </div>
+
+                        <div class="admin-chart-main">
+
+                            <div class="admin-chart-lines">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+
+                            <div class="admin-bars">
+
+                                <div class="admin-bar-item">
+                                    <div class="admin-bar"
+                                         style="--bar-height:35%"></div>
+                                    <span>Mon</span>
+                                </div>
+
+                                <div class="admin-bar-item">
+                                    <div class="admin-bar"
+                                         style="--bar-height:48%"></div>
+                                    <span>Tue</span>
+                                </div>
+
+                                <div class="admin-bar-item">
+                                    <div class="admin-bar"
+                                         style="--bar-height:42%"></div>
+                                    <span>Wed</span>
+                                </div>
+
+                                <div class="admin-bar-item">
+                                    <div class="admin-bar"
+                                         style="--bar-height:65%"></div>
+                                    <span>Thu</span>
+                                </div>
+
+                                <div class="admin-bar-item">
+                                    <div class="admin-bar"
+                                         style="--bar-height:52%"></div>
+                                    <span>Fri</span>
+                                </div>
+
+                                <div class="admin-bar-item">
+                                    <div class="admin-bar"
+                                         style="--bar-height:75%"></div>
+                                    <span>Sat</span>
+                                </div>
+
+                                <div class="admin-bar-item">
+                                    <div class="admin-bar"
+                                         style="--bar-height:90%"></div>
+                                    <span>Sun</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- REPORT STATUS DONUT -->
+                <article class="admin-panel">
+
+                    <div class="admin-panel-heading">
+                        <div class="admin-panel-icon">◔</div>
+
+                        <div>
+                            <h3>Reports by Status</h3>
+                            <p>Current report distribution</p>
                         </div>
                     </div>
 
-                    <div class="admin-hero-art" aria-hidden="true">
-                        <span>🛡</span>
+                    <div class="admin-donut-area">
+                        <div class="admin-donut" id="statusDonut">
+
+                            <div class="admin-donut-center">
+                                <strong id="chartTotal">0</strong>
+                                <span>Total Reports</span>
+                            </div>
+
+                        </div>
                     </div>
-                </section>
 
-                <!-- STATISTICS -->
-                <section class="admin-stat-grid" aria-label="Report statistics">
-                    <article class="admin-stat">
-                        <div class="admin-stat-icon stat-blue">▤</div>
-                        <div class="admin-stat-info">
-                            <h2 id="totalCount">0</h2>
-                            <p>Total Reports</p>
-                            <small>All submitted reports</small>
+                    <div class="admin-legend">
+
+                        <div class="admin-legend-row">
+                            <span class="admin-legend-dot dot-review"></span>
+                            <span>Under Review</span>
+                            <strong id="legendReview">0</strong>
+                            <small id="percentReview">0%</small>
                         </div>
-                    </article>
 
-                    <article class="admin-stat">
-                        <div class="admin-stat-icon stat-orange">◷</div>
-                        <div class="admin-stat-info">
-                            <h2 id="reviewCount">0</h2>
-                            <p>Under Review</p>
-                            <small>Awaiting review</small>
+                        <div class="admin-legend-row">
+                            <span class="admin-legend-dot dot-progress"></span>
+                            <span>In Progress</span>
+                            <strong id="legendProgress">0</strong>
+                            <small id="percentProgress">0%</small>
                         </div>
-                    </article>
 
-                    <article class="admin-stat">
-                        <div class="admin-stat-icon stat-purple">↗</div>
-                        <div class="admin-stat-info">
-                            <h2 id="progressCount">0</h2>
-                            <p>In Progress</p>
-                            <small>Being handled</small>
+                        <div class="admin-legend-row">
+                            <span class="admin-legend-dot dot-resolved"></span>
+                            <span>Resolved</span>
+                            <strong id="legendResolved">0</strong>
+                            <small id="percentResolved">0%</small>
                         </div>
-                    </article>
 
-                    <article class="admin-stat">
-                        <div class="admin-stat-icon stat-green">✓</div>
-                        <div class="admin-stat-info">
-                            <h2 id="resolvedCount">0</h2>
-                            <p>Resolved</p>
-                            <small>Completed reports</small>
+                    </div>
+                </article>
+
+            </section>
+
+            <!-- =========================
+                 QUICK ACTIONS & ACTIVITY
+            ========================== -->
+            <section class="admin-secondary">
+
+                <!-- QUICK ACTIONS -->
+                <article class="admin-panel" id="admin-quick-actions">
+
+                    <div class="admin-panel-heading">
+                        <div class="admin-panel-icon">ϟ</div>
+
+                        <div>
+                            <h3>Quick Actions</h3>
+                            <p>Common administrative tasks</p>
                         </div>
-                    </article>
-                </section>
+                    </div>
 
-                <!-- ANALYTICS ROW -->
-                <section class="admin-analytics">
+                    <div class="admin-quick-list">
 
-                    <article class="admin-panel">
-                        <div class="admin-panel-heading">
-                            <div class="admin-panel-icon">▤</div>
+                        <a href="#admin-recent-reports"
+                           class="admin-quick-item">
+                            <span class="admin-quick-icon">▤</span>
+
+                            <span class="admin-quick-copy">
+                                <strong>View Reports</strong>
+                                <small>Browse submitted report records</small>
+                            </span>
+
+                            <span class="admin-quick-arrow">→</span>
+                        </a>
+
+                        <a href="#admin-recent-reports"
+                           class="admin-quick-item">
+                            <span class="admin-quick-icon">✓</span>
+
+                            <span class="admin-quick-copy">
+                                <strong>Review Statuses</strong>
+                                <small>Update a report's status</small>
+                            </span>
+
+                            <span class="admin-quick-arrow">→</span>
+                        </a>
+
+                        <button type="button"
+                                class="admin-quick-item"
+                                id="exportReports">
+                            <span class="admin-quick-icon">↓</span>
+
+                            <span class="admin-quick-copy">
+                                <strong>Export Report Data</strong>
+                                <small>Download visible report rows as CSV</small>
+                            </span>
+
+                            <span class="admin-quick-arrow">→</span>
+                        </button>
+
+                    </div>
+                </article>
+
+                <!-- RECENT ACTIVITY -->
+                <article class="admin-panel" id="admin-activity">
+
+                    <div class="admin-panel-heading">
+                        <div class="admin-panel-icon">◷</div>
+
+                        <div>
+                            <h3>Recent Activity</h3>
+                            <p>Example activity entries</p>
+                        </div>
+                    </div>
+
+                    <div class="admin-activity-list">
+
+                        <div class="admin-activity-item">
+                            <span class="admin-activity-dot"
+                                  style="background:#416ff0"></span>
+
                             <div>
-                                <h3>Report Overview</h3>
-                                <p>Illustrative report activity for seven days</p>
-                            </div>
-                            <select class="admin-date-select" aria-label="Chart date range">
-                                <option>Last 7 days</option>
-                                <option>Last 30 days</option>
-                            </select>
-                        </div>
-
-                        <div class="admin-chart">
-                            <div class="admin-chart-y">
-                                <span>10</span><span>8</span><span>6</span>
-                                <span>4</span><span>2</span><span>0</span>
-                            </div>
-
-                            <div class="admin-chart-main">
-                                <div class="admin-chart-lines">
-                                    <span></span><span></span><span></span>
-                                    <span></span><span></span><span></span>
-                                </div>
-
-                                <div class="admin-bars">
-                                    <div class="admin-bar-item">
-                                        <div class="admin-bar" style="--bar-height:35%"></div>
-                                        <span>Mon</span>
-                                    </div>
-                                    <div class="admin-bar-item">
-                                        <div class="admin-bar" style="--bar-height:48%"></div>
-                                        <span>Tue</span>
-                                    </div>
-                                    <div class="admin-bar-item">
-                                        <div class="admin-bar" style="--bar-height:42%"></div>
-                                        <span>Wed</span>
-                                    </div>
-                                    <div class="admin-bar-item">
-                                        <div class="admin-bar" style="--bar-height:65%"></div>
-                                        <span>Thu</span>
-                                    </div>
-                                    <div class="admin-bar-item">
-                                        <div class="admin-bar" style="--bar-height:52%"></div>
-                                        <span>Fri</span>
-                                    </div>
-                                    <div class="admin-bar-item">
-                                        <div class="admin-bar" style="--bar-height:75%"></div>
-                                        <span>Sat</span>
-                                    </div>
-                                    <div class="admin-bar-item">
-                                        <div class="admin-bar" style="--bar-height:90%"></div>
-                                        <span>Sun</span>
-                                    </div>
-                                </div>
+                                <p>
+                                    A report status was updated to
+                                    <strong>In Progress</strong>.
+                                </p>
+                                <small>Sample activity</small>
                             </div>
                         </div>
-                    </article>
 
-                    <article class="admin-panel">
-                        <div class="admin-panel-heading">
-                            <div class="admin-panel-icon">◔</div>
+                        <div class="admin-activity-item">
+                            <span class="admin-activity-dot"
+                                  style="background:#23a77f"></span>
+
                             <div>
-                                <h3>Reports by Status</h3>
-                                <p>Current report distribution</p>
+                                <p>
+                                    A report was marked as
+                                    <strong>Resolved</strong>.
+                                </p>
+                                <small>Sample activity</small>
                             </div>
                         </div>
 
-                        <div class="admin-donut-area">
-                            <div class="admin-donut" id="statusDonut">
-                                <div class="admin-donut-center">
-                                    <strong id="chartTotal">0</strong>
-                                    <span>Total Reports</span>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="admin-activity-item">
+                            <span class="admin-activity-dot"
+                                  style="background:#f5ae32"></span>
 
-                        <div class="admin-legend">
-                            <div class="admin-legend-row">
-                                <span class="admin-legend-dot dot-review"></span>
-                                <span>Under Review</span>
-                                <strong id="legendReview">0</strong>
-                                <small id="percentReview">0%</small>
-                            </div>
-                            <div class="admin-legend-row">
-                                <span class="admin-legend-dot dot-progress"></span>
-                                <span>In Progress</span>
-                                <strong id="legendProgress">0</strong>
-                                <small id="percentProgress">0%</small>
-                            </div>
-                            <div class="admin-legend-row">
-                                <span class="admin-legend-dot dot-resolved"></span>
-                                <span>Resolved</span>
-                                <strong id="legendResolved">0</strong>
-                                <small id="percentResolved">0%</small>
-                            </div>
-                        </div>
-                    </article>
-
-                </section>
-
-                <!-- QUICK ACTIONS + ACTIVITY -->
-                <section class="admin-secondary">
-
-                    <article class="admin-panel" id="admin-quick-actions">
-                        <div class="admin-panel-heading">
-                            <div class="admin-panel-icon">ϟ</div>
                             <div>
-                                <h3>Quick Actions</h3>
-                                <p>Common administrative tasks</p>
+                                <p>
+                                    A new incident report was
+                                    <strong>submitted</strong>.
+                                </p>
+                                <small>Sample activity</small>
                             </div>
                         </div>
 
-                        <div class="admin-quick-list">
-                            <a href="#admin-recent-reports" class="admin-quick-item">
-                                <span class="admin-quick-icon">▤</span>
-                                <span class="admin-quick-copy">
-                                    <strong>View Reports</strong>
-                                    <small>Browse submitted report records</small>
-                                </span>
-                                <span class="admin-quick-arrow">→</span>
-                            </a>
+                        <div class="admin-activity-item">
+                            <span class="admin-activity-dot"
+                                  style="background:#7955d9"></span>
 
-                            <a href="#admin-recent-reports" class="admin-quick-item">
-                                <span class="admin-quick-icon">✓</span>
-                                <span class="admin-quick-copy">
-                                    <strong>Review Statuses</strong>
-                                    <small>Update a report's status</small>
-                                </span>
-                                <span class="admin-quick-arrow">→</span>
-                            </a>
-
-                            <button type="button" class="admin-quick-item" id="exportReports">
-                                <span class="admin-quick-icon">↓</span>
-                                <span class="admin-quick-copy">
-                                    <strong>Export Report Data</strong>
-                                    <small>Download visible report rows as CSV</small>
-                                </span>
-                                <span class="admin-quick-arrow">→</span>
-                            </button>
-                        </div>
-                    </article>
-
-                    <article class="admin-panel" id="admin-activity">
-                        <div class="admin-panel-heading">
-                            <div class="admin-panel-icon">◷</div>
                             <div>
-                                <h3>Recent Activity</h3>
-                                <p>Example activity entries</p>
+                                <p>
+                                    A report is awaiting
+                                    <strong>review</strong>.
+                                </p>
+                                <small>Sample activity</small>
                             </div>
                         </div>
 
-                        <div class="admin-activity-list">
-                            <div class="admin-activity-item">
-                                <span class="admin-activity-dot" style="background:#416ff0"></span>
-                                <div>
-                                    <p>A report status was updated to <strong>In Progress</strong>.</p>
-                                    <small>Sample activity</small>
-                                </div>
-                            </div>
+                    </div>
+                </article>
 
-                            <div class="admin-activity-item">
-                                <span class="admin-activity-dot" style="background:#23a77f"></span>
-                                <div>
-                                    <p>A report was marked as <strong>Resolved</strong>.</p>
-                                    <small>Sample activity</small>
-                                </div>
-                            </div>
+            </section>
 
-                            <div class="admin-activity-item">
-                                <span class="admin-activity-dot" style="background:#f5ae32"></span>
-                                <div>
-                                    <p>A new incident report was <strong>submitted</strong>.</p>
-                                    <small>Sample activity</small>
-                                </div>
-                            </div>
+            <!-- =========================
+                 SUBMITTED REPORTS TABLE
+            ========================== -->
+            <section class="admin-report-section">
 
-                            <div class="admin-activity-item">
-                                <span class="admin-activity-dot" style="background:#7955d9"></span>
-                                <div>
-                                    <p>A report is awaiting <strong>review</strong>.</p>
-                                    <small>Sample activity</small>
-                                </div>
-                            </div>
+                <article class="admin-panel" id="admin-recent-reports">
+
+                    <div class="admin-panel-heading">
+                        <div class="admin-panel-icon">▤</div>
+
+                        <div>
+                            <h3>Submitted Reports</h3>
+                            <p>Search, filter, and manage saved reports</p>
                         </div>
-                    </article>
+                    </div>
 
-                </section>
+                    <!-- SEARCH AND FILTER -->
+                    <div class="admin-report-toolbar">
 
-                <!-- FULL-WIDTH REPORT TABLE -->
-                <section class="admin-report-section">
-                    <article class="admin-panel" id="admin-recent-reports">
-                        <div class="admin-panel-heading">
-                            <div class="admin-panel-icon">▤</div>
-                            <div>
-                                <h3>Submitted Reports</h3>
-                                <p>Search, filter, and manage saved reports</p>
-                            </div>
-                        </div>
+                        <label class="admin-search">
+                            <span aria-hidden="true">⌕</span>
 
-                        <div class="admin-report-toolbar">
-                            <label class="admin-search">
-                                <span aria-hidden="true">⌕</span>
-                                <input
-                                    type="search"
-                                    id="searchReports"
-                                    placeholder="Search ID, incident, or location..."
-                                    aria-label="Search reports">
-                            </label>
+                            <input
+                                type="search"
+                                id="searchReports"
+                                placeholder="Search ID, incident, or location..."
+                                aria-label="Search reports"
+                            >
+                        </label>
 
-                            <select id="filterStatus" aria-label="Filter reports by status">
-                                <option value="all">All statuses</option>
-                                <option value="Under Review">Under Review</option>
-                                <option value="In Progress">In Progress</option>
-                                <option value="Resolved">Resolved</option>
-                            </select>
-                        </div>
+                        <select id="filterStatus"
+                                aria-label="Filter reports by status">
+                            <option value="all">All statuses</option>
+                            <option value="Under Review">Under Review</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Resolved">Resolved</option>
+                        </select>
 
-                        <div id="message" class="admin-message" role="status" aria-live="polite"></div>
+                    </div>
 
-                        <div class="admin-table-scroll">
-                            <table class="admin-reports-table">
-                                <thead>
-                                    <tr>
-                                        <th>Report ID</th>
-                                        <th>Incident</th>
-                                        <th>Location</th>
-                                        <th>Description</th>
-                                        <th>Current Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="reportsTableBody"></tbody>
-                            </table>
-                        </div>
+                    <!-- STATUS MESSAGE -->
+                    <div id="message"
+                         class="admin-message"
+                         role="status"
+                         aria-live="polite"></div>
 
-                        <div class="admin-table-footer">
-                            <span id="tableSummary">Loading reports...</span>
-                            <span>SafeReport Administration</span>
-                        </div>
-                    </article>
-                </section>
+                    <!-- REPORTS TABLE -->
+                    <div class="admin-table-scroll">
 
-                <p class="admin-demo-note">
-                    SafeReport Admin Dashboard · Charts and activity entries are illustrative.
-                </p>
+                        <table class="admin-reports-table">
+                            <thead>
+                                <tr>
+                                    <th>Report ID</th>
+                                    <th>Incident</th>
+                                    <th>Location</th>
+                                    <th>Description</th>
+                                    <th>Current Status</th>
+                                </tr>
+                            </thead>
 
-            </div>
+                            <tbody id="reportsTableBody"></tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="admin-table-footer">
+                        <span id="tableSummary">Loading reports...</span>
+                        <span>SafeReport Administration</span>
+                    </div>
+
+                </article>
+            </section>
+
+            <!-- FOOTER NOTE -->
+            <p class="admin-demo-note">
+                SafeReport Admin Dashboard · Charts and activity entries are illustrative.
+            </p>
+
+        </div>
         </div>
     </main>
 </div>
 
+<!-- =========================
+     JAVASCRIPT
+========================== -->
 <script src="JS/Tito_Part/storage.js"></script>
 
 <script>
@@ -1133,40 +597,72 @@ document.addEventListener("DOMContentLoaded", () => {
     const statusFilter = $("filterStatus");
     const tableSummary = $("tableSummary");
 
-    const statuses = ["Under Review", "In Progress", "Resolved"];
+    const statuses = [
+        "Under Review",
+        "In Progress",
+        "Resolved"
+    ];
 
+    // =========================
+    // REPORT STORAGE
+    // =========================
     function getReports() {
-        if (window.SafeReportStorage &&
-            typeof window.SafeReportStorage.getReports === "function") {
+        if (
+            window.SafeReportStorage &&
+            typeof window.SafeReportStorage.getReports === "function"
+        ) {
             const reports = window.SafeReportStorage.getReports();
             return Array.isArray(reports) ? reports : [];
         }
 
-        const reports = JSON.parse(localStorage.getItem("reports") || "[]");
+        const reports = JSON.parse(
+            localStorage.getItem("reports") || "[]"
+        );
+
         return Array.isArray(reports) ? reports : [];
     }
 
     function saveReports(reports) {
-        if (window.SafeReportStorage &&
-            typeof window.SafeReportStorage.saveReports === "function") {
+        if (
+            window.SafeReportStorage &&
+            typeof window.SafeReportStorage.saveReports === "function"
+        ) {
             window.SafeReportStorage.saveReports(reports);
         } else {
             localStorage.setItem("reports", JSON.stringify(reports));
-            window.dispatchEvent(new Event("safereport:reports-updated"));
+
+            window.dispatchEvent(
+                new Event("safereport:reports-updated")
+            );
         }
     }
 
+    // =========================
+    // REPORT HELPERS
+    // =========================
     function getId(report) {
-        return String(report.id ?? report.reportId ?? report.report_id ?? "N/A");
+        return String(
+            report.id ??
+            report.reportId ??
+            report.report_id ??
+            "N/A"
+        );
     }
 
     function normalizeId(id) {
-        return String(id ?? "").trim().replace(/^#/, "").toLowerCase();
+        return String(id ?? "")
+            .trim()
+            .replace(/^#/, "")
+            .toLowerCase();
     }
 
     function formatId(id) {
         const value = String(id ?? "N/A");
-        if (value === "N/A" || value.startsWith("#SR-")) return value;
+
+        if (value === "N/A" || value.startsWith("#SR-")) {
+            return value;
+        }
+
         return "#SR-" + value.replace(/^#/, "");
     }
 
@@ -1200,20 +696,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
         for (const value of dates) {
             if (!value) continue;
+
             const timestamp = new Date(value).getTime();
-            if (Number.isFinite(timestamp)) return timestamp;
+
+            if (Number.isFinite(timestamp)) {
+                return timestamp;
+            }
         }
 
         return 0;
     }
 
-    function cell(value, className = "") {
+    function createCell(value, className = "") {
         const td = document.createElement("td");
-        td.textContent = value == null || value === ""
-            ? "Not provided"
-            : String(value);
 
-        if (className) td.className = className;
+        td.textContent =
+            value == null || value === ""
+                ? "Not provided"
+                : String(value);
+
+        if (className) {
+            td.className = className;
+        }
+
         return td;
     }
 
@@ -1221,6 +726,9 @@ document.addEventListener("DOMContentLoaded", () => {
         message.textContent = text;
     }
 
+    // =========================
+    // UPDATE STATISTICS
+    // =========================
     function updateStatistics(reports) {
         const counts = {
             "Under Review": 0,
@@ -1228,7 +736,9 @@ document.addEventListener("DOMContentLoaded", () => {
             "Resolved": 0
         };
 
-        reports.forEach(report => counts[normalizeStatus(report.status)]++);
+        reports.forEach(report => {
+            counts[normalizeStatus(report.status)]++;
+        });
 
         $("totalCount").textContent = reports.length;
         $("reviewCount").textContent = counts["Under Review"];
@@ -1240,16 +750,24 @@ document.addEventListener("DOMContentLoaded", () => {
         $("legendProgress").textContent = counts["In Progress"];
         $("legendResolved").textContent = counts["Resolved"];
 
-        const pct = count => reports.length
-            ? Math.round(count / reports.length * 100)
+        const percentage = count => reports.length
+            ? Math.round((count / reports.length) * 100)
             : 0;
 
-        $("percentReview").textContent = pct(counts["Under Review"]) + "%";
-        $("percentProgress").textContent = pct(counts["In Progress"]) + "%";
-        $("percentResolved").textContent = pct(counts["Resolved"]) + "%";
+        $("percentReview").textContent =
+            percentage(counts["Under Review"]) + "%";
 
-        const reviewEnd = pct(counts["Under Review"]) * 3.6;
-        const progressEnd = reviewEnd + pct(counts["In Progress"]) * 3.6;
+        $("percentProgress").textContent =
+            percentage(counts["In Progress"]) + "%";
+
+        $("percentResolved").textContent =
+            percentage(counts["Resolved"]) + "%";
+
+        const reviewEnd =
+            percentage(counts["Under Review"]) * 3.6;
+
+        const progressEnd =
+            reviewEnd + percentage(counts["In Progress"]) * 3.6;
 
         $("statusDonut").style.background = reports.length
             ? `conic-gradient(
@@ -1260,6 +778,9 @@ document.addEventListener("DOMContentLoaded", () => {
             : "#e9eef7";
     }
 
+    // =========================
+    // RENDER REPORTS
+    // =========================
     function renderReports() {
         let reports;
 
@@ -1267,9 +788,11 @@ document.addEventListener("DOMContentLoaded", () => {
             reports = getReports();
         } catch (error) {
             console.error("Could not load reports:", error);
+
             tableBody.replaceChildren();
             updateStatistics([]);
             tableSummary.textContent = "Unable to load reports.";
+
             showMessage("Unable to load saved reports.");
             return;
         }
@@ -1288,22 +811,35 @@ document.addEventListener("DOMContentLoaded", () => {
                     report.incident_type,
                     report.location,
                     report.description
-                ].map(value => String(value ?? "")).join(" ").toLowerCase();
+                ]
+                    .map(value => String(value ?? ""))
+                    .join(" ")
+                    .toLowerCase();
 
                 const status = normalizeStatus(report.status);
 
                 return searchable.includes(query) &&
-                    (selectedStatus === "all" || status === selectedStatus);
+                    (
+                        selectedStatus === "all" ||
+                        status === selectedStatus
+                    );
             })
-            .sort((a, b) => getTimestamp(b) - getTimestamp(a));
+            .sort((a, b) =>
+                getTimestamp(b) - getTimestamp(a)
+            );
 
         tableBody.replaceChildren();
 
         if (!filtered.length) {
-            tableSummary.textContent = `0 of ${reports.length} reports displayed.`;
-            showMessage(reports.length
-                ? "No reports match your search or selected status."
-                : "No reports have been saved yet.");
+            tableSummary.textContent =
+                `0 of ${reports.length} reports displayed.`;
+
+            showMessage(
+                reports.length
+                    ? "No reports match your search or selected status."
+                    : "No reports have been saved yet."
+            );
+
             return;
         }
 
@@ -1316,29 +852,44 @@ document.addEventListener("DOMContentLoaded", () => {
             const row = document.createElement("tr");
             const id = getId(report);
 
-            row.appendChild(cell(formatId(id), "admin-report-id"));
-            row.appendChild(cell(
-                report.type ?? report.incidentType ?? report.incident_type
-            ));
-            row.appendChild(cell(report.location));
-            row.appendChild(cell(report.description));
+            row.appendChild(
+                createCell(formatId(id), "admin-report-id")
+            );
 
+            row.appendChild(
+                createCell(
+                    report.type ??
+                    report.incidentType ??
+                    report.incident_type
+                )
+            );
+
+            row.appendChild(createCell(report.location));
+            row.appendChild(createCell(report.description));
+
+            // STATUS SELECT
             const statusCell = document.createElement("td");
             const select = document.createElement("select");
-            const status = normalizeStatus(report.status);
+
+            const currentStatus = normalizeStatus(report.status);
 
             select.className = "status-select";
             select.dataset.reportId = id;
-            select.setAttribute("aria-label", `Status for ${formatId(id)}`);
+            select.setAttribute(
+                "aria-label",
+                `Status for ${formatId(id)}`
+            );
 
             statuses.forEach(statusName => {
                 const option = document.createElement("option");
+
                 option.value = statusName;
                 option.textContent = statusName;
+
                 select.appendChild(option);
             });
 
-            select.value = status;
+            select.value = currentStatus;
 
             function styleStatus() {
                 select.classList.remove(
@@ -1357,7 +908,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             styleStatus();
-            select.addEventListener("change", styleStatus);
 
             statusCell.appendChild(select);
             row.appendChild(statusCell);
@@ -1365,90 +915,165 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // =========================
+    // CHANGE REPORT STATUS
+    // =========================
     tableBody.addEventListener("change", event => {
         const select = event.target;
-        if (!select.matches(".status-select")) return;
+
+        if (!select.matches(".status-select")) {
+            return;
+        }
 
         const id = select.dataset.reportId;
 
         try {
             const reports = getReports();
+
             const report = reports.find(item =>
                 normalizeId(getId(item)) === normalizeId(id)
             );
 
-            if (!report) throw new Error("Report not found.");
+            if (!report) {
+                throw new Error("Report not found.");
+            }
 
             report.status = select.value;
             report.updatedAt = new Date().toISOString();
 
             saveReports(reports);
             renderReports();
-            showMessage(`${formatId(id)} status updated to ${select.value}.`);
+
+            showMessage(
+                `${formatId(id)} status updated to ${select.value}.`
+            );
         } catch (error) {
             console.error("Could not update report:", error);
+
             renderReports();
             showMessage("Unable to update report status.");
         }
     });
 
+    // =========================
+    // SEARCH AND FILTER
+    // =========================
     searchInput.addEventListener("input", renderReports);
     statusFilter.addEventListener("change", renderReports);
 
+    const dashboardSearch = $("dashboardSearch");
+
+    if (dashboardSearch) {
+        dashboardSearch.addEventListener("input", () => {
+            searchInput.value = dashboardSearch.value;
+            renderReports();
+        });
+    }
+
+    // =========================
+    // REFRESH REPORT DATA
+    // =========================
     window.addEventListener("storage", event => {
-        if (event.key === "reports" ||
+        if (
+            event.key === "reports" ||
             event.key === "safeReportReports" ||
-            event.key === null) {
+            event.key === null
+        ) {
             renderReports();
         }
     });
 
-    window.addEventListener("safereport:reports-updated", renderReports);
-    window.addEventListener("safereport:reports-changed", renderReports);
+    window.addEventListener(
+        "safereport:reports-updated",
+        renderReports
+    );
 
-    /* PROFILE DROPDOWN */
-    const profileToggle = $("profileToggle");
+    window.addEventListener(
+        "safereport:reports-changed",
+        renderReports
+    );
+
+    // =========================
+    // PROFILE DROPDOWN
+    // =========================
+    const profileToggle = $("profileBtn");
     const profileDropdown = $("profileDropdown");
 
     if (profileToggle && profileDropdown) {
-        profileToggle.addEventListener("click", () => {
+        profileToggle.addEventListener("click", event => {
+            event.stopPropagation();
+
             const open = profileDropdown.hidden;
+
             profileDropdown.hidden = !open;
-            profileToggle.setAttribute("aria-expanded", String(open));
+
+            profileToggle.setAttribute(
+                "aria-expanded",
+                String(open)
+            );
         });
 
         document.addEventListener("click", event => {
-            if (!profileToggle.contains(event.target) &&
-                !profileDropdown.contains(event.target)) {
+            if (
+                !profileToggle.contains(event.target) &&
+                !profileDropdown.contains(event.target)
+            ) {
                 profileDropdown.hidden = true;
-                profileToggle.setAttribute("aria-expanded", "false");
+
+                profileToggle.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+            }
+        });
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape") {
+                profileDropdown.hidden = true;
+
+                profileToggle.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
             }
         });
     }
 
-    /* EXPORT VISIBLE REPORT ROWS */
+    // =========================
+    // EXPORT REPORTS TO CSV
+    // =========================
     $("exportReports").addEventListener("click", () => {
         const rows = Array.from(
             document.querySelectorAll(".admin-reports-table tr")
         );
 
-        const csv = rows.map(row =>
-            Array.from(row.querySelectorAll("th, td"))
-                .map(item =>
-                    `"${item.innerText.trim().replace(/"/g, '""')}"`
-                )
-                .join(",")
-        ).join("\r\n");
+        const csv = rows.map(row => {
+            const cells = Array.from(
+                row.querySelectorAll("th, td")
+            );
 
-        const blob = new Blob(["\uFEFF" + csv], {
-            type: "text/csv;charset=utf-8;"
-        });
+            return cells.map(item => {
+                const select = item.querySelector("select");
+
+                const value = select
+                    ? select.value
+                    : item.innerText.trim();
+
+                return `"${value.replace(/"/g, '""')}"`;
+            }).join(",");
+        }).join("\r\n");
+
+        const blob = new Blob(
+            ["\uFEFF" + csv],
+            { type: "text/csv;charset=utf-8;" }
+        );
 
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
 
         link.href = url;
         link.download = "safereport-reports.csv";
+
         document.body.appendChild(link);
         link.click();
         link.remove();
@@ -1456,6 +1081,9 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => URL.revokeObjectURL(url), 1000);
     });
 
+    // =========================
+    // INITIALIZE DASHBOARD
+    // =========================
     renderReports();
 });
 </script>

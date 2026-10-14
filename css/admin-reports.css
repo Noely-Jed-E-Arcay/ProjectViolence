@@ -1132,3 +1132,137 @@ body {
         max-width: none;
     }
 }
+/* ADMIN REPORTS — MATCH ADMIN PROFILE HEADER */
+.header {
+    min-height: 70px;
+    padding: 12px 26px;
+    background: #fff;
+    border-bottom: 1px solid #e1e8f3;
+    box-shadow: none;
+    animation: none !important;
+    transition: none !important;
+}
+
+.header * {
+    animation: none !important;
+    transition: none !important;
+}
+
+.header-left .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.header-left .breadcrumb strong {
+    color: #202b40;
+}
+
+.header-subtitle {
+    margin: 5px 0 0;
+    color: #8291aa;
+    font-size: 10px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.search-box {
+    width: 235px;
+    min-width: 0;
+    background: #f8faff;
+    border: 1px solid #e1e8f3;
+    border-radius: 9px;
+}
+
+.header-action,
+.header-help {
+    width: 35px;
+    height: 35px;
+    display: inline-grid;
+    place-items: center;
+    background: #fff;
+    border: 1px solid #e1e8f3;
+    border-radius: 9px;
+    color: #52617b;
+    text-decoration: none;
+}
+
+.header-avatar {
+    width: 35px;
+    height: 35px;
+    display: grid;
+    place-items: center;
+    border: 2px solid #e0e7ff;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #405ce1, #8055ed);
+    color: #fff;
+}
+
+.profile-menu-wrap {
+    position: relative;
+}
+
+.profile-dropdown[hidden] {
+    display: none;
+}
+
+/* ADMIN SIDEBAR — MATCH ADMIN PROFILE */
+.sidebar {
+    background: #fff;
+    border-right: 1px solid #e1e8f3;
+}
+
+.sidebar-brand {
+    color: #3157d5;
+}
+
+.sidebar nav a {
+    margin: 4px 14px;
+    border-radius: 9px;
+}
+
+.sidebar nav a.active {
+    color: #3157d5;
+    background: #edf2ff;
+    border: 1px solid #dbe4ff;
+}
+
+.sidebar-help {
+    background: #f3f5ff;
+    border: 1px solid #e0e7ff;
+    border-radius: 12px;
+}
+
+.profile-mini {
+    background: #f6f8ff;
+    border-radius: 10px;
+}
+
+.sidebar,
+.sidebar * {
+    animation: none !important;
+    transition: none !important;
+}
+
+@media (max-width: 700px) {
+    .header {
+        padding: 12px 14px;
+    }
+
+    .header-actions {
+        gap: 6px;
+    }
+
+    .search-box {
+        width: 150px;
+    }
+}
+.sidebar-bottom {
+    margin-top: auto;
+}

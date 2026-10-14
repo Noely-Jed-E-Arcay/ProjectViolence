@@ -119,8 +119,7 @@
 
 /* SIDEBAR HELP */
 .sidebar-help {
-    margin-top: auto !important;
-    margin-bottom: 14px;
+    margin: 0 !important;
     padding: 15px;
     border: 1px solid #e7ecff;
     border-radius: 13px;
@@ -153,7 +152,10 @@
 
 /* SIDEBAR PROFILE */
 .sidebar-bottom {
-    margin-top: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px;
+    margin-top: auto !important;
     padding-top: 13px;
     border-top: 1px solid #edf0f5;
 }

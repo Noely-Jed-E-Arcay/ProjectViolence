@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeReport | Admin Profile</title>
+
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/profileF.css">
+    <link rel="stylesheet" href="css/myreports-shell.css">
+</head>
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <a class="sidebar-brand" href="admin-reports.html" aria-label="SafeReport home">
+            <span class="shield" aria-hidden="true">🛡</span>
+            <span>SafeReport</span>
+        </a>
+
+        <div class="sidebar-label">ADMINISTRATION</div>
+
+        <nav aria-label="Admin navigation">
+            <a href="admin-reports.html">
+                <span class="side-icon" aria-hidden="true">▤</span>
+                <span>Manage Reports</span>
+            </a>
+
+            <a class="active" href="admin-profile.html" aria-current="page">
+                <span class="side-icon" aria-hidden="true">◯</span>
+                <span>My Profile</span>
+            </a>
+        </nav>
+
+        <!-- SIDEBAR BOTTOM -->
+        <div class="sidebar-bottom">
+            <div class="sidebar-help">
+                <div class="help-icon" aria-hidden="true">ⓘ</div>
+                <strong>Need assistance?</strong>
+                <p>Contact your system administrator for account support.</p>
+            </div>
+
+            <div class="profile-mini">
+                <div class="avatar" aria-hidden="true">A</div>
+                <div class="profile-details">
+                    <strong>Administrator</strong>
+                    <small>Admin Account</small>
+                </div>
+            </div>
+
+            <a class="logout" href="login.html">
+                <span aria-hidden="true">↪</span>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header-left">
+                <div class="breadcrumb">
+                    <span>Administration</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <strong>Profile</strong>
+                </div>
+
+                <p class="header-subtitle">
+                    Manage your administrator account information
+                </p>
+            </div>
+
+            <div class="header-actions">
+                <div class="search-box">
+                    <span aria-hidden="true">⌕</span>
+                    <input
+                        type="search"
+                        id="dashboardSearch"
+                        placeholder="Search reports..."
+                        aria-label="Search reports"
+                    >
+                </div>
+
+                <button
+                    type="button"
+                    class="header-action"
+                    id="notificationBtn"
+                    aria-label="Notifications"
+                >♧</button>
+
+                <button
+                    type="button"
+                    class="header-action"
+                    id="themeToggle"
+                    aria-label="Toggle dark mode"
+                    title="Toggle dark mode"
+                >☾</button>
+
+                <a
+                    class="header-help"
+                    href="admin-reports.html"
+                    aria-label="Manage reports"
+                    title="Manage reports"
+                >＋</a>
+
+                <div class="profile-menu-wrap">
+                    <button
+                        type="button"
+                        class="header-avatar"
+                        id="profileBtn"
+                        aria-label="Open profile menu"
+                        aria-expanded="false"
+                        aria-controls="profileDropdown"
+                    >A</button>
+
+                    <div class="profile-dropdown" id="profileDropdown" hidden>
+                        <a href="admin-profile.html">My Profile</a>
+                        <a href="settings.html" id="openSettingsBtn">Settings</a>
+                        <a href="login.html" class="logout" id="logoutBtn">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- PAGE CONTENT -->
+        <div class="content">
+
+            <section class="page-title">
+                <h1>Admin Profile</h1>
+                <p>Manage your personal information and account settings.</p>
+            </section>
+
+            <!-- PROFILE INFORMATION -->
+            <section class="profile-layout section">
+
+                <div class="card profile-card">
+                    <div class="profile-big-avatar">A</div>
+                    <h2>Administrator</h2>
+                    <p>SafeReport · Administrator</p>
+                </div>
+
+                <div class="card">
+                    <form class="profile-form" id="adminProfileForm">
+                        <h2>Personal Information</h2>
+
+                        <label>
+                            First Name
+                            <input
+                                type="text"
+                                id="adminFirstName"
+                                name="firstName"
+                                placeholder="Enter first name"
+                                required
+                            >
+                        </label>
+
+                        <label>
+                            Last Name
+                            <input
+                                type="text"
+                                id="adminLastName"
+                                name="lastName"
+                                placeholder="Enter last name"
+                                required
+                            >
+                        </label>
+
+                        <label>
+                            Account Role
+                            <input type="text" value="Administrator" readonly>
+                        </label>
+
+                        <label>
+                            Department
+                            <input
+                                type="text"
+                                id="adminDepartment"
+                                name="department"
+                                placeholder="Enter department"
+                            >
+                        </label>
+
+                        <label class="full">
+                            Email Address
+                            <input
+                                type="email"
+                                id="adminEmail"
+                                name="email"
+                                placeholder="Enter email address"
+                                required
+                            >
+                        </label>
+
+                        <button
+                            class="primary-button blue-button"
+                            type="submit"
+                        >Save Changes</button>
+                    </form>
+                </div>
+
+            </section>
+
+            <!-- SECURITY AND PRIVACY -->
+            <section class="security-grid section">
+
+                <div class="card">
+                    <h2>Account Security</h2>
+                    <p style="color:#64748b;font-size:13px;margin:7px 0 15px;">
+                        Keep your administrator account secure and protected.
+                    </p>
+
+                    <button
+                        class="primary-button blue-button"
+                        type="button"
+                        id="changePasswordBtn"
+                    >Change Password</button>
+                </div>
+
+                <div class="card">
+                    <h2>Privacy</h2>
+                    <p style="color:#64748b;font-size:13px;margin:7px 0 15px;">
+                        Administrator access should be limited to authorized personnel.
+                    </p>
+
+                    <button
+                        class="primary-button blue-button"
+                        type="button"
+                        id="privacySettingsBtn"
+                    >Privacy Settings</button>
+                </div>
+
+            </section>
+        </div>
+    </main>
+</div>
+
+<!-- EXISTING PROJECT SCRIPTS -->
+<script src="JS/main.js"></script>
+<script src="JS/Tito_Part/storage.js"></script>
+<script src="JS/Tito_Part/validation.js"></script>
+<script src="JS/Tito_Part/toast.js"></script>
+<script src="JS/Tito_Part/navbar.js"></script>
+<script src="JS/Tito_Part/modal.js"></script>
+
+<!-- ADMIN PROFILE FUNCTIONALITY -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const profileBtn = document.getElementById("profileBtn");
+    const dropdown = document.getElementById("profileDropdown");
+
+    // Profile dropdown
+    if (profileBtn && dropdown) {
+        profileBtn.addEventListener("click", event => {
+            event.stopPropagation();
+
+            dropdown.hidden = !dropdown.hidden;
+
+            profileBtn.setAttribute(
+                "aria-expanded",
+                String(!dropdown.hidden)
+            );
+        });
+
+        document.addEventListener("click", event => {
+            if (
+                !dropdown.contains(event.target) &&
+                !profileBtn.contains(event.target)
+            ) {
+                dropdown.hidden = true;
+                profileBtn.setAttribute("aria-expanded", "false");
+            }
+        });
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape") {
+                dropdown.hidden = true;
+                profileBtn.setAttribute("aria-expanded", "false");
+            }
+        });
+    }
+
+    // Load locally saved admin profile information
+    const form = document.getElementById("adminProfileForm");
+    const firstName = document.getElementById("adminFirstName");
+    const lastName = document.getElementById("adminLastName");
+    const department = document.getElementById("adminDepartment");
+    const email = document.getElementById("adminEmail");
+
+    const profileName = document.querySelector(".profile-card h2");
+    const sidebarName = document.querySelector(".profile-mini .profile-details strong");
+    const avatar = document.querySelector(".profile-mini .avatar");
+    const headerAvatar = document.getElementById("profileBtn");
+    const bigAvatar = document.querySelector(".profile-big-avatar");
+
+    const STORAGE_KEY = "safeReportAdminProfile";
+
+    function updateProfileDisplay() {
+        const fullName =
+            `${firstName.value.trim()} ${lastName.value.trim()}`.trim();
+
+        const displayName = fullName || "Administrator";
+        const initial = displayName.charAt(0).toUpperCase();
+
+        if (profileName) profileName.textContent = displayName;
+        if (sidebarName) sidebarName.textContent = displayName;
+        if (avatar) avatar.textContent = initial;
+        if (headerAvatar) headerAvatar.textContent = initial;
+        if (bigAvatar) bigAvatar.textContent = initial;
+    }
+
+    try {
+        const savedProfile = JSON.parse(
+            localStorage.getItem(STORAGE_KEY) || "null"
+        );
+
+        if (savedProfile) {
+            firstName.value = savedProfile.firstName || "";
+            lastName.value = savedProfile.lastName || "";
+            department.value = savedProfile.department || "";
+            email.value = savedProfile.email || "";
+            updateProfileDisplay();
+        }
+    } catch (error) {
+        console.error("Unable to load admin profile:", error);
+    }
+
+    // Save profile information in this browser
+    form.addEventListener("submit", event => {
+        event.preventDefault();
+
+        if (!form.reportValidity()) return;
+
+        const profileData = {
+            firstName: firstName.value.trim(),
+            lastName: lastName.value.trim(),
+            department: department.value.trim(),
+            email: email.value.trim()
+        };
+
+        try {
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(profileData)
+            );
+
+            updateProfileDisplay();
+            alert("Admin profile saved successfully.");
+        } catch (error) {
+            console.error("Unable to save admin profile:", error);
+            alert("Unable to save your profile. Please try again.");
+        }
+    });
+
+    // These actions need to be connected to your actual account system.
+    document.getElementById("changePasswordBtn").addEventListener("click", () => {
+        alert("Connect this button to your existing password-change feature.");
+    });
+
+    document.getElementById("privacySettingsBtn").addEventListener("click", () => {
+        alert("Connect this button to your existing privacy settings feature.");
+    });
+});
+</script>
+
+</body>
+</html>
