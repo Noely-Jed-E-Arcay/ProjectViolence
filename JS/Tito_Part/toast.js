@@ -1,3 +1,4 @@
+
 function showToast(message, type = "success") {
     let toast = document.querySelector(".toast");
 
@@ -27,6 +28,7 @@ function showToast(message, type = "success") {
 
     toast.style.display = "block";
 
+    // Hide the notification after three seconds
     setTimeout(function () {
         toast.style.display = "none";
     }, 3000);

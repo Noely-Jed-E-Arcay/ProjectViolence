@@ -1,50 +1,39 @@
+
 function initializeNavbar() {
-    const logoutButton = document.querySelector(".logout");
+    const logoutButtons = document.querySelectorAll(".logout");
 
-    if (logoutButton) {
-        logoutButton.addEventListener("click", function () {
+    logoutButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
             localStorage.removeItem("safeReportLoggedIn");
-
-            showToast("You have been logged out.");
-
         });
-    }
-
-    const cancelButton = document.querySelector(
-        '.form-buttons a[href="index.html"]'
-    );
-
-    if (cancelButton) {
-        cancelButton.href = "index.html";
-    }
+    });
 
     initializeThemeButton();
 }
 
-//dark mode toggle button
+// Dark mode toggle button
 function initializeThemeButton() {
-    const actions = document.querySelectorAll(".header-action");
+    const themeButton = document.getElementById("themeToggle");
 
-    if (actions.length < 2) {
+    if (!themeButton) {
         return;
     }
 
-    const themeButton = actions[1];
+    // Restore the saved theme when opening the page
+    const savedTheme = localStorage.getItem("safeReportTheme");
 
-    themeButton.style.cursor = "pointer";
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark-mode");
+    }
 
     themeButton.addEventListener("click", function () {
         document.body.classList.toggle("dark-mode");
 
         if (document.body.classList.contains("dark-mode")) {
-            document.body.style.backgroundColor = "#111827";
-            document.body.style.color = "#f8fafc";
-
+            localStorage.setItem("safeReportTheme", "dark");
             showToast("Dark mode enabled.");
         } else {
-            document.body.style.backgroundColor = "#f5f7fb";
-            document.body.style.color = "#1e293b";
-
+            localStorage.setItem("safeReportTheme", "light");
             showToast("Light mode enabled.");
         }
     });
