@@ -57,7 +57,21 @@
             </p>
 
 
-            <form onsubmit="createAccount(event)">
+            <form onsubmit="createAccount(event)" id="signupForm">
+
+                <div
+                    id="signupError"
+                    class="error-message"
+                    role="alert"
+                    aria-live="polite"
+                ></div>
+
+                <div
+                    id="signupSuccess"
+                    class="success-message"
+                    role="status"
+                    aria-live="polite"
+                ></div>
 
                 <label for="fullname">
                     Full Name
@@ -130,6 +144,7 @@
                         type="checkbox"
                         id="terms"
                         name="terms"
+                        required
                     >
 
                     <label for="terms">

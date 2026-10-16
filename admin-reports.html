@@ -3,1089 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>SafeReport | Admin Dashboard</title>
-
-    <!-- CSS Stylesheets -->
+    <meta name="theme-color" content="#3157d5">
+    <meta name="description" content="Administrator report management for SafeReport.">
+    <title>SafeReport | Manage Reports</title>
+    <link rel="stylesheet" href="css/myreports.css">
+    <link rel="stylesheet" href="css/profileF.css">
     <link rel="stylesheet" href="css/myreports-shell.css">
-    <link rel="stylesheet" href="css/admin-reports.css">
-    <link rel="stylesheet" href="css/admin-design.css">
+    <link rel="stylesheet" href="css/settingsOL.css">
 </head>
-
 <body>
 <div class="app">
-
-    <!-- =========================
-         ADMIN SIDEBAR
-    ========================== -->
     <aside class="sidebar">
-
-        <a class="sidebar-brand" href="admin-reports.html"
-           aria-label="SafeReport admin dashboard">
-            <span class="shield" aria-hidden="true">🛡</span>
-            <span>SafeReport</span>
+        <a class="sidebar-brand" href="admin-reports.html" aria-label="SafeReport administrator home">
+            <span class="shield" aria-hidden="true">🛡</span><span>SafeReport</span>
         </a>
-
         <div class="sidebar-label">ADMINISTRATION</div>
-
         <nav aria-label="Admin navigation">
-            <a class="active" href="admin-reports.html" aria-current="page">
-                <span class="side-icon" aria-hidden="true">▤</span>
-                <span>Manage Reports</span>
-            </a>
-
-            <a href="admin-profile.html">
-                <span class="side-icon" aria-hidden="true">◯</span>
-                <span>My Profile</span>
-            </a>
+            <a class="active" href="admin-reports.html" aria-current="page"><span class="side-icon" aria-hidden="true">▤</span><span>Manage Reports</span></a>
+            <a href="admin-profile.html"><span class="side-icon" aria-hidden="true">◯</span><span>My Profile</span></a>
         </nav>
-
         <div class="sidebar-bottom">
-
             <div class="sidebar-help">
                 <div class="help-icon" aria-hidden="true">ⓘ</div>
                 <strong>Need assistance?</strong>
                 <p>Contact your system administrator for account support.</p>
             </div>
-
             <div class="profile-mini">
-                <div class="avatar" aria-hidden="true">N</div>
-
-                <div class="profile-details">
-                    <strong>Noely Arcay</strong>
-                    <small>Admin Account</small>
-                </div>
+                <div class="avatar" aria-hidden="true">A</div>
+                <div class="profile-details"><strong>Administrator</strong><small>Admin Account</small></div>
             </div>
-
-            <a class="logout" href="login.html">
-                <span aria-hidden="true">↪</span>
-                <span>Logout</span>
-            </a>
-
+            <a class="logout" href="login.html"><span aria-hidden="true">↪</span><span>Logout</span></a>
         </div>
     </aside>
 
-    <!-- =========================
-         MAIN CONTENT
-    ========================== -->
     <main>
-
-        <!-- HEADER -->
         <header class="header">
-
             <div class="header-left">
-                <div class="breadcrumb">
-                    <span>Administration</span>
-                    <span class="breadcrumb-separator">/</span>
-                    <strong>Manage Reports</strong>
-                </div>
-
-                <p class="header-subtitle">
-                    Review reports and monitor their progress
-                </p>
+                <div class="breadcrumb"><span>Administration</span><span class="breadcrumb-separator">/</span><strong>Manage Reports</strong></div>
+                <p class="header-subtitle">Review and manage student safety reports.</p>
             </div>
-
             <div class="header-actions">
-
                 <div class="search-box">
                     <span aria-hidden="true">⌕</span>
-                    <input
-                        type="search"
-                        id="dashboardSearch"
-                        placeholder="Search reports..."
-                        aria-label="Search reports"
-                    >
+                    <input type="search" id="adminReportSearch" placeholder="Search reports..." aria-label="Search reports">
                 </div>
-
-                <button
-                    type="button"
-                    class="header-action"
-                    id="notificationBtn"
-                    aria-label="Notifications"
-                >♧</button>
-
-                <button
-                    type="button"
-                    class="header-action"
-                    id="themeToggle"
-                    aria-label="Toggle dark mode"
-                    title="Toggle dark mode"
-                >☾</button>
-
-                <a
-                    class="header-help"
-                    href="admin-profile.html"
-                    aria-label="View admin profile"
-                    title="Admin profile"
-                >＋</a>
-
+                <button type="button" class="header-action" id="notificationBtn" aria-label="Notifications">♧</button>
+                <button type="button" class="header-action" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">☾</button>
                 <div class="profile-menu-wrap">
-
-                    <button
-                        type="button"
-                        class="header-avatar"
-                        id="profileBtn"
-                        aria-label="Open profile menu"
-                        aria-expanded="false"
-                        aria-controls="profileDropdown"
-                    >N</button>
-
+                    <button type="button" class="header-avatar" id="profileBtn" aria-label="Open profile menu" aria-expanded="false" aria-controls="profileDropdown">A</button>
                     <div class="profile-dropdown" id="profileDropdown" hidden>
                         <a href="admin-profile.html">My Profile</a>
-                        <a href="login.html">Logout</a>
+                        <a href="admin-profile.html#admin-security" id="openSettingsBtn">Settings</a>
+                        <a href="login.html" class="logout" id="logoutBtn">Logout</a>
                     </div>
-
                 </div>
             </div>
         </header>
 
-        <!-- DASHBOARD -->
         <div class="content">
-        <div class="admin-dashboard">
+            <section class="page-title">
+                <h1>Report Management</h1>
+                <p>Review submitted incidents, check their status, and manage report records.</p>
+            </section>
 
-            <!-- HERO BANNER -->
-            <section class="admin-hero">
+            <section class="stats" aria-label="Administrator report summary">
+                <article class="stat-box"><div class="stat-icon" aria-hidden="true">▤</div><div><h2 id="adminTotalReports">0</h2><p>Total Reports</p></div></article>
+                <article class="stat-box"><div class="stat-icon" aria-hidden="true">◷</div><div><h2 id="adminPendingReports">0</h2><p>Pending / Under Review</p></div></article>
+                <article class="stat-box"><div class="stat-icon" aria-hidden="true">✓</div><div><h2 id="adminResolvedReports">0</h2><p>Resolved</p></div></article>
+            </section>
 
-                <div class="admin-hero-copy">
-                    <span class="admin-eyebrow">
-                        SAFEREPORT ADMINISTRATION
-                    </span>
-
-                    <h1>Campus Safety Overview</h1>
-
-                    <p>
-                        Monitor incident reports, review submissions, and
-                        track campus safety activities from one place.
-                    </p>
-
-                    <div class="admin-hero-actions">
-                        <a href="#admin-recent-reports"
-                           class="admin-hero-btn primary">
-                            ▤ View Reports
-                        </a>
-
-                        <a href="#admin-quick-actions"
-                           class="admin-hero-btn secondary">
-                            ＋ Quick Actions
-                        </a>
+            <section class="panel section" aria-labelledby="adminReportsTitle">
+                <div class="panel-heading">
+                    <div>
+                        <p class="small-title">ADMINISTRATION</p>
+                        <h2 id="adminReportsTitle">Submitted Reports</h2>
                     </div>
+                    <span class="report-count" id="adminVisibleCount">0 reports</span>
                 </div>
-
-                <div class="admin-hero-art" aria-hidden="true">
-                    <span>🛡</span>
-                </div>
-
-            </section>
-
-            <!-- =========================
-                 REPORT STATISTICS
-            ========================== -->
-            <section class="admin-stat-grid" aria-label="Report statistics">
-
-                <article class="admin-stat">
-                    <div class="admin-stat-icon stat-blue">▤</div>
-
-                    <div class="admin-stat-info">
-                        <h2 id="totalCount">0</h2>
-                        <p>Total Reports</p>
-                        <small>All submitted reports</small>
-                    </div>
-                </article>
-
-                <article class="admin-stat">
-                    <div class="admin-stat-icon stat-orange">◷</div>
-
-                    <div class="admin-stat-info">
-                        <h2 id="reviewCount">0</h2>
-                        <p>Under Review</p>
-                        <small>Awaiting review</small>
-                    </div>
-                </article>
-
-                <article class="admin-stat">
-                    <div class="admin-stat-icon stat-purple">↗</div>
-
-                    <div class="admin-stat-info">
-                        <h2 id="progressCount">0</h2>
-                        <p>In Progress</p>
-                        <small>Being handled</small>
-                    </div>
-                </article>
-
-                <article class="admin-stat">
-                    <div class="admin-stat-icon stat-green">✓</div>
-
-                    <div class="admin-stat-info">
-                        <h2 id="resolvedCount">0</h2>
-                        <p>Resolved</p>
-                        <small>Completed reports</small>
-                    </div>
-                </article>
-
-            </section>
-
-            <!-- =========================
-                 REPORT ANALYTICS
-            ========================== -->
-            <section class="admin-analytics">
-
-                <!-- REPORT OVERVIEW CHART -->
-                <article class="admin-panel">
-
-                    <div class="admin-panel-heading">
-                        <div class="admin-panel-icon">▤</div>
-
-                        <div>
-                            <h3>Report Overview</h3>
-                            <p>Illustrative report activity for seven days</p>
-                        </div>
-
-                        <select class="admin-date-select"
-                                aria-label="Chart date range">
-                            <option>Last 7 days</option>
-                            <option>Last 30 days</option>
-                        </select>
-                    </div>
-
-                    <div class="admin-chart">
-
-                        <div class="admin-chart-y">
-                            <span>10</span>
-                            <span>8</span>
-                            <span>6</span>
-                            <span>4</span>
-                            <span>2</span>
-                            <span>0</span>
-                        </div>
-
-                        <div class="admin-chart-main">
-
-                            <div class="admin-chart-lines">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-
-                            <div class="admin-bars">
-
-                                <div class="admin-bar-item">
-                                    <div class="admin-bar"
-                                         style="--bar-height:35%"></div>
-                                    <span>Mon</span>
-                                </div>
-
-                                <div class="admin-bar-item">
-                                    <div class="admin-bar"
-                                         style="--bar-height:48%"></div>
-                                    <span>Tue</span>
-                                </div>
-
-                                <div class="admin-bar-item">
-                                    <div class="admin-bar"
-                                         style="--bar-height:42%"></div>
-                                    <span>Wed</span>
-                                </div>
-
-                                <div class="admin-bar-item">
-                                    <div class="admin-bar"
-                                         style="--bar-height:65%"></div>
-                                    <span>Thu</span>
-                                </div>
-
-                                <div class="admin-bar-item">
-                                    <div class="admin-bar"
-                                         style="--bar-height:52%"></div>
-                                    <span>Fri</span>
-                                </div>
-
-                                <div class="admin-bar-item">
-                                    <div class="admin-bar"
-                                         style="--bar-height:75%"></div>
-                                    <span>Sat</span>
-                                </div>
-
-                                <div class="admin-bar-item">
-                                    <div class="admin-bar"
-                                         style="--bar-height:90%"></div>
-                                    <span>Sun</span>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- REPORT STATUS DONUT -->
-                <article class="admin-panel">
-
-                    <div class="admin-panel-heading">
-                        <div class="admin-panel-icon">◔</div>
-
-                        <div>
-                            <h3>Reports by Status</h3>
-                            <p>Current report distribution</p>
-                        </div>
-                    </div>
-
-                    <div class="admin-donut-area">
-                        <div class="admin-donut" id="statusDonut">
-
-                            <div class="admin-donut-center">
-                                <strong id="chartTotal">0</strong>
-                                <span>Total Reports</span>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="admin-legend">
-
-                        <div class="admin-legend-row">
-                            <span class="admin-legend-dot dot-review"></span>
-                            <span>Under Review</span>
-                            <strong id="legendReview">0</strong>
-                            <small id="percentReview">0%</small>
-                        </div>
-
-                        <div class="admin-legend-row">
-                            <span class="admin-legend-dot dot-progress"></span>
-                            <span>In Progress</span>
-                            <strong id="legendProgress">0</strong>
-                            <small id="percentProgress">0%</small>
-                        </div>
-
-                        <div class="admin-legend-row">
-                            <span class="admin-legend-dot dot-resolved"></span>
-                            <span>Resolved</span>
-                            <strong id="legendResolved">0</strong>
-                            <small id="percentResolved">0%</small>
-                        </div>
-
-                    </div>
-                </article>
-
-            </section>
-
-            <!-- =========================
-                 QUICK ACTIONS & ACTIVITY
-            ========================== -->
-            <section class="admin-secondary">
-
-                <!-- QUICK ACTIONS -->
-                <article class="admin-panel" id="admin-quick-actions">
-
-                    <div class="admin-panel-heading">
-                        <div class="admin-panel-icon">ϟ</div>
-
-                        <div>
-                            <h3>Quick Actions</h3>
-                            <p>Common administrative tasks</p>
-                        </div>
-                    </div>
-
-                    <div class="admin-quick-list">
-
-                        <a href="#admin-recent-reports"
-                           class="admin-quick-item">
-                            <span class="admin-quick-icon">▤</span>
-
-                            <span class="admin-quick-copy">
-                                <strong>View Reports</strong>
-                                <small>Browse submitted report records</small>
-                            </span>
-
-                            <span class="admin-quick-arrow">→</span>
-                        </a>
-
-                        <a href="#admin-recent-reports"
-                           class="admin-quick-item">
-                            <span class="admin-quick-icon">✓</span>
-
-                            <span class="admin-quick-copy">
-                                <strong>Review Statuses</strong>
-                                <small>Update a report's status</small>
-                            </span>
-
-                            <span class="admin-quick-arrow">→</span>
-                        </a>
-
-                        <button type="button"
-                                class="admin-quick-item"
-                                id="exportReports">
-                            <span class="admin-quick-icon">↓</span>
-
-                            <span class="admin-quick-copy">
-                                <strong>Export Report Data</strong>
-                                <small>Download visible report rows as CSV</small>
-                            </span>
-
-                            <span class="admin-quick-arrow">→</span>
-                        </button>
-
-                    </div>
-                </article>
-
-                <!-- RECENT ACTIVITY -->
-                <article class="admin-panel" id="admin-activity">
-
-                    <div class="admin-panel-heading">
-                        <div class="admin-panel-icon">◷</div>
-
-                        <div>
-                            <h3>Recent Activity</h3>
-                            <p>Example activity entries</p>
-                        </div>
-                    </div>
-
-                    <div class="admin-activity-list">
-
-                        <div class="admin-activity-item">
-                            <span class="admin-activity-dot"
-                                  style="background:#416ff0"></span>
-
-                            <div>
-                                <p>
-                                    A report status was updated to
-                                    <strong>In Progress</strong>.
-                                </p>
-                                <small>Sample activity</small>
-                            </div>
-                        </div>
-
-                        <div class="admin-activity-item">
-                            <span class="admin-activity-dot"
-                                  style="background:#23a77f"></span>
-
-                            <div>
-                                <p>
-                                    A report was marked as
-                                    <strong>Resolved</strong>.
-                                </p>
-                                <small>Sample activity</small>
-                            </div>
-                        </div>
-
-                        <div class="admin-activity-item">
-                            <span class="admin-activity-dot"
-                                  style="background:#f5ae32"></span>
-
-                            <div>
-                                <p>
-                                    A new incident report was
-                                    <strong>submitted</strong>.
-                                </p>
-                                <small>Sample activity</small>
-                            </div>
-                        </div>
-
-                        <div class="admin-activity-item">
-                            <span class="admin-activity-dot"
-                                  style="background:#7955d9"></span>
-
-                            <div>
-                                <p>
-                                    A report is awaiting
-                                    <strong>review</strong>.
-                                </p>
-                                <small>Sample activity</small>
-                            </div>
-                        </div>
-
-                    </div>
-                </article>
-
-            </section>
-
-            <!-- =========================
-                 SUBMITTED REPORTS TABLE
-            ========================== -->
-            <section class="admin-report-section">
-
-                <article class="admin-panel" id="admin-recent-reports">
-
-                    <div class="admin-panel-heading">
-                        <div class="admin-panel-icon">▤</div>
-
-                        <div>
-                            <h3>Submitted Reports</h3>
-                            <p>Search, filter, and manage saved reports</p>
-                        </div>
-                    </div>
-
-                    <!-- SEARCH AND FILTER -->
-                    <div class="admin-report-toolbar">
-
-                        <label class="admin-search">
-                            <span aria-hidden="true">⌕</span>
-
-                            <input
-                                type="search"
-                                id="searchReports"
-                                placeholder="Search ID, incident, or location..."
-                                aria-label="Search reports"
-                            >
+                <div class="panel-body">
+                    <div class="filters">
+                        <label class="search-field">
+                            <span class="search-symbol" aria-hidden="true">⌕</span>
+                            <input type="search" id="adminSearch" placeholder="Search by ID, type, date, or location" aria-label="Search submitted reports">
                         </label>
-
-                        <select id="filterStatus"
-                                aria-label="Filter reports by status">
-                            <option value="all">All statuses</option>
-                            <option value="Under Review">Under Review</option>
-                            <option value="In Progress">In Progress</option>
-                            <option value="Resolved">Resolved</option>
-                        </select>
-
+                        <label class="select-field">
+                            <span class="filter-label">STATUS</span>
+                            <select id="adminStatusFilter" aria-label="Filter reports by status">
+                                <option value="all">All Statuses</option>
+                                <option value="pending">Pending</option>
+                                <option value="under review">Under Review</option>
+                                <option value="in progress">In Progress</option>
+                                <option value="resolved">Resolved</option>
+                            </select>
+                        </label>
                     </div>
 
-                    <!-- STATUS MESSAGE -->
-                    <div id="message"
-                         class="admin-message"
-                         role="status"
-                         aria-live="polite"></div>
-
-                    <!-- REPORTS TABLE -->
-                    <div class="admin-table-scroll">
-
-                        <table class="admin-reports-table">
+                    <div class="table-wrap">
+                        <table>
+                            <caption class="sr-only">Student incident reports</caption>
                             <thead>
                                 <tr>
                                     <th>Report ID</th>
-                                    <th>Incident</th>
+                                    <th>Incident Type</th>
+                                    <th>Date Submitted</th>
                                     <th>Location</th>
-                                    <th>Description</th>
-                                    <th>Current Status</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
-
-                            <tbody id="reportsTableBody"></tbody>
+                            <tbody id="adminReportsTableBody"></tbody>
                         </table>
 
+                        <div class="empty-state" id="adminEmptyState">
+                            <div class="empty-icon" aria-hidden="true">⌕</div>
+                            <h3>No reports available</h3>
+                            <p>Submitted student reports will appear here.</p>
+                        </div>
                     </div>
 
-                    <div class="admin-table-footer">
-                        <span id="tableSummary">Loading reports...</span>
-                        <span>SafeReport Administration</span>
-                    </div>
-
-                </article>
+                    <div class="feedback-container" id="adminReportFeedback" role="status" aria-live="polite"></div>
+                </div>
             </section>
 
-            <!-- FOOTER NOTE -->
-            <p class="admin-demo-note">
-                SafeReport Admin Dashboard · Charts and activity entries are illustrative.
-            </p>
-
-        </div>
+            <section class="panel section" aria-labelledby="adminGuidanceTitle">
+                <div class="panel-heading"><div><p class="small-title">SECURITY</p><h2 id="adminGuidanceTitle">Report Handling Guidance</h2></div></div>
+                <div class="panel-body">
+                    <ul>
+                        <li>Keep student reports confidential.</li>
+                        <li>Review incident details before changing a report status.</li>
+                        <li>Only authorized administrators should manage submitted reports.</li>
+                    </ul>
+                </div>
+            </section>
         </div>
     </main>
 </div>
 
-<!-- =========================
-     JAVASCRIPT
-========================== -->
+<!-- REPORT DETAILS -->
+<div class="details-overlay" id="adminReportDetailsOverlay" hidden>
+    <section class="details-dialog" role="dialog" aria-modal="true" aria-labelledby="adminDetailsTitle">
+        <div class="details-header">
+            <div><span class="details-eyebrow">REPORT DETAILS</span><h2 id="adminDetailsTitle">Report information</h2></div>
+            <button type="button" class="details-close" id="closeAdminDetails" aria-label="Close report details">×</button>
+        </div>
+        <div class="details-body" id="adminReportDetailsBody"></div>
+        <div id="adminReportPhoto" class="report-photo-display" aria-label="Incident photo"></div>
+        <div class="details-footer"><p id="adminReportFeedback" role="status" aria-live="polite"></p><button type="button" class="primary-button blue-button" id="doneAdminDetails">Done</button></div>
+    </section>
+</div>
+
+<!-- DELETE CONFIRMATION -->
+<div class="modal" id="adminDeleteConfirm" hidden role="dialog" aria-modal="true" aria-labelledby="adminDeleteTitle">
+    <div class="modal-content">
+        <h2 id="adminDeleteTitle">Delete Report?</h2>
+        <p>Confirm that this report should be removed from the administrator view.</p>
+        <div class="modal-actions">
+            <button type="button" class="secondary-button" id="cancelAdminDelete">Cancel</button>
+            <button type="button" class="primary-button" id="confirmAdminDelete">Delete Report</button>
+        </div>
+    </div>
+</div>
+
+<script src="JS/main.js"></script>
 <script src="JS/Tito_Part/storage.js"></script>
+<script src="JS/Tito_Part/validation.js"></script>
+<script src="JS/Tito_Part/toast.js"></script>
+<script src="JS/Tito_Part/navbar.js"></script>
+<script src="JS/Tito_Part/modal.js"></script>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const $ = id => document.getElementById(id);
-
-    const tableBody = $("reportsTableBody");
-    const message = $("message");
-    const searchInput = $("searchReports");
-    const statusFilter = $("filterStatus");
-    const tableSummary = $("tableSummary");
-
-    const statuses = [
-        "Under Review",
-        "In Progress",
-        "Resolved"
-    ];
-
-    // =========================
-    // REPORT STORAGE
-    // =========================
-    function getReports() {
-        if (
-            window.SafeReportStorage &&
-            typeof window.SafeReportStorage.getReports === "function"
-        ) {
-            const reports = window.SafeReportStorage.getReports();
-            return Array.isArray(reports) ? reports : [];
-        }
-
-        const reports = JSON.parse(
-            localStorage.getItem("reports") || "[]"
-        );
-
-        return Array.isArray(reports) ? reports : [];
+(function () {
+    const loggedIn = sessionStorage.getItem("safeReportAdminLoggedIn") === "true";
+    if (!loggedIn) {
+        window.location.replace("login.html");
+        return;
     }
 
-    function saveReports(reports) {
-        if (
-            window.SafeReportStorage &&
-            typeof window.SafeReportStorage.saveReports === "function"
-        ) {
-            window.SafeReportStorage.saveReports(reports);
-        } else {
-            localStorage.setItem("reports", JSON.stringify(reports));
-
-            window.dispatchEvent(
-                new Event("safereport:reports-updated")
-            );
-        }
-    }
-
-    // =========================
-    // REPORT HELPERS
-    // =========================
-    function getId(report) {
-        return String(
-            report.id ??
-            report.reportId ??
-            report.report_id ??
-            "N/A"
-        );
-    }
-
-    function normalizeId(id) {
-        return String(id ?? "")
-            .trim()
-            .replace(/^#/, "")
-            .toLowerCase();
-    }
-
-    function formatId(id) {
-        const value = String(id ?? "N/A");
-
-        if (value === "N/A" || value.startsWith("#SR-")) {
-            return value;
-        }
-
-        return "#SR-" + value.replace(/^#/, "");
-    }
-
-    function normalizeStatus(status) {
-        const value = String(status || "")
-            .trim()
-            .toLowerCase()
-            .replace(/[_-]+/g, " ")
-            .replace(/\s+/g, " ");
-
-        if (["resolved", "completed", "closed"].includes(value)) {
-            return "Resolved";
-        }
-
-        if (value === "in progress") {
-            return "In Progress";
-        }
-
-        return "Under Review";
-    }
-
-    function getTimestamp(report) {
-        const dates = [
-            report.createdAt,
-            report.created_at,
-            report.submittedAt,
-            report.submitted_at,
-            report.timestamp,
-            report.date
-        ];
-
-        for (const value of dates) {
-            if (!value) continue;
-
-            const timestamp = new Date(value).getTime();
-
-            if (Number.isFinite(timestamp)) {
-                return timestamp;
-            }
-        }
-
-        return 0;
-    }
-
-    function createCell(value, className = "") {
-        const td = document.createElement("td");
-
-        td.textContent =
-            value == null || value === ""
-                ? "Not provided"
-                : String(value);
-
-        if (className) {
-            td.className = className;
-        }
-
-        return td;
-    }
-
-    function showMessage(text) {
-        message.textContent = text;
-    }
-
-    // =========================
-    // UPDATE STATISTICS
-    // =========================
-    function updateStatistics(reports) {
-        const counts = {
-            "Under Review": 0,
-            "In Progress": 0,
-            "Resolved": 0
-        };
-
-        reports.forEach(report => {
-            counts[normalizeStatus(report.status)]++;
+    const logoutLinks = document.querySelectorAll('a[href="login.html"].logout');
+    logoutLinks.forEach(function (link) {
+        link.addEventListener("click", function () {
+            sessionStorage.removeItem("safeReportAdminLoggedIn");
+            sessionStorage.removeItem("safeReportAdminEmail");
+            localStorage.removeItem("safeReportAdminRemembered");
         });
-
-        $("totalCount").textContent = reports.length;
-        $("reviewCount").textContent = counts["Under Review"];
-        $("progressCount").textContent = counts["In Progress"];
-        $("resolvedCount").textContent = counts["Resolved"];
-
-        $("chartTotal").textContent = reports.length;
-        $("legendReview").textContent = counts["Under Review"];
-        $("legendProgress").textContent = counts["In Progress"];
-        $("legendResolved").textContent = counts["Resolved"];
-
-        const percentage = count => reports.length
-            ? Math.round((count / reports.length) * 100)
-            : 0;
-
-        $("percentReview").textContent =
-            percentage(counts["Under Review"]) + "%";
-
-        $("percentProgress").textContent =
-            percentage(counts["In Progress"]) + "%";
-
-        $("percentResolved").textContent =
-            percentage(counts["Resolved"]) + "%";
-
-        const reviewEnd =
-            percentage(counts["Under Review"]) * 3.6;
-
-        const progressEnd =
-            reviewEnd + percentage(counts["In Progress"]) * 3.6;
-
-        $("statusDonut").style.background = reports.length
-            ? `conic-gradient(
-                #f5ae32 0deg ${reviewEnd}deg,
-                #416ff0 ${reviewEnd}deg ${progressEnd}deg,
-                #23a77f ${progressEnd}deg 360deg
-            )`
-            : "#e9eef7";
-    }
-
-    // =========================
-    // RENDER REPORTS
-    // =========================
-    function renderReports() {
-        let reports;
-
-        try {
-            reports = getReports();
-        } catch (error) {
-            console.error("Could not load reports:", error);
-
-            tableBody.replaceChildren();
-            updateStatistics([]);
-            tableSummary.textContent = "Unable to load reports.";
-
-            showMessage("Unable to load saved reports.");
-            return;
-        }
-
-        updateStatistics(reports);
-
-        const query = searchInput.value.trim().toLowerCase();
-        const selectedStatus = statusFilter.value;
-
-        const filtered = reports
-            .filter(report => {
-                const searchable = [
-                    getId(report),
-                    report.type,
-                    report.incidentType,
-                    report.incident_type,
-                    report.location,
-                    report.description
-                ]
-                    .map(value => String(value ?? ""))
-                    .join(" ")
-                    .toLowerCase();
-
-                const status = normalizeStatus(report.status);
-
-                return searchable.includes(query) &&
-                    (
-                        selectedStatus === "all" ||
-                        status === selectedStatus
-                    );
-            })
-            .sort((a, b) =>
-                getTimestamp(b) - getTimestamp(a)
-            );
-
-        tableBody.replaceChildren();
-
-        if (!filtered.length) {
-            tableSummary.textContent =
-                `0 of ${reports.length} reports displayed.`;
-
-            showMessage(
-                reports.length
-                    ? "No reports match your search or selected status."
-                    : "No reports have been saved yet."
-            );
-
-            return;
-        }
-
-        tableSummary.textContent =
-            `Showing ${filtered.length} of ${reports.length} report(s).`;
-
-        showMessage(`${filtered.length} report(s) displayed.`);
-
-        filtered.forEach(report => {
-            const row = document.createElement("tr");
-            const id = getId(report);
-
-            row.appendChild(
-                createCell(formatId(id), "admin-report-id")
-            );
-
-            row.appendChild(
-                createCell(
-                    report.type ??
-                    report.incidentType ??
-                    report.incident_type
-                )
-            );
-
-            row.appendChild(createCell(report.location));
-            row.appendChild(createCell(report.description));
-
-            // STATUS SELECT
-            const statusCell = document.createElement("td");
-            const select = document.createElement("select");
-
-            const currentStatus = normalizeStatus(report.status);
-
-            select.className = "status-select";
-            select.dataset.reportId = id;
-            select.setAttribute(
-                "aria-label",
-                `Status for ${formatId(id)}`
-            );
-
-            statuses.forEach(statusName => {
-                const option = document.createElement("option");
-
-                option.value = statusName;
-                option.textContent = statusName;
-
-                select.appendChild(option);
-            });
-
-            select.value = currentStatus;
-
-            function styleStatus() {
-                select.classList.remove(
-                    "status-under-review",
-                    "status-in-progress",
-                    "status-resolved"
-                );
-
-                const classMap = {
-                    "Under Review": "status-under-review",
-                    "In Progress": "status-in-progress",
-                    "Resolved": "status-resolved"
-                };
-
-                select.classList.add(classMap[select.value]);
-            }
-
-            styleStatus();
-
-            statusCell.appendChild(select);
-            row.appendChild(statusCell);
-            tableBody.appendChild(row);
-        });
-    }
-
-    // =========================
-    // CHANGE REPORT STATUS
-    // =========================
-    tableBody.addEventListener("change", event => {
-        const select = event.target;
-
-        if (!select.matches(".status-select")) {
-            return;
-        }
-
-        const id = select.dataset.reportId;
-
-        try {
-            const reports = getReports();
-
-            const report = reports.find(item =>
-                normalizeId(getId(item)) === normalizeId(id)
-            );
-
-            if (!report) {
-                throw new Error("Report not found.");
-            }
-
-            report.status = select.value;
-            report.updatedAt = new Date().toISOString();
-
-            saveReports(reports);
-            renderReports();
-
-            showMessage(
-                `${formatId(id)} status updated to ${select.value}.`
-            );
-        } catch (error) {
-            console.error("Could not update report:", error);
-
-            renderReports();
-            showMessage("Unable to update report status.");
-        }
     });
-
-    // =========================
-    // SEARCH AND FILTER
-    // =========================
-    searchInput.addEventListener("input", renderReports);
-    statusFilter.addEventListener("change", renderReports);
-
-    const dashboardSearch = $("dashboardSearch");
-
-    if (dashboardSearch) {
-        dashboardSearch.addEventListener("input", () => {
-            searchInput.value = dashboardSearch.value;
-            renderReports();
-        });
-    }
-
-    // =========================
-    // REFRESH REPORT DATA
-    // =========================
-    window.addEventListener("storage", event => {
-        if (
-            event.key === "reports" ||
-            event.key === "safeReportReports" ||
-            event.key === null
-        ) {
-            renderReports();
-        }
-    });
-
-    window.addEventListener(
-        "safereport:reports-updated",
-        renderReports
-    );
-
-    window.addEventListener(
-        "safereport:reports-changed",
-        renderReports
-    );
-
-    // =========================
-    // PROFILE DROPDOWN
-    // =========================
-    const profileToggle = $("profileBtn");
-    const profileDropdown = $("profileDropdown");
-
-    if (profileToggle && profileDropdown) {
-        profileToggle.addEventListener("click", event => {
-            event.stopPropagation();
-
-            const open = profileDropdown.hidden;
-
-            profileDropdown.hidden = !open;
-
-            profileToggle.setAttribute(
-                "aria-expanded",
-                String(open)
-            );
-        });
-
-        document.addEventListener("click", event => {
-            if (
-                !profileToggle.contains(event.target) &&
-                !profileDropdown.contains(event.target)
-            ) {
-                profileDropdown.hidden = true;
-
-                profileToggle.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-            }
-        });
-
-        document.addEventListener("keydown", event => {
-            if (event.key === "Escape") {
-                profileDropdown.hidden = true;
-
-                profileToggle.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-            }
-        });
-    }
-
-    // =========================
-    // EXPORT REPORTS TO CSV
-    // =========================
-    $("exportReports").addEventListener("click", () => {
-        const rows = Array.from(
-            document.querySelectorAll(".admin-reports-table tr")
-        );
-
-        const csv = rows.map(row => {
-            const cells = Array.from(
-                row.querySelectorAll("th, td")
-            );
-
-            return cells.map(item => {
-                const select = item.querySelector("select");
-
-                const value = select
-                    ? select.value
-                    : item.innerText.trim();
-
-                return `"${value.replace(/"/g, '""')}"`;
-            }).join(",");
-        }).join("\r\n");
-
-        const blob = new Blob(
-            ["\uFEFF" + csv],
-            { type: "text/csv;charset=utf-8;" }
-        );
-
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-
-        link.href = url;
-        link.download = "safereport-reports.csv";
-
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-
-        setTimeout(() => URL.revokeObjectURL(url), 1000);
-    });
-
-    // =========================
-    // INITIALIZE DASHBOARD
-    // =========================
-    renderReports();
-});
+})();
 </script>
 
 </body>

@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#3157d5">
+
     <title>SafeReport | Dashboard</title>
 
+    <!-- CSS FILES -->
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/profileF.css">
     <link rel="stylesheet" href="css/settingsOL.css">
@@ -17,99 +19,211 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-    <a class="sidebar-brand" href="index.html" aria-label="SafeReport home">
-        <span class="shield" aria-hidden="true">🛡</span>
-        <span>SafeReport</span>
-    </a>
 
-    <div class="sidebar-label">WORKSPACE</div>
-    <nav aria-label="Main navigation">
-        <a class="active" href="index.html" aria-current="page">
-            <span class="side-icon" aria-hidden="true">⌂</span><span>Dashboard</span>
+        <a class="sidebar-brand"
+           href="index.html"
+           aria-label="SafeReport home">
+            <span class="shield" aria-hidden="true">🛡</span>
+            <span>SafeReport</span>
         </a>
-        <a  href="report.html" >
-            <span class="side-icon" aria-hidden="true">＋</span><span>Report Incident</span>
-        </a>
-        <a  href="myreports.html" >
-            <span class="side-icon" aria-hidden="true">▤</span><span>My Reports</span>
-        </a>
-        <a  href="profile.html" >
-            <span class="side-icon" aria-hidden="true">◯</span><span>Profile</span>
-        </a>
-    </nav>
 
-    <div class="sidebar-bottom">
-        <div class="sidebar-help">
-            <div class="help-icon" aria-hidden="true">ⓘ</div>
-            <strong>Need assistance?</strong>
-            <p>Contact your school administrator for reporting support.</p>
+        <div class="sidebar-label">WORKSPACE</div>
+
+        <nav aria-label="Main navigation">
+            <a class="active"
+               href="index.html"
+               aria-current="page">
+                <span class="side-icon" aria-hidden="true">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="report.html">
+                <span class="side-icon" aria-hidden="true">＋</span>
+                <span>Report Incident</span>
+            </a>
+
+            <a href="myreports.html">
+                <span class="side-icon" aria-hidden="true">▤</span>
+                <span>My Reports</span>
+            </a>
+
+            <a href="profile.html">
+                <span class="side-icon" aria-hidden="true">◯</span>
+                <span>Profile</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-help">
+                <div class="help-icon" aria-hidden="true">ⓘ</div>
+                <strong>Need assistance?</strong>
+                <p>
+                    Contact your school administrator
+                    for reporting support.
+                </p>
+            </div>
+
+            <div class="profile-mini">
+                <div class="avatar" aria-hidden="true">J</div>
+
+                <div class="profile-details">
+                    <strong>John Loyd Arcay. Panla-an</strong>
+                    <small>Student Account</small>
+                </div>
+            </div>
+
+            <a class="logout" href="login.html">
+                <span aria-hidden="true">↪</span>
+                <span>Logout</span>
+            </a>
+
         </div>
-
-        <div class="profile-mini">
-            <div class="avatar" aria-hidden="true">J</div>
-            <div class="profile-details"><strong>John Loyd Arcay. Panla-an</strong><small>Student Account</small></div>
-        </div>
-        <a class="logout" href="login.html"><span aria-hidden="true">↪</span><span>Logout</span></a>
-    </div>
-</aside>
+    </aside>
 
     <!-- MAIN CONTENT -->
     <main>
-        <!-- TOP HEADER -->
+
+        <!-- HEADER -->
         <header class="header">
-    <div class="header-left">
-        <div class="breadcrumb"><span>Workspace</span><span class="breadcrumb-separator">/</span><strong>Dashboard</strong></div>
-        <p class="header-subtitle">Your school safety overview</p>
-    </div>
-    <div class="header-actions">
-        <div class="search-box"><span aria-hidden="true">⌕</span><input type="search" id="dashboardSearch" placeholder="Search announcements, resources..." aria-label="Search announcements and resources"></div>
-        <button type="button" class="header-action" id="notificationBtn" aria-label="Notifications, 2 unread">♧<span class="notification-dot">2</span></button>
-        <button type="button" class="header-action" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">☾</button>
-        <a class="header-help" href="report.html" aria-label="Create a new report" title="Create a new report">＋</a>
-        <div class="profile-menu-wrap">
-            <button type="button" class="header-avatar" id="profileBtn" aria-label="Open profile menu" aria-expanded="false" aria-controls="profileDropdown">J</button>
-            <div class="profile-dropdown" id="profileDropdown" hidden><a href="profile.html">My Profile</a><a href="#" class="settings" id="openSettingsBtn">Settings</a><a href="login.html" class="logout" id="logoutBtn">Logout</a></div>
-        </div>
-    </div>
-</header>
+
+            <div class="header-left">
+                <div class="breadcrumb">
+                    <span>Workspace</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <strong>Dashboard</strong>
+                </div>
+
+                <p class="header-subtitle">
+                    Your school safety overview
+                </p>
+            </div>
+
+            <div class="header-actions">
+
+                <div class="search-box">
+                    <span aria-hidden="true">⌕</span>
+                    <input
+                        type="search"
+                        id="dashboardSearch"
+                        placeholder="Search announcements, resources..."
+                        aria-label="Search announcements and resources">
+                </div>
+
+                <button
+                    type="button"
+                    class="header-action"
+                    id="notificationBtn"
+                    aria-label="Notifications, 2 unread">
+                    ♧
+                    <span class="notification-dot">2</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="header-action"
+                    id="themeToggle"
+                    aria-label="Toggle dark mode"
+                    title="Toggle dark mode">
+                    ☾
+                </button>
+
+                <a
+                    class="header-help"
+                    href="report.html"
+                    aria-label="Create a new report"
+                    title="Create a new report">
+                    ＋
+                </a>
+
+                <div class="profile-menu-wrap">
+
+                    <button
+                        type="button"
+                        class="header-avatar"
+                        id="profileBtn"
+                        aria-label="Open profile menu"
+                        aria-expanded="false"
+                        aria-controls="profileDropdown">
+                        J
+                    </button>
+
+                    <div
+                        class="profile-dropdown"
+                        id="profileDropdown"
+                        hidden>
+
+                        <a href="profile.html">My Profile</a>
+
+                        <a
+                            href="settings.html"
+                            class="settings"
+                            id="openSettingsBtn">
+                            Settings
+                        </a>
+
+                        <a href="login.html" class="logout">
+                            Logout
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </header>
 
         <!-- DASHBOARD CONTENT -->
         <div class="content">
 
             <!-- WELCOME SECTION -->
             <section class="hero" aria-labelledby="dashboardTitle">
+
                 <div class="hero-text">
-                    <p class="small-title">STUDENT SAFETY PLATFORM</p>
-                    <h1 id="dashboardTitle">Your voice matters.</h1>
+                    <p class="small-title">
+                        STUDENT SAFETY PLATFORM
+                    </p>
+
+                    <h1 id="dashboardTitle">
+                        Your voice matters.
+                    </h1>
 
                     <p>
-                        Welcome to SafeReport, a platform where students
-                        can report bullying, violence, harassment, and
-                        other safety concerns in a simple and secure way.
+                        Welcome to SafeReport, a platform where
+                        students can report bullying, violence,
+                        harassment, and other safety concerns
+                        in a simple and secure way.
                     </p>
 
                     <div class="hero-buttons">
+
                         <a class="primary-button" href="report.html">
                             <span aria-hidden="true">＋</span>
                             Submit a Report
                         </a>
 
-                        <a class="secondary-button" href="#how-it-works">
+                        <a
+                            class="secondary-button"
+                            href="#how-it-works">
                             <span aria-hidden="true">▷</span>
                             How It Works
                         </a>
+
                     </div>
                 </div>
 
-                <div class="hero-icon" aria-hidden="true">🛡️</div>
+                <div class="hero-icon" aria-hidden="true">
+                    🛡️
+                </div>
+
             </section>
 
             <!-- STATISTICS -->
             <section class="stats" aria-label="Report statistics">
+
                 <article class="stat-box">
                     <div class="stat-icon" aria-hidden="true">▧</div>
                     <div>
-                        <h2>3</h2>
+                        <h2 id="totalReports">3</h2>
                         <p>Submitted Reports</p>
                         <small class="positive">+2 this week</small>
                     </div>
@@ -118,7 +232,7 @@
                 <article class="stat-box">
                     <div class="stat-icon" aria-hidden="true">◷</div>
                     <div>
-                        <h2>1</h2>
+                        <h2 id="pendingReports">1</h2>
                         <p>Under Review</p>
                         <small>Currently being checked</small>
                     </div>
@@ -127,7 +241,7 @@
                 <article class="stat-box">
                     <div class="stat-icon" aria-hidden="true">✓</div>
                     <div>
-                        <h2>2</h2>
+                        <h2 id="resolvedReports">2</h2>
                         <p>Resolved</p>
                         <small class="positive">+1 this week</small>
                     </div>
@@ -136,60 +250,85 @@
                 <article class="stat-box">
                     <div class="stat-icon" aria-hidden="true">▥</div>
                     <div>
-                        <h2>85%</h2>
+                        <h2 id="resolutionRate">85%</h2>
                         <p>Resolution Rate</p>
                         <small>This month</small>
                     </div>
                 </article>
+
             </section>
 
             <!-- DASHBOARD GRID -->
             <div class="dashboard-grid">
+
                 <div class="dashboard-main-column">
 
                     <!-- ANNOUNCEMENTS -->
                     <section
                         class="panel section"
                         id="announcements"
-                        aria-labelledby="announcementsTitle"
-                    >
+                        aria-labelledby="announcementsTitle">
+
                         <div class="panel-heading">
                             <div>
                                 <p class="small-title">STAY INFORMED</p>
-                                <h2 id="announcementsTitle">Latest Announcements</h2>
+                                <h2 id="announcementsTitle">
+                                    Latest Announcements
+                                </h2>
                             </div>
+
                             <a href="#announcements">View All →</a>
                         </div>
 
                         <div class="panel-body">
+
                             <article class="announcement">
-                                <div class="announcement-icon" aria-hidden="true">⌂</div>
+                                <div
+                                    class="announcement-icon"
+                                    aria-hidden="true">⌂</div>
+
                                 <div>
                                     <span class="tag">SCHOOL UPDATE</span>
-                                    <h3>Creating a Safer School Environment</h3>
+
+                                    <h3>
+                                        Creating a Safer School Environment
+                                    </h3>
+
                                     <p>
                                         Students are encouraged to report
-                                        bullying, violence, harassment, and
-                                        other safety concerns to help
+                                        bullying, violence, harassment,
+                                        and other safety concerns to help
                                         maintain a safer campus.
                                     </p>
-                                    <small>August 30, 2026 · Student Safety</small>
+
+                                    <small>
+                                        August 30, 2026 · Student Safety
+                                    </small>
                                 </div>
                             </article>
 
                             <article class="announcement">
-                                <div class="announcement-icon" aria-hidden="true">♥</div>
+                                <div
+                                    class="announcement-icon"
+                                    aria-hidden="true">♥</div>
+
                                 <div>
                                     <span class="tag">STUDENT SUPPORT</span>
+
                                     <h3>You Are Not Alone</h3>
+
                                     <p>
                                         The guidance office can provide
-                                        support and advice to students who
-                                        need someone to talk to.
+                                        support and advice to students
+                                        who need someone to talk to.
                                     </p>
-                                    <small>August 30, 2026 · Student Wellness</small>
+
+                                    <small>
+                                        August 30, 2026 · Student Wellness
+                                    </small>
                                 </div>
                             </article>
+
                         </div>
                     </section>
 
@@ -197,55 +336,85 @@
                     <section
                         class="panel section"
                         id="recentActivity"
-                        aria-labelledby="activityTitle"
-                    >
+                        aria-labelledby="activityTitle">
+
                         <div class="panel-heading">
                             <div>
                                 <p class="small-title">REPORT UPDATES</p>
                                 <h2 id="activityTitle">Recent Activity</h2>
                             </div>
-                            <a href="myreports.html">View My Reports →</a>
+
+                            <a href="myreports.html">
+                                View My Reports →
+                            </a>
                         </div>
 
                         <div class="panel-body activity-list">
+
                             <article class="activity">
-                                <div class="activity-icon" aria-hidden="true">◷</div>
+                                <div
+                                    class="activity-icon"
+                                    aria-hidden="true">◷</div>
+
                                 <div class="activity-details">
                                     <strong>#SR-2024-003</strong>
                                     <p>Harassment incident reported</p>
                                 </div>
-                                <span class="status reviewing">Under Review</span>
+
+                                <span class="status reviewing">
+                                    Under Review
+                                </span>
+
                                 <time datetime="PT2H">2h ago</time>
                             </article>
 
                             <article class="activity">
-                                <div class="activity-icon" aria-hidden="true">✓</div>
+                                <div
+                                    class="activity-icon"
+                                    aria-hidden="true">✓</div>
+
                                 <div class="activity-details">
                                     <strong>#SR-2024-002</strong>
                                     <p>Bullying incident resolved</p>
                                 </div>
-                                <span class="status resolved">Resolved</span>
+
+                                <span class="status resolved">
+                                    Resolved
+                                </span>
+
                                 <time datetime="P1D">1d ago</time>
                             </article>
 
                             <article class="activity">
-                                <div class="activity-icon" aria-hidden="true">▧</div>
+                                <div
+                                    class="activity-icon"
+                                    aria-hidden="true">▧</div>
+
                                 <div class="activity-details">
                                     <strong>#SR-2024-001</strong>
                                     <p>Safety concern submitted</p>
                                 </div>
-                                <span class="status resolved">Resolved</span>
+
+                                <span class="status resolved">
+                                    Resolved
+                                </span>
+
                                 <time datetime="P3D">3d ago</time>
                             </article>
+
                         </div>
                     </section>
+
                 </div>
 
                 <!-- RIGHT COLUMN -->
                 <div class="dashboard-side-column">
 
                     <!-- QUICK ACTIONS -->
-                    <section class="panel section" aria-labelledby="quickActionsTitle">
+                    <section
+                        class="panel section"
+                        aria-labelledby="quickActionsTitle">
+
                         <div class="panel-heading">
                             <div>
                                 <p class="small-title">SHORTCUTS</p>
@@ -254,47 +423,124 @@
                         </div>
 
                         <div class="panel-body">
+
                             <a class="quick-action" href="report.html">
-                                <span class="quick-icon" aria-hidden="true">➤</span>
+                                <span class="quick-icon" aria-hidden="true">
+                                    ➤
+                                </span>
+
                                 <span>
                                     <strong>Report an Incident</strong>
                                     <span>Submit a new safety report</span>
                                 </span>
-                                <span class="quick-arrow" aria-hidden="true">→</span>
+
+                                <span class="quick-arrow" aria-hidden="true">
+                                    →
+                                </span>
                             </a>
 
-                            <a class="quick-action" href="#emergencyContacts">
-                                <span class="quick-icon" aria-hidden="true">☎</span>
+                            <a
+                                class="quick-action"
+                                href="#emergencyContacts">
+
+                                <span class="quick-icon" aria-hidden="true">
+                                    ☎
+                                </span>
+
                                 <span>
                                     <strong>Emergency Contacts</strong>
                                     <span>Important numbers and contacts</span>
                                 </span>
-                                <span class="quick-arrow" aria-hidden="true">→</span>
+
+                                <span class="quick-arrow" aria-hidden="true">
+                                    →
+                                </span>
                             </a>
 
-                            <a class="quick-action" href="#safetyResources">
-                                <span class="quick-icon" aria-hidden="true">▤</span>
+                            <a
+                                class="quick-action"
+                                href="#safetyResources">
+
+                                <span class="quick-icon" aria-hidden="true">
+                                    ▤
+                                </span>
+
                                 <span>
                                     <strong>Safety Resources</strong>
                                     <span>Helpful guides and information</span>
                                 </span>
-                                <span class="quick-arrow" aria-hidden="true">→</span>
+
+                                <span class="quick-arrow" aria-hidden="true">
+                                    →
+                                </span>
                             </a>
+
+                        </div>
+                    </section>
+
+                    <!-- SAFETY RESOURCES -->
+                    <section
+                        class="panel section"
+                        id="safetyResources"
+                        aria-labelledby="safetyResourcesTitle"
+                    >
+                        <div class="panel-heading">
+                            <div>
+                                <p class="small-title">STAY SAFE</p>
+                                <h2 id="safetyResourcesTitle">Safety Resources</h2>
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <article class="resource-card">
+                                <h3>Recognize Unsafe Situations</h3>
+                                <p>
+                                    Pay attention to bullying, harassment, threats,
+                                    violence, and other behavior that may put students at risk.
+                                </p>
+                            </article>
+
+                            <article class="resource-card">
+                                <h3>Report Concerns Early</h3>
+                                <p>
+                                    Provide accurate details such as what happened,
+                                    where it happened, and when it happened.
+                                </p>
+                            </article>
+
+                            <article class="resource-card">
+                                <h3>Protect Your Privacy</h3>
+                                <p>
+                                    Avoid sharing unnecessary personal information and
+                                    use SafeReport only through your trusted school account.
+                                </p>
+                            </article>
                         </div>
                     </section>
 
                     <!-- SAFETY TIP -->
                     <section class="panel tip" aria-labelledby="tipTitle">
+
                         <div class="panel-body">
-                            <span class="tip-icon" aria-hidden="true">💡</span>
-                            <p class="small-title">YOUR DAILY REMINDER</p>
-                            <h3 id="tipTitle">Safety Tip of the Day</h3>
-                            <p>
-                                Trust your instincts. If something doesn't
-                                feel right, seek help from a trusted person
-                                or report the concern.
+                            <span class="tip-icon" aria-hidden="true">
+                                💡
+                            </span>
+
+                            <p class="small-title">
+                                YOUR DAILY REMINDER
                             </p>
-                            <a class="primary-button blue-button" href="#how-it-works">
+
+                            <h3 id="tipTitle">Safety Tip of the Day</h3>
+
+                            <p>
+                                Trust your instincts. If something
+                                doesn't feel right, seek help from
+                                a trusted person or report the concern.
+                            </p>
+
+                            <a
+                                class="primary-button blue-button"
+                                href="#how-it-works">
                                 Learn More →
                             </a>
                         </div>
@@ -304,37 +550,55 @@
                     <section
                         class="panel section"
                         id="how-it-works"
-                        aria-labelledby="howItWorksTitle"
-                    >
+                        aria-labelledby="howItWorksTitle">
+
                         <div class="panel-heading">
                             <h2 id="howItWorksTitle">How It Works</h2>
                         </div>
 
                         <div class="panel-body">
                             <ol class="how-it-works-list">
+
                                 <li>
                                     <strong>Submit</strong>
-                                    <p>Describe the safety concern using the report form.</p>
+                                    <p>
+                                        Describe the safety concern
+                                        using the report form.
+                                    </p>
                                 </li>
+
                                 <li>
                                     <strong>Review</strong>
-                                    <p>Authorized school personnel review the submitted report.</p>
+                                    <p>
+                                        Authorized school personnel
+                                        review the submitted report.
+                                    </p>
                                 </li>
+
                                 <li>
                                     <strong>Follow Up</strong>
-                                    <p>Check your report page for status updates when available.</p>
+                                    <p>
+                                        Check your report page for
+                                        status updates when available.
+                                    </p>
                                 </li>
+
                             </ol>
                         </div>
                     </section>
+
                 </div>
             </div>
 
             <!-- FOOTER -->
             <footer class="dashboard-footer">
-                <p>© 2026 SafeReport · Promoting a safer school community.</p>
+                <p>
+                    © 2026 SafeReport · Promoting a safer school community.
+                </p>
+
                 <a href="profile.html">My Account</a>
             </footer>
+
         </div>
     </main>
 </div>
@@ -344,161 +608,53 @@
     class="settings-overlay"
     id="settingsOverlay"
     hidden
-    aria-hidden="true"
->
+    aria-hidden="true">
+
     <section
         class="settings-panel"
         role="dialog"
         aria-modal="true"
-        aria-labelledby="settingsTitle"
-    >
+        aria-labelledby="settingsTitle">
+
         <div class="settings-header">
-            <button
-                type="button"
-                class="settings-back"
-                id="settingsBackBtn"
-                aria-label="Return to profile dropdown"
-            >
-                &#8592;
-                <span>Settings</span>
-            </button>
+            <a class="settings-back" href="settings.html">
+                <span aria-hidden="true">←</span>
+                <span id="settingsTitle">Settings</span>
+            </a>
         </div>
+
         <div class="settings-menu">
-            <button
-                type="button"
-                class="settings-item"
-                data-setting="Privacy Settings"
-            >
+
+            <a class="settings-item" href="settings.html">
                 <span>Privacy Settings</span>
                 <span class="settings-arrow" aria-hidden="true">›</span>
-            </button>
+            </a>
 
-            <button
-                type="button"
-                class="settings-item"
-                data-setting="Notification Settings"
-            >
+            <a class="settings-item" href="settings.html">
                 <span>Notification Settings</span>
                 <span class="settings-arrow" aria-hidden="true">›</span>
-            </button>
+            </a>
 
-            <button
-                type="button"
-                class="settings-item"
-                data-setting="Security Settings"
-            >
+            <a class="settings-item" href="settings.html">
                 <span>Security Settings</span>
                 <span class="settings-arrow" aria-hidden="true">›</span>
-            </button>
+            </a>
+
         </div>
     </section>
 </div>
 
-<!-- EXISTING JAVASCRIPT FILES -->
+<!-- EXISTING JAVASCRIPT FILE REFERENCES -->
 <script src="JS/Tito_Part/storage.js"></script>
 <script src="JS/Tito_Part/validation.js"></script>
 <script src="JS/Tito_Part/toast.js"></script>
 <script src="JS/Tito_Part/navbar.js"></script>
 <script src="JS/Tito_Part/modal.js"></script>
 <script src="JS/main.js"></script>
+
 <script src="JS/Arcays_Part/dashboard.js"></script>
 <script src="JS/Arcays_Part/announcements.js"></script>
 <script src="JS/Arcays_Part/profile_feature.js"></script>
-
-<!-- PROFILE DROPDOWN AND SETTINGS BEHAVIOR -->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const profileBtn = document.getElementById("profileBtn");
-    const profileDropdown = document.getElementById("profileDropdown");
-    const settingsBtn = document.getElementById("openSettingsBtn");
-    const settingsPanel = document.getElementById("settingsOverlay");
-    const backBtn = document.getElementById("settingsBackBtn");
-
-    // Open and close the profile dropdown
-    profileBtn?.addEventListener("click", function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        if (profileDropdown) {
-            profileDropdown.hidden = !profileDropdown.hidden;
-            profileBtn.setAttribute(
-                "aria-expanded",
-                String(!profileDropdown.hidden)
-            );
-        }
-    });
-
-    // Open Settings from the profile dropdown
-    settingsBtn?.addEventListener("click", function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        if (profileDropdown) {
-            profileDropdown.hidden = true;
-        }
-
-        if (settingsPanel) {
-            settingsPanel.hidden = false;
-            settingsPanel.setAttribute("aria-hidden", "false");
-        }
-    });
-
-    // Return from Settings
-    backBtn?.addEventListener("click", function (event) {
-    event.preventDefault();
-        event.stopPropagation();
-
-        // Hide Settings
-        if (settingsPanel) {
-            settingsPanel.hidden = true;
-            settingsPanel.setAttribute("aria-hidden", "true");
-        }
-
-        // Reopen the profile dropdown
-        if (profileDropdown) {
-            profileDropdown.hidden = false;
-            profileBtn?.setAttribute("aria-expanded", "true");
-        }
-    });
-
-    // Close dropdown or Settings when clicking outside
-    document.addEventListener("click", function (event) {
-        if (
-            profileDropdown &&
-            profileBtn &&
-            !profileDropdown.contains(event.target) &&
-            !profileBtn.contains(event.target)
-        ) {
-            profileDropdown.hidden = true;
-            profileBtn.setAttribute("aria-expanded", "false");
-        }
-
-        if (
-            settingsPanel &&
-            !settingsPanel.hidden &&
-            !settingsPanel.contains(event.target) &&
-            !settingsBtn?.contains(event.target)
-        ) {
-            settingsPanel.hidden = true;
-            settingsPanel.setAttribute("aria-hidden", "true");
-        }
-    });
-
-    // Close with Escape
-    document.addEventListener("keydown", function (event) {
-        if (event.key === "Escape") {
-            if (profileDropdown) profileDropdown.hidden = true;
-
-            if (settingsPanel) {
-                settingsPanel.hidden = true;
-                settingsPanel.setAttribute("aria-hidden", "true");
-            }
-
-            profileBtn?.setAttribute("aria-expanded", "false");
-        }
-    });
-});
-</script>
 
 </body>
 </html>

@@ -1,171 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#3157d5">
+    <meta name="description" content="Manage your SafeReport security and privacy settings.">
+    <title>SafeReport | Settings</title>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Create Account - SafeReport</title>
-
-    <link rel="stylesheet" href="css/signup.css">
-
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/profileF.css">
+    <link rel="stylesheet" href="css/myreports-shell.css">
+    <link rel="stylesheet" href="css/settingsOL.css">
 </head>
-
 <body>
+<div class="app">
+    <aside class="sidebar">
+        <a class="sidebar-brand" href="index.html" aria-label="SafeReport home">
+            <span class="shield" aria-hidden="true">🛡</span>
+            <span>SafeReport</span>
+        </a>
 
-    <div class="signup-container">
+        <div class="sidebar-label">WORKSPACE</div>
+        <nav aria-label="Main navigation">
+            <a href="index.html"><span class="side-icon" aria-hidden="true">⌂</span><span>Dashboard</span></a>
+            <a href="report.html"><span class="side-icon" aria-hidden="true">＋</span><span>Report Incident</span></a>
+            <a href="myreports.html"><span class="side-icon" aria-hidden="true">▤</span><span>My Reports</span></a>
+            <a href="profile.html"><span class="side-icon" aria-hidden="true">◯</span><span>Profile</span></a>
+        </nav>
 
-        <!-- LEFT SIDE -->
-
-        <div class="signup-left">
-
-            <div class="shield">
-                🛡️
+        <div class="sidebar-bottom">
+            <div class="sidebar-help">
+                <div class="help-icon" aria-hidden="true">ⓘ</div>
+                <strong>Need assistance?</strong>
+                <p>Contact your school administrator for reporting support.</p>
             </div>
-
-            <h1>
-                SafeReport
-            </h1>
-
-            <p class="platform">
-                Student Safety Platform
-            </p>
-
-            <p class="description">
-                Join SafeReport and help create
-                a safer school environment.
-            </p>
-
-        </div>
-
-
-        <!-- RIGHT SIDE -->
-
-        <div class="signup-right">
-
-            <h2>
-                Create Your Account
-            </h2>
-
-            <p class="subtitle">
-                Create a new SafeReport student account
-            </p>
-
-
-            <form onsubmit="createAccount(event)">
-
-                <label for="fullname">
-                    Full Name
-                </label>
-
-                <input
-                    type="text"
-                    id="fullname"
-                    name="fullname"
-                    placeholder="Enter your full name"
-                    required
-                >
-
-
-                <label for="email">
-                    Email Address
-                </label>
-
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Enter your email"
-                    required
-                >
-
-
-                <label for="studentid">
-                    Student ID
-                </label>
-
-                <input
-                    type="text"
-                    id="studentid"
-                    name="studentid"
-                    placeholder="Enter your student ID"
-                    required
-                >
-
-
-                <label for="password">
-                    Password
-                </label>
-
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Create a password"
-                    required
-                >
-
-
-                <label for="confirm">
-                    Confirm Password
-                </label>
-
-                <input
-                    type="password"
-                    id="confirm"
-                    name="confirm"
-                    placeholder="Confirm your password"
-                    required
-                >
-
-
-                <div class="terms">
-
-                    <input
-                        type="checkbox"
-                        id="terms"
-                        name="terms"
-                    >
-
-                    <label for="terms">
-                        I agree to the Terms and Conditions
-                    </label>
-
+            <div class="profile-mini">
+                <div class="avatar" aria-hidden="true">J</div>
+                <div class="profile-details">
+                    <strong>John Loyd Arcay. Panla-an</strong>
+                    <small>Student Account</small>
                 </div>
+            </div>
+            <a class="logout" href="login.html">
+                <span aria-hidden="true">↪</span><span>Logout</span>
+            </a>
+        </div>
+    </aside>
 
-
-                <button type="submit">
-                    Create Account
-                </button>
-
-            </form>
-
-
-            <div class="login-section">
-
-                <p>
-                    Already have an account?
-                </p>
-
-                <a href="login.html">
-                    Login
-                </a>
-
+    <main>
+        <header class="header">
+            <div class="header-left">
+                <div class="breadcrumb">
+                    <span>Workspace</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <strong>Settings</strong>
+                </div>
+                <p class="header-subtitle">Manage your security, privacy, and account preferences</p>
             </div>
 
+            <div class="header-actions">
+                <a class="header-help" href="report.html" aria-label="Create a new report" title="Create a new report">＋</a>
+                <div class="profile-menu-wrap">
+                    <button
+                        type="button"
+                        class="header-avatar"
+                        id="profileBtn"
+                        aria-label="Open profile menu"
+                        aria-expanded="false"
+                        aria-controls="profileDropdown"
+                    >J</button>
+                    <div class="profile-dropdown" id="profileDropdown" hidden>
+                        <a href="profile.html">My Profile</a>
+                        <a href="settings.html" class="settings" id="openSettingsBtn">Settings</a>
+                        <a href="login.html" class="logout" id="logoutBtn">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+            <section class="page-title">
+                <h1>Settings</h1>
+                <p>Manage your security and privacy preferences.</p>
+            </section>
+
+            <section class="security-grid section" aria-label="Security and privacy settings">
+                <article class="card">
+                    <h2>Account Security</h2>
+                    <p>Your account should use a strong password and secure login information.</p>
+                    <button type="button" class="primary-button blue-button" id="changePasswordBtn">Change Password</button>
+                </article>
+
+                <article class="card">
+                    <h2>Privacy Settings</h2>
+                    <p>Your incident reports are confidential and should only be visible to authorized personnel.</p>
+                    <button type="button" class="primary-button blue-button" id="privacySettingsBtn">Manage Privacy</button>
+                </article>
+            </section>
+
+            <section class="card section" aria-labelledby="notificationTitle">
+                <h2 id="notificationTitle">Notification Settings</h2>
+                <p>Choose which account and report updates you want to receive.</p>
+                <label for="reportNotifications">
+                    <input type="checkbox" id="reportNotifications" name="reportNotifications" checked>
+                    Report status updates
+                </label>
+                <br>
+                <label for="securityNotifications">
+                    <input type="checkbox" id="securityNotifications" name="securityNotifications" checked>
+                    Security and account notifications
+                </label>
+            </section>
+
+            <section class="card section" aria-labelledby="privacyGuidanceTitle">
+                <h2 id="privacyGuidanceTitle">Privacy Guidance</h2>
+                <ul>
+                    <li>Only include information that is relevant to your incident report.</li>
+                    <li>Do not share your account password with another person.</li>
+                    <li>Use the official SafeReport pages when submitting reports or changing settings.</li>
+                </ul>
+            </section>
         </div>
+    </main>
+</div>
 
-    </div>
-
-
-    <!-- ONLY ONE AUTH JS -->
-    <script src="tracel/auth.js"></script>
-
+<script src="JS/main.js"></script>
+<script src="JS/Tito_Part/storage.js"></script>
+<script src="JS/Tito_Part/validation.js"></script>
+<script src="JS/Tito_Part/toast.js"></script>
+<script src="JS/Tito_Part/navbar.js"></script>
+<script src="JS/Tito_Part/modal.js"></script>
 </body>
-
 </html>

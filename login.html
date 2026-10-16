@@ -44,9 +44,22 @@
                 Login to your SafeReport account
             </p>
 
-            <form onsubmit="loginUser(event)">
+            <form onsubmit="handleUnifiedLogin(event)" id="loginForm">
 
-                <label for="email">
+                <div
+                    id="loginError"
+                    class="error-message"
+                    role="alert"
+                    aria-live="polite"
+                ></div>
+
+                <div
+                    id="loginSuccess"
+                    class="success-message"
+                    role="status"
+                    aria-live="polite"
+                ></div>
+<label for="email">
                     Email Address
                 </label>
 
@@ -120,8 +133,45 @@
     </div>
 
 
-    <!-- ONLY ONE AUTH JS -->
+    <!-- Existing student authentication remains in tracel/auth.js.
+         The unified handler below adds the embedded administrator account. -->
     <script src="tracel/auth.js"></script>
+
+    <script>
+    function handleUnifiedLogin(event) {
+        event.preventDefault();
+
+        const email = document.getElementById("email").value.trim().toLowerCase();
+        const password = document.getElementById("password").value;
+        const errorBox = document.getElementById("loginError");
+        const successBox = document.getElementById("loginSuccess");
+
+        errorBox.textContent = "";
+        successBox.textContent = "";
+
+        // Embedded administrator account. No separate admin login page is needed.
+        const ADMIN_EMAIL = "admin@safereport.com";
+        const ADMIN_PASSWORD = "Admin123!";
+
+        if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+            sessionStorage.setItem("safeReportAdminLoggedIn", "true");
+            sessionStorage.setItem("safeReportAdminEmail", ADMIN_EMAIL);
+            successBox.textContent = "Administrator login successful. Opening reports...";
+
+            window.setTimeout(function () {
+                window.location.href = "admin-reports.html";
+            }, 300);
+            return;
+        }
+
+        // All other accounts use the existing student authentication.
+        if (typeof loginUser === "function") {
+            loginUser(event);
+        } else {
+            errorBox.textContent = "Student authentication is unavailable.";
+        }
+    }
+    </script>
 
 </body>
 
