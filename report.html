@@ -461,5 +461,16 @@
 <script src="JS/main.js"></script>
 <script src="JS/Arcays_Part/reportForm.js"></script>
 
+<script src="JS/guest-access.js"></script>
+<script>
+(function () {
+    const LOGIN_FLAG_KEY = "safeReportLoggedIn";
+    const CURRENT_USER_KEY = "currentUser";
+    if (localStorage.getItem(LOGIN_FLAG_KEY) !== "true" || !localStorage.getItem(CURRENT_USER_KEY)) {
+        window.location.replace("login.html");
+    }
+})();
+</script>
+
 </body>
 </html>

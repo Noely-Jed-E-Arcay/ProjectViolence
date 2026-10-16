@@ -175,6 +175,19 @@
         <!-- DASHBOARD CONTENT -->
         <div class="content">
 
+            <!-- GUEST ACCESS MESSAGE: uses the existing dashboard visual language -->
+            <section class="guest-access-card panel" id="guestAccessGate" aria-labelledby="guestAccessTitle" hidden>
+                <div class="guest-access-icon" aria-hidden="true">🛡️</div>
+                <p class="small-title">SAFEREPORT ACCOUNT</p>
+                <h1 id="guestAccessTitle">You need to log in first</h1>
+                <p>If you don't have an account, please register first.</p>
+                <div class="guest-access-actions">
+                    <a class="primary-button" href="login.html">Log In</a>
+                    <a class="secondary-button" href="signup.html">Register</a>
+                </div>
+            </section>
+
+
             <!-- WELCOME SECTION -->
             <section class="hero" aria-labelledby="dashboardTitle">
 
@@ -655,6 +668,8 @@
 <script src="JS/Arcays_Part/dashboard.js"></script>
 <script src="JS/Arcays_Part/announcements.js"></script>
 <script src="JS/Arcays_Part/profile_feature.js"></script>
+
+<script src="JS/guest-access.js"></script>
 
 </body>
 </html>

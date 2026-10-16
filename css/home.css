@@ -1993,3 +1993,68 @@ body.dark-mode .settings-menu-heading {
         scroll-behavior: auto !important;
     }
 }
+
+/* GUEST ACCESS GATE — ADDITIVE ONLY
+   Keeps the existing SafeReport palette, typography, and component styling. */
+.guest-access-card[hidden] {
+    display: none !important;
+}
+
+.guest-access-card {
+    width: min(100%, 760px);
+    margin: clamp(28px, 7vh, 72px) auto;
+    padding: clamp(28px, 5vw, 48px);
+    text-align: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-md);
+}
+
+.guest-access-icon {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 18px;
+    border-radius: 18px;
+    background: var(--primary-light);
+    font-size: 30px;
+}
+
+.guest-access-card h1 {
+    margin: 8px 0 10px;
+    color: var(--text);
+    font-size: clamp(24px, 3vw, 34px);
+    line-height: 1.2;
+}
+
+.guest-access-card > p:not(.small-title) {
+    max-width: 520px;
+    margin: 0 auto;
+    color: var(--text-soft);
+}
+
+.guest-access-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+@media (max-width: 480px) {
+    .guest-access-card {
+        margin: 24px auto;
+        padding: 24px 18px;
+    }
+
+    .guest-access-actions {
+        flex-direction: column;
+    }
+
+    .guest-access-actions a {
+        justify-content: center;
+        text-align: center;
+    }
+}
