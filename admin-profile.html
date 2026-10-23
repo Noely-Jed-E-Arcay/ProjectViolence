@@ -12,12 +12,12 @@
     <link rel="stylesheet" href="css/darkmode.css">
     <link rel="stylesheet" href="css/admin-dashboard.css">
 </head>
-<body>
+<body class="admin-page">
 
 <div class="app">
 
     <!-- SIDEBAR -->
-    <aside class="sidebar admin-sidebar">
+    <aside class="sidebar admin-sidebar" id="adminSidebar" aria-label="Administrator sidebar">
         <a class="sidebar-brand" href="admin-dashboard.html" aria-label="SafeReport dashboard">
             <span class="shield" aria-hidden="true">🛡</span>
             <span>SafeReport</span>
@@ -25,39 +25,39 @@
 
         <div class="sidebar-label">OVERVIEW</div>
         <nav aria-label="Administrator overview">
-            <a href="admin-dashboard.html">
-                <span class="side-icon" aria-hidden="true">⌂</span>
+            <a href="admin-dashboard.html" data-admin-nav="dashboard">
+                <svg class="side-icon admin-nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m3.5 10 8.5-7 8.5 7v10a1 1 0 0 1-1 1h-5.5v-6h-4v6H4.5a1 1 0 0 1-1-1V10Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 <span>Dashboard</span>
             </a>
         </nav>
 
         <div class="sidebar-label">REPORT MANAGEMENT</div>
         <nav aria-label="Report management navigation">
-            <a href="admin-reports.html">
-                <span class="side-icon" aria-hidden="true">▤</span>
+            <a href="admin-reports.html" data-admin-nav="all">
+                <svg class="side-icon admin-nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3.75h7l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.75a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 4v4h4M9 12h6M9 16h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
                 <span>All Reports</span>
             </a>
-            <a href="admin-reports.html?status=pending">
-                <span class="side-icon" aria-hidden="true">◷</span>
+            <a href="admin-reports.html?status=pending" data-admin-nav="pending">
+                <svg class="side-icon admin-nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3.2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 <span>Pending Review</span>
             </a>
-            <a href="admin-reports.html?status=under%20review">
-                <span class="side-icon" aria-hidden="true">◉</span>
+            <a href="admin-reports.html?status=under%20review" data-admin-nav="under-review">
+                <svg class="side-icon admin-nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12s3.1-6 9-6 9 6 9 6-3.1 6-9 6-9-6-9-6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="2.5" stroke="currentColor" stroke-width="1.8"/></svg>
                 <span>Under Review</span>
             </a>
-            <a href="admin-reports.html?status=resolved">
-                <span class="side-icon" aria-hidden="true">✓</span>
+            <a href="admin-reports.html?status=resolved" data-admin-nav="resolved">
+                <svg class="side-icon admin-nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.8"/><path d="m8 12 2.5 2.5L16 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 <span>Resolved</span>
             </a>
         </nav>
         <div class="sidebar-label">ACCOUNT</div>
         <nav aria-label="Administrator account navigation">
-            <a class="active" href="admin-profile.html" aria-current="page">
-                <span class="side-icon" aria-hidden="true">◯</span>
+            <a class="active" href="admin-profile.html" aria-current="page" data-admin-nav="profile">
+                <svg class="side-icon admin-nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c.7-3.1 3.2-5 7-5s6.3 1.9 7 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
                 <span>My Profile</span>
             </a>
-            <a href="admin-profile.html#admin-security">
-                <span class="side-icon" aria-hidden="true">⚙</span>
+            <a href="admin-profile.html#admin-security" data-admin-nav="settings">
+                <svg class="side-icon admin-nav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.8v2.1M12 19.1v2.1M21.2 12h-2.1M4.9 12H2.8m15.7-6.5L17 7m-10 10-1.5 1.5m13 0L17 17M7 7 5.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
                 <span>Settings</span>
             </a>
         </nav>
@@ -71,24 +71,40 @@
             </div>
 
             <div class="profile-mini">
-                <div class="avatar" aria-hidden="true">A</div>
+                <div class="avatar" data-admin-initials aria-hidden="true">A</div>
                 <div class="profile-details">
-                    <strong>Administrator</strong>
+                    <strong data-admin-name>Administrator</strong>
                     <small>Admin Account</small>
                 </div>
             </div>
 
-            <a class="logout" href="guest.html">
+            <a class="logout" href="guest.html" data-admin-logout>
                 <span aria-hidden="true">↪</span>
                 <span>Logout</span>
             </a>
         </div>
     </aside>
+    <button
+        class="admin-sidebar-backdrop"
+        id="adminSidebarBackdrop"
+        type="button"
+        aria-label="Close navigation"
+        hidden
+    ></button>
 
     <!-- MAIN CONTENT -->
     <main>
         <!-- HEADER -->
         <header class="header">
+            <button
+                class="admin-menu-toggle"
+                id="adminMenuToggle"
+                type="button"
+                aria-label="Open navigation"
+                aria-expanded="false"
+                aria-controls="adminSidebar"
+            >☰</button>
+
             <div class="header-left">
                 <div class="breadcrumb">
                     <span>Administration</span>
@@ -276,6 +292,7 @@
 <script src="JS/Tito_Part/navbar.js"></script>
 <script src="JS/Tito_Part/modal.js"></script>
 <script src="JS/Tito_Part/account-security.js"></script>
+<script src="JS/Tito_Part/admin-navigation.js"></script>
 
 <!-- ADMIN PROFILE FUNCTIONALITY -->
 <script src="JS/Tito_Part/admin-profile.js"></script>

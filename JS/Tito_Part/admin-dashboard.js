@@ -573,17 +573,6 @@
                 `admin-reports.html${queryString ? `?${queryString}` : ""}`;
         });
 
-        const sidebar = document.getElementById("adminSidebar");
-        const menuToggle = document.getElementById("adminMenuToggle");
-        menuToggle.addEventListener("click", () => {
-            const isOpen = sidebar.classList.toggle("is-open");
-            menuToggle.setAttribute("aria-expanded", String(isOpen));
-            menuToggle.setAttribute(
-                "aria-label",
-                isOpen ? "Close navigation" : "Open navigation"
-            );
-        });
-
         window.addEventListener("storage", event => {
             if (
                 event.key === REPORTS_KEY ||
