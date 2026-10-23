@@ -6,11 +6,11 @@
 
     <title>SafeReport | Profile</title>
 
-    <!-- CSS Stylesheets -->
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="css/profileF.css">
     <link rel="stylesheet" href="css/myreports-shell.css">
     <link rel="stylesheet" href="css/settingsOL.css">
+    <link rel="stylesheet" href="css/darkmode.css">
 </head>
 
 <body>
@@ -18,7 +18,6 @@
 
         <!-- SIDEBAR -->
         <aside class="sidebar">
-
             <a class="sidebar-brand" href="index.html" aria-label="SafeReport home">
                 <span class="shield" aria-hidden="true">🛡</span>
                 <span>SafeReport</span>
@@ -48,9 +47,7 @@
                 </a>
             </nav>
 
-            <!-- SIDEBAR BOTTOM -->
             <div class="sidebar-bottom">
-
                 <div class="sidebar-help">
                     <div class="help-icon" aria-hidden="true">ⓘ</div>
                     <strong>Need assistance?</strong>
@@ -60,28 +57,24 @@
                 </div>
 
                 <div class="profile-mini">
-                    <div class="avatar" aria-hidden="true">J</div>
+                    <div class="avatar header-avatar" aria-hidden="true">U</div>
 
                     <div class="profile-details">
-                        <strong>John Loyd Arcay. Panla-an</strong>
-                        <small>Student Account</small>
+                        <strong class="user-name">User</strong>
+                        <small class="user-role">Student</small>
                     </div>
                 </div>
 
-                <a class="logout" href="login.html">
+                <a class="logout" href="login.html" id="sidebarLogoutBtn">
                     <span aria-hidden="true">↪</span>
                     <span>Logout</span>
                 </a>
-
             </div>
         </aside>
 
         <!-- MAIN CONTENT -->
         <main>
-
-            <!-- HEADER -->
             <header class="header">
-
                 <div class="header-left">
                     <div class="breadcrumb">
                         <span>Workspace</span>
@@ -95,8 +88,6 @@
                 </div>
 
                 <div class="header-actions">
-
-                    <!-- SEARCH -->
                     <div class="search-box">
                         <span aria-hidden="true">⌕</span>
                         <input
@@ -107,18 +98,16 @@
                         >
                     </div>
 
-                    <!-- NOTIFICATIONS -->
                     <button
                         type="button"
                         class="header-action"
                         id="notificationBtn"
-                        aria-label="Notifications, 2 unread"
+                        aria-label="Notifications"
                     >
                         ♧
                         <span class="notification-dot">2</span>
                     </button>
 
-                    <!-- THEME TOGGLE -->
                     <button
                         type="button"
                         class="header-action"
@@ -129,7 +118,6 @@
                         ☾
                     </button>
 
-                    <!-- CREATE REPORT -->
                     <a
                         class="header-help"
                         href="report.html"
@@ -139,9 +127,7 @@
                         ＋
                     </a>
 
-                    <!-- PROFILE DROPDOWN -->
                     <div class="profile-menu-wrap">
-
                         <button
                             type="button"
                             class="header-avatar"
@@ -150,7 +136,7 @@
                             aria-expanded="false"
                             aria-controls="profileDropdown"
                         >
-                            J
+                            U
                         </button>
 
                         <div class="profile-dropdown" id="profileDropdown" hidden>
@@ -172,15 +158,12 @@
                                 Logout
                             </a>
                         </div>
-
                     </div>
                 </div>
             </header>
 
             <!-- PAGE CONTENT -->
             <div class="content">
-
-                <!-- PAGE TITLE -->
                 <section class="page-title">
                     <h1>My Profile</h1>
                     <p>
@@ -191,52 +174,73 @@
                 <!-- PROFILE INFORMATION -->
                 <section class="profile-layout section">
 
-                    <!-- PROFILE CARD -->
                     <div class="card profile-card">
-                        <div class="profile-big-avatar">●</div>
+                        <div class="profile-big-avatar header-avatar">U</div>
 
-                        <h2>John Loyd Arcay. Panla-an</h2>
-                        <p>Student · 3rd Year College</p>
+                        <h2 class="user-name">User</h2>
+                        <p>
+                            <span class="user-role">Student</span>
+                        </p>
                     </div>
 
                     <!-- PERSONAL INFORMATION FORM -->
                     <div class="card">
-                        <form class="profile-form">
+                        <form class="profile-form" id="profileForm">
 
                             <h2>Personal Information</h2>
 
-                            <label>
+                            <label for="profileFirstName">
                                 First Name
-                                <input type="text" value="John lloyd">
-                            </label>
-
-                            <label>
-                                Last Name
-                                <input type="text" value="panla-an">
-                            </label>
-
-                            <label>
-                                Student ID
                                 <input
                                     type="text"
-                                    value="2024-0000"
-                                    readonly
+                                    id="profileFirstName"
+                                    name="firstName"
+                                    autocomplete="given-name"
+                                    required
                                 >
                             </label>
 
-                            <label>
+                            <label for="profileLastName">
+                                Last Name
+                                <input
+                                    type="text"
+                                    id="profileLastName"
+                                    name="lastName"
+                                    autocomplete="family-name"
+                                    required
+                                >
+                            </label>
+
+                            <label for="profileStudentId">
+                                Student ID
+                                <input
+                                    type="text"
+                                    id="profileStudentId"
+                                    name="studentId"
+                                    autocomplete="off"
+                                    readonly
+                                    required
+                                >
+                            </label>
+
+                            <label for="profileGradeSection">
                                 Grade / Section
                                 <input
                                     type="text"
+                                    id="profileGradeSection"
+                                    name="gradeSection"
                                     value="3rd Year College - BSIT - A"
                                 >
                             </label>
 
-                            <label class="full">
+                            <label class="full" for="profileEmail">
                                 Email Address
                                 <input
                                     type="email"
-                                    value="johntraceld@gmail.com"
+                                    id="profileEmail"
+                                    name="email"
+                                    autocomplete="email"
+                                    required
                                 >
                             </label>
 
@@ -254,33 +258,33 @@
                 <!-- SECURITY AND PRIVACY -->
                 <section class="security-grid section">
 
-                    <!-- ACCOUNT SECURITY -->
                     <div class="card">
                         <h2>Account Security</h2>
 
-                        <p style="color: #64748b; font-size: 13px; margin: 7px 0 15px;">
-                            Your account is protected with secure authentication.
+                        <p style="color:#64748b;font-size:13px;margin:7px 0 15px;">
+                            Manage your account security.
                         </p>
 
                         <button
                             class="primary-button blue-button"
                             type="button"
+                            id="changePasswordBtn"
                         >
                             Change Password
                         </button>
                     </div>
 
-                    <!-- PRIVACY -->
                     <div class="card">
                         <h2>Privacy</h2>
 
-                        <p style="color: #64748b; font-size: 13px; margin: 7px 0 15px;">
-                            Your reports are confidential and only visible to authorized personnel.
+                        <p style="color:#64748b;font-size:13px;margin:7px 0 15px;">
+                            Review your privacy preferences.
                         </p>
 
                         <button
                             class="primary-button blue-button"
                             type="button"
+                            id="privacySettingsBtn"
                         >
                             Privacy Settings
                         </button>
@@ -304,23 +308,19 @@
             aria-modal="true"
             aria-labelledby="settingsTitle"
         >
-
-            <!-- SETTINGS HEADER -->
             <div class="settings-header">
                 <button
                     type="button"
                     class="settings-back"
                     id="settingsBackBtn"
-                    aria-label="Return to profile dropdown"
+                    aria-label="Return to profile menu"
                 >
                     &#8592;
                     <span id="settingsTitle">Settings</span>
                 </button>
             </div>
 
-            <!-- SETTINGS OPTIONS -->
             <div class="settings-menu">
-
                 <button
                     type="button"
                     class="settings-item"
@@ -347,118 +347,140 @@
                     <span>Security Settings</span>
                     <span class="settings-arrow" aria-hidden="true">›</span>
                 </button>
-
             </div>
         </section>
     </div>
 
-    <!-- JAVASCRIPT FILES -->
+    <!-- EXISTING JAVASCRIPT -->
     <script src="JS/main.js"></script>
     <script src="JS/Tito_Part/storage.js"></script>
     <script src="JS/Tito_Part/validation.js"></script>
     <script src="JS/Tito_Part/toast.js"></script>
     <script src="JS/Tito_Part/navbar.js"></script>
     <script src="JS/Tito_Part/modal.js"></script>
-    <script src="JS/Arcays_Part/profile_feature.js" defer></script>
+    <script src="JS/Arcays_Part/profile_feature.js"></script>
 
-    <!-- PROFILE DROPDOWN AND SETTINGS HANDLER -->
+    <!-- PROFILE MENU AND SETTINGS OVERLAY -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const button = document.getElementById("profileBtn");
-            const dropdown = document.getElementById("profileDropdown");
-            const settingsBtn = document.getElementById("openSettingsBtn");
-            const settingsPanel = document.getElementById("settingsOverlay");
-            const backBtn = document.getElementById("settingsBackBtn");
+            const profileButton = document.getElementById("profileBtn");
+            const profileDropdown = document.getElementById("profileDropdown");
+            const settingsButton = document.getElementById("openSettingsBtn");
+            const settingsOverlay = document.getElementById("settingsOverlay");
+            const settingsBackButton = document.getElementById("settingsBackBtn");
 
-            // Close the profile dropdown
+            const changePasswordButton =
+                document.getElementById("changePasswordBtn");
+
+            const privacySettingsButton =
+                document.getElementById("privacySettingsBtn");
+
             function closeProfileDropdown() {
-                if (!dropdown || !button) return;
+                if (!profileDropdown || !profileButton) return;
 
-                dropdown.hidden = true;
-                button.setAttribute("aria-expanded", "false");
+                profileDropdown.hidden = true;
+                profileButton.setAttribute("aria-expanded", "false");
             }
 
-            // Close the settings overlay
-            function closeSettingsPanel() {
-                if (!settingsPanel) return;
+            function closeSettingsOverlay() {
+                if (!settingsOverlay) return;
 
-                settingsPanel.hidden = true;
-                settingsPanel.setAttribute("aria-hidden", "true");
+                settingsOverlay.hidden = true;
+                settingsOverlay.setAttribute("aria-hidden", "true");
             }
 
-            // Toggle the profile dropdown
-            button?.addEventListener("click", (event) => {
+            function openSettingsOverlay() {
+                closeProfileDropdown();
+
+                if (!settingsOverlay) return;
+
+                settingsOverlay.hidden = false;
+                settingsOverlay.setAttribute("aria-hidden", "false");
+            }
+
+            profileButton?.addEventListener("click", event => {
                 event.stopPropagation();
+                closeSettingsOverlay();
 
-                closeSettingsPanel();
+                profileDropdown.hidden = !profileDropdown.hidden;
 
-                if (!dropdown) return;
-
-                dropdown.hidden = !dropdown.hidden;
-
-                button.setAttribute(
+                profileButton.setAttribute(
                     "aria-expanded",
-                    String(!dropdown.hidden)
+                    String(!profileDropdown.hidden)
                 );
             });
 
-            // Open settings from the profile dropdown
-            settingsBtn?.addEventListener("click", (event) => {
+            settingsButton?.addEventListener("click", event => {
                 event.preventDefault();
                 event.stopPropagation();
-
-                closeProfileDropdown();
-
-                if (!settingsPanel) return;
-
-                settingsPanel.hidden = false;
-                settingsPanel.setAttribute("aria-hidden", "false");
+                openSettingsOverlay();
             });
 
-            // Return to the profile dropdown
-            backBtn?.addEventListener("click", (event) => {
-                event.preventDefault();
-                event.stopPropagation();
+            settingsBackButton?.addEventListener("click", () => {
+                closeSettingsOverlay();
 
-                closeSettingsPanel();
-
-                if (!dropdown || !button) return;
-
-                dropdown.hidden = false;
-                button.setAttribute("aria-expanded", "true");
+                if (profileDropdown && profileButton) {
+                    profileDropdown.hidden = false;
+                    profileButton.setAttribute("aria-expanded", "true");
+                }
             });
 
-            // Close menus when clicking outside
-            document.addEventListener("click", (event) => {
-                const target = event.target;
-
+            document.addEventListener("click", event => {
                 if (
-                    dropdown &&
-                    button &&
-                    !dropdown.contains(target) &&
-                    !button.contains(target)
+                    profileDropdown &&
+                    profileButton &&
+                    !profileDropdown.contains(event.target) &&
+                    !profileButton.contains(event.target)
                 ) {
                     closeProfileDropdown();
                 }
 
                 if (
-                    settingsPanel &&
-                    !settingsPanel.hidden &&
-                    !settingsPanel.contains(target)
+                    settingsOverlay &&
+                    !settingsOverlay.hidden &&
+                    !settingsOverlay.contains(event.target)
                 ) {
-                    closeSettingsPanel();
+                    closeSettingsOverlay();
                 }
             });
 
-            // Close menus with the Escape key
-            document.addEventListener("keydown", (event) => {
+            document.addEventListener("keydown", event => {
                 if (event.key === "Escape") {
                     closeProfileDropdown();
-                    closeSettingsPanel();
+                    closeSettingsOverlay();
                 }
+            });
+
+            document.querySelectorAll("[data-setting]").forEach(button => {
+                button.addEventListener("click", () => {
+                    const setting = button.dataset.setting;
+
+                    if (setting === "Privacy Settings") {
+                        alert(
+                            "Privacy settings need to be connected to saved account preferences."
+                        );
+                    } else if (setting === "Notification Settings") {
+                        alert(
+                            "Notification preferences are not implemented yet."
+                        );
+                    } else if (setting === "Security Settings") {
+                        alert(
+                            "Security settings need to be connected to account security features."
+                        );
+                    }
+                });
+            });
+
+            changePasswordButton?.addEventListener("click", () => {
+                alert(
+                    "Password changes are not implemented yet. This feature requires a secure account-update process."
+                );
+            });
+
+            privacySettingsButton?.addEventListener("click", () => {
+                openSettingsOverlay();
             });
         });
     </script>
-
 </body>
 </html>

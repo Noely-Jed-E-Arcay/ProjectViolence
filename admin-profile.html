@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="css/profileF.css">
     <link rel="stylesheet" href="css/myreports-shell.css">
+    <link rel="stylesheet" href="css/darkmode.css">
+    <link rel="stylesheet" href="css/darkmode.css">
 </head>
 <body>
 
@@ -368,18 +370,87 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <script>
 (function () {
-    const loggedIn = sessionStorage.getItem("safeReportAdminLoggedIn") === "true";
-    if (!loggedIn) {
+    "use strict";
+
+    const ADMIN_SESSION_KEY = "safeReportAdminLoggedIn";
+    const ADMIN_EMAIL_KEY = "safeReportAdminEmail";
+
+    function getStoredUser() {
+        try {
+            const currentUser = JSON.parse(
+                localStorage.getItem("currentUser") || "null"
+            );
+
+            if (currentUser && typeof currentUser === "object") {
+                return currentUser;
+            }
+
+            const legacyUser = JSON.parse(
+                localStorage.getItem("safeReportUser") || "null"
+            );
+
+            return legacyUser && typeof legacyUser === "object"
+                ? legacyUser
+                : null;
+        } catch (error) {
+            console.error("Unable to verify the current user:", error);
+            return null;
+        }
+    }
+
+    const adminSession =
+        sessionStorage.getItem(ADMIN_SESSION_KEY) === "true";
+
+    const sessionEmail = (
+        sessionStorage.getItem(ADMIN_EMAIL_KEY) || ""
+    ).trim().toLowerCase();
+
+    const currentUser = getStoredUser();
+
+    const currentEmail = (
+        currentUser?.email || ""
+    ).trim().toLowerCase();
+
+    const currentRole = String(
+        currentUser?.role || currentUser?.accountType || ""
+    )
+        .trim()
+        .toLowerCase()
+        .replace(/\s+account$/, "");
+
+    const isAdministrator =
+        currentRole === "admin" ||
+        currentRole === "administrator";
+
+    const validAdminSession =
+        adminSession &&
+        sessionEmail !== "" &&
+        currentEmail !== "" &&
+        sessionEmail === currentEmail &&
+        isAdministrator;
+
+    if (!validAdminSession) {
+        sessionStorage.removeItem(ADMIN_SESSION_KEY);
+        sessionStorage.removeItem(ADMIN_EMAIL_KEY);
+
         window.location.replace("login.html");
         return;
     }
 
-    const logoutLinks = document.querySelectorAll('a[href="login.html"].logout');
+    // Clear the administrator session when logging out.
+    const logoutLinks = document.querySelectorAll(
+        'a[href="login.html"].logout'
+    );
+
     logoutLinks.forEach(function (link) {
         link.addEventListener("click", function () {
-            sessionStorage.removeItem("safeReportAdminLoggedIn");
-            sessionStorage.removeItem("safeReportAdminEmail");
+            sessionStorage.removeItem(ADMIN_SESSION_KEY);
+            sessionStorage.removeItem(ADMIN_EMAIL_KEY);
+
             localStorage.removeItem("safeReportAdminRemembered");
+            localStorage.removeItem("safeReportLoggedIn");
+            localStorage.removeItem("currentUser");
+            localStorage.removeItem("safeReportUser");
         });
     });
 })();

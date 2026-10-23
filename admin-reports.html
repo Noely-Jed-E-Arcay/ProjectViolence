@@ -5,102 +5,258 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#3157d5">
     <meta name="description" content="Administrator report management for SafeReport.">
+
     <title>SafeReport | Manage Reports</title>
+
     <link rel="stylesheet" href="css/myreports.css">
     <link rel="stylesheet" href="css/profileF.css">
     <link rel="stylesheet" href="css/myreports-shell.css">
     <link rel="stylesheet" href="css/settingsOL.css">
+    <link rel="stylesheet" href="css/darkmode.css">
 </head>
+
 <body>
+
 <div class="app">
+
+    <!-- SIDEBAR -->
     <aside class="sidebar">
+
         <a class="sidebar-brand" href="admin-reports.html" aria-label="SafeReport administrator home">
-            <span class="shield" aria-hidden="true">🛡</span><span>SafeReport</span>
+            <span class="shield" aria-hidden="true">🛡</span>
+            <span>SafeReport</span>
         </a>
+
         <div class="sidebar-label">ADMINISTRATION</div>
+
         <nav aria-label="Admin navigation">
-            <a class="active" href="admin-reports.html" aria-current="page"><span class="side-icon" aria-hidden="true">▤</span><span>Manage Reports</span></a>
-            <a href="admin-profile.html"><span class="side-icon" aria-hidden="true">◯</span><span>My Profile</span></a>
+
+            <a class="active" href="admin-reports.html" aria-current="page">
+                <span class="side-icon" aria-hidden="true">▤</span>
+                <span>Manage Reports</span>
+            </a>
+
+            <a href="admin-profile.html">
+                <span class="side-icon" aria-hidden="true">◯</span>
+                <span>My Profile</span>
+            </a>
+
         </nav>
+
         <div class="sidebar-bottom">
+
             <div class="sidebar-help">
                 <div class="help-icon" aria-hidden="true">ⓘ</div>
                 <strong>Need assistance?</strong>
                 <p>Contact your system administrator for account support.</p>
             </div>
+
             <div class="profile-mini">
                 <div class="avatar" aria-hidden="true">A</div>
-                <div class="profile-details"><strong>Administrator</strong><small>Admin Account</small></div>
+
+                <div class="profile-details">
+                    <strong>Administrator</strong>
+                    <small>Admin Account</small>
+                </div>
             </div>
-            <a class="logout" href="login.html"><span aria-hidden="true">↪</span><span>Logout</span></a>
+
+            <a class="logout" href="login.html">
+                <span aria-hidden="true">↪</span>
+                <span>Logout</span>
+            </a>
+
         </div>
+
     </aside>
 
+    <!-- MAIN CONTENT -->
     <main>
+
+        <!-- HEADER -->
         <header class="header">
+
             <div class="header-left">
-                <div class="breadcrumb"><span>Administration</span><span class="breadcrumb-separator">/</span><strong>Manage Reports</strong></div>
-                <p class="header-subtitle">Review and manage student safety reports.</p>
+
+                <div class="breadcrumb">
+                    <span>Administration</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <strong>Manage Reports</strong>
+                </div>
+
+                <p class="header-subtitle">
+                    Review and manage student safety reports.
+                </p>
+
             </div>
+
             <div class="header-actions">
+
                 <div class="search-box">
                     <span aria-hidden="true">⌕</span>
-                    <input type="search" id="adminReportSearch" placeholder="Search reports..." aria-label="Search reports">
+
+                    <input
+                        type="search"
+                        id="adminReportSearch"
+                        placeholder="Search reports..."
+                        aria-label="Search reports"
+                    >
                 </div>
-                <button type="button" class="header-action" id="notificationBtn" aria-label="Notifications">♧</button>
-                <button type="button" class="header-action" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">☾</button>
+
+                <button
+                    type="button"
+                    class="header-action"
+                    id="notificationBtn"
+                    aria-label="Notifications"
+                >♧</button>
+
+                <button
+                    type="button"
+                    class="header-action"
+                    id="themeToggle"
+                    aria-label="Toggle dark mode"
+                    title="Toggle dark mode"
+                >☾</button>
+
                 <div class="profile-menu-wrap">
-                    <button type="button" class="header-avatar" id="profileBtn" aria-label="Open profile menu" aria-expanded="false" aria-controls="profileDropdown">A</button>
+
+                    <button
+                        type="button"
+                        class="header-avatar"
+                        id="profileBtn"
+                        aria-label="Open profile menu"
+                        aria-expanded="false"
+                        aria-controls="profileDropdown"
+                    >A</button>
+
                     <div class="profile-dropdown" id="profileDropdown" hidden>
-                        <a href="admin-profile.html">My Profile</a>
-                        <a href="admin-profile.html#admin-security" id="openSettingsBtn">Settings</a>
-                        <a href="login.html" class="logout" id="logoutBtn">Logout</a>
+
+                        <a href="admin-profile.html">
+                            My Profile
+                        </a>
+
+                        <a
+                            href="admin-profile.html#admin-security"
+                            id="openSettingsBtn"
+                        >Settings</a>
+
+                        <a
+                            href="login.html"
+                            class="logout"
+                            id="logoutBtn"
+                        >Logout</a>
+
                     </div>
+
                 </div>
+
             </div>
+
         </header>
 
+        <!-- PAGE CONTENT -->
         <div class="content">
+
             <section class="page-title">
                 <h1>Report Management</h1>
-                <p>Review submitted incidents, check their status, and manage report records.</p>
+
+                <p>
+                    Review submitted incidents, check their status,
+                    and manage report records.
+                </p>
             </section>
 
+            <!-- REPORT STATISTICS -->
             <section class="stats" aria-label="Administrator report summary">
-                <article class="stat-box"><div class="stat-icon" aria-hidden="true">▤</div><div><h2 id="adminTotalReports">0</h2><p>Total Reports</p></div></article>
-                <article class="stat-box"><div class="stat-icon" aria-hidden="true">◷</div><div><h2 id="adminPendingReports">0</h2><p>Pending / Under Review</p></div></article>
-                <article class="stat-box"><div class="stat-icon" aria-hidden="true">✓</div><div><h2 id="adminResolvedReports">0</h2><p>Resolved</p></div></article>
+
+                <article class="stat-box">
+                    <div class="stat-icon" aria-hidden="true">▤</div>
+
+                    <div>
+                        <h2 id="adminTotalReports">0</h2>
+                        <p>Total Reports</p>
+                    </div>
+                </article>
+
+                <article class="stat-box">
+                    <div class="stat-icon" aria-hidden="true">◷</div>
+
+                    <div>
+                        <h2 id="adminPendingReports">0</h2>
+                        <p>Pending / Under Review</p>
+                    </div>
+                </article>
+
+                <article class="stat-box">
+                    <div class="stat-icon" aria-hidden="true">✓</div>
+
+                    <div>
+                        <h2 id="adminResolvedReports">0</h2>
+                        <p>Resolved</p>
+                    </div>
+                </article>
+
             </section>
 
+            <!-- SUBMITTED REPORTS -->
             <section class="panel section" aria-labelledby="adminReportsTitle">
+
                 <div class="panel-heading">
+
                     <div>
                         <p class="small-title">ADMINISTRATION</p>
                         <h2 id="adminReportsTitle">Submitted Reports</h2>
                     </div>
-                    <span class="report-count" id="adminVisibleCount">0 reports</span>
+
+                    <span class="report-count" id="adminVisibleCount">
+                        0 reports
+                    </span>
+
                 </div>
+
                 <div class="panel-body">
+
+                    <!-- SEARCH AND FILTERS -->
                     <div class="filters">
+
                         <label class="search-field">
                             <span class="search-symbol" aria-hidden="true">⌕</span>
-                            <input type="search" id="adminSearch" placeholder="Search by ID, type, date, or location" aria-label="Search submitted reports">
+
+                            <input
+                                type="search"
+                                id="adminSearch"
+                                placeholder="Search by ID, type, date, or location"
+                                aria-label="Search submitted reports"
+                            >
                         </label>
+
                         <label class="select-field">
+
                             <span class="filter-label">STATUS</span>
-                            <select id="adminStatusFilter" aria-label="Filter reports by status">
+
+                            <select
+                                id="adminStatusFilter"
+                                aria-label="Filter reports by status"
+                            >
                                 <option value="all">All Statuses</option>
                                 <option value="pending">Pending</option>
                                 <option value="under review">Under Review</option>
                                 <option value="in progress">In Progress</option>
                                 <option value="resolved">Resolved</option>
                             </select>
+
                         </label>
+
                     </div>
 
+                    <!-- REPORT TABLE -->
                     <div class="table-wrap">
+
                         <table>
-                            <caption class="sr-only">Student incident reports</caption>
+
+                            <caption class="sr-only">
+                                Student incident reports
+                            </caption>
+
                             <thead>
                                 <tr>
                                     <th>Report ID</th>
@@ -111,59 +267,169 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
+
                             <tbody id="adminReportsTableBody"></tbody>
+
                         </table>
 
-                        <div class="empty-state" id="adminEmptyState">
+                        <!-- EMPTY STATE -->
+                        <div class="empty-state" id="adminEmptyState" hidden>
+
                             <div class="empty-icon" aria-hidden="true">⌕</div>
+
                             <h3>No reports available</h3>
-                            <p>Submitted student reports will appear here.</p>
+
+                            <p>
+                                Submitted student reports will appear here.
+                            </p>
+
                         </div>
+
                     </div>
 
-                    <div class="feedback-container" id="adminReportFeedback" role="status" aria-live="polite"></div>
+                    <!-- TABLE FEEDBACK -->
+                    <div
+                        class="feedback-container"
+                        id="adminReportFeedback"
+                        role="status"
+                        aria-live="polite"
+                    ></div>
+
                 </div>
+
             </section>
 
+            <!-- REPORT HANDLING GUIDANCE -->
             <section class="panel section" aria-labelledby="adminGuidanceTitle">
-                <div class="panel-heading"><div><p class="small-title">SECURITY</p><h2 id="adminGuidanceTitle">Report Handling Guidance</h2></div></div>
+
+                <div class="panel-heading">
+                    <div>
+                        <p class="small-title">SECURITY</p>
+                        <h2 id="adminGuidanceTitle">Report Handling Guidance</h2>
+                    </div>
+                </div>
+
                 <div class="panel-body">
+
                     <ul>
                         <li>Keep student reports confidential.</li>
-                        <li>Review incident details before changing a report status.</li>
-                        <li>Only authorized administrators should manage submitted reports.</li>
+
+                        <li>
+                            Review incident details before changing
+                            a report status.
+                        </li>
+
+                        <li>
+                            Only authorized administrators should manage
+                            submitted reports.
+                        </li>
                     </ul>
+
                 </div>
+
             </section>
+
         </div>
+
     </main>
+
 </div>
 
-<!-- REPORT DETAILS -->
+<!-- REPORT DETAILS MODAL -->
 <div class="details-overlay" id="adminReportDetailsOverlay" hidden>
-    <section class="details-dialog" role="dialog" aria-modal="true" aria-labelledby="adminDetailsTitle">
+
+    <section
+        class="details-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="adminDetailsTitle"
+    >
+
         <div class="details-header">
-            <div><span class="details-eyebrow">REPORT DETAILS</span><h2 id="adminDetailsTitle">Report information</h2></div>
-            <button type="button" class="details-close" id="closeAdminDetails" aria-label="Close report details">×</button>
+
+            <div>
+                <span class="details-eyebrow">REPORT DETAILS</span>
+                <h2 id="adminDetailsTitle">Report information</h2>
+            </div>
+
+            <button
+                type="button"
+                class="details-close"
+                id="closeAdminDetails"
+                aria-label="Close report details"
+            >×</button>
+
         </div>
+
         <div class="details-body" id="adminReportDetailsBody"></div>
-        <div id="adminReportPhoto" class="report-photo-display" aria-label="Incident photo"></div>
-        <div class="details-footer"><p id="adminReportFeedback" role="status" aria-live="polite"></p><button type="button" class="primary-button blue-button" id="doneAdminDetails">Done</button></div>
-    </section>
-</div>
 
-<!-- DELETE CONFIRMATION -->
-<div class="modal" id="adminDeleteConfirm" hidden role="dialog" aria-modal="true" aria-labelledby="adminDeleteTitle">
-    <div class="modal-content">
-        <h2 id="adminDeleteTitle">Delete Report?</h2>
-        <p>Confirm that this report should be removed from the administrator view.</p>
-        <div class="modal-actions">
-            <button type="button" class="secondary-button" id="cancelAdminDelete">Cancel</button>
-            <button type="button" class="primary-button" id="confirmAdminDelete">Delete Report</button>
+        <div
+            id="adminReportPhoto"
+            class="report-photo-display"
+            aria-label="Incident photo"
+        ></div>
+
+        <!-- UNIQUE MODAL FEEDBACK ID -->
+        <div class="details-footer">
+
+            <p
+                id="adminReportDetailsFeedback"
+                role="status"
+                aria-live="polite"
+            ></p>
+
+            <button
+                type="button"
+                class="primary-button blue-button"
+                id="doneAdminDetails"
+            >Done</button>
+
         </div>
-    </div>
+
+    </section>
+
 </div>
 
+<!-- DELETE CONFIRMATION MODAL -->
+<div
+    class="modal"
+    id="adminDeleteConfirm"
+    hidden
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="adminDeleteTitle"
+>
+
+    <div class="modal-content">
+
+        <h2 id="adminDeleteTitle">Delete Report?</h2>
+
+        <p>
+            Confirm that this report should be removed from
+            the administrator view.
+        </p>
+
+        <div class="modal-actions">
+
+            <button
+                type="button"
+                class="secondary-button"
+                id="cancelAdminDelete"
+            >Cancel</button>
+
+            <button
+                type="button"
+                class="primary-button"
+                id="confirmAdminDelete"
+            >Delete Report</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- EXISTING PROJECT JAVASCRIPT -->
 <script src="JS/main.js"></script>
 <script src="JS/Tito_Part/storage.js"></script>
 <script src="JS/Tito_Part/validation.js"></script>
@@ -171,22 +437,83 @@
 <script src="JS/Tito_Part/navbar.js"></script>
 <script src="JS/Tito_Part/modal.js"></script>
 
+<!-- ADMIN REPORT MANAGEMENT -->
+<script src="JS/Tito_Part/admin-reports.js"></script>
+
 <script>
 (function () {
-    const loggedIn = sessionStorage.getItem("safeReportAdminLoggedIn") === "true";
-    if (!loggedIn) {
+    "use strict";
+
+    const LOGIN_KEY = "safeReportLoggedIn";
+    const CURRENT_USER_KEY = "currentUser";
+    const LEGACY_USER_KEY = "safeReportUser";
+    const ADMIN_LOGIN_KEY = "safeReportAdminLoggedIn";
+    const ADMIN_EMAIL_KEY = "safeReportAdminEmail";
+
+    function denyAccess() {
+        sessionStorage.removeItem(ADMIN_LOGIN_KEY);
+        sessionStorage.removeItem(ADMIN_EMAIL_KEY);
+
         window.location.replace("login.html");
-        return;
     }
 
-    const logoutLinks = document.querySelectorAll('a[href="login.html"].logout');
-    logoutLinks.forEach(function (link) {
-        link.addEventListener("click", function () {
-            sessionStorage.removeItem("safeReportAdminLoggedIn");
-            sessionStorage.removeItem("safeReportAdminEmail");
-            localStorage.removeItem("safeReportAdminRemembered");
-        });
-    });
+    function normalizeEmail(email) {
+        return String(email || "").trim().toLowerCase();
+    }
+
+    function verifyAdmin() {
+        const adminLoggedIn =
+            sessionStorage.getItem(ADMIN_LOGIN_KEY) === "true";
+
+        const adminEmail = normalizeEmail(
+            sessionStorage.getItem(ADMIN_EMAIL_KEY)
+        );
+
+        if (!adminLoggedIn || !adminEmail) {
+            denyAccess();
+            return;
+        }
+
+        if (localStorage.getItem(LOGIN_KEY) !== "true") {
+            denyAccess();
+            return;
+        }
+
+        let currentUser = null;
+
+        try {
+            currentUser = JSON.parse(
+                localStorage.getItem(CURRENT_USER_KEY) ||
+                localStorage.getItem(LEGACY_USER_KEY) ||
+                "null"
+            );
+        } catch (error) {
+            console.error("Unable to verify the current account.", error);
+            denyAccess();
+            return;
+        }
+
+        if (!currentUser || typeof currentUser !== "object") {
+            denyAccess();
+            return;
+        }
+
+        const currentEmail = normalizeEmail(currentUser.email);
+
+        const role = String(currentUser.role || "")
+            .replace(/\s+Account$/i, "")
+            .trim()
+            .toLowerCase();
+
+        if (
+            currentEmail !== adminEmail ||
+            !["admin", "administrator"].includes(role)
+        ) {
+            denyAccess();
+        }
+    }
+
+    verifyAdmin();
 })();
 </script>
 

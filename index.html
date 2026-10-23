@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,16 @@
 
     <title>SafeReport | Dashboard</title>
 
-    <!-- CSS FILES -->
+    <!-- EXISTING PAGE STYLES -->
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/profileF.css">
     <link rel="stylesheet" href="css/settingsOL.css">
     <link rel="stylesheet" href="css/myreports-shell.css">
+
+    <!-- GLOBAL DARK MODE: KEEP THIS LAST -->
+    <link rel="stylesheet" href="css/darkmode.css">
 </head>
+
 
 <body>
 <div class="app">
@@ -65,15 +70,15 @@
             </div>
 
             <div class="profile-mini">
-                <div class="avatar" aria-hidden="true">J</div>
+                <div class="avatar header-avatar" aria-hidden="true">J</div>
 
                 <div class="profile-details">
-                    <strong>John Loyd Arcay. Panla-an</strong>
-                    <small>Student Account</small>
+                    <strong class="user-name">John Loyd Arcay. Panla-an</strong>
+                    <small class="user-role">Student</small>
                 </div>
             </div>
 
-            <a class="logout" href="login.html">
+            <a class="logout" href="login.html" id="sidebarLogoutBtn">
                 <span aria-hidden="true">↪</span>
                 <span>Logout</span>
             </a>
@@ -124,6 +129,7 @@
                     class="header-action"
                     id="themeToggle"
                     aria-label="Toggle dark mode"
+                    aria-pressed="false"
                     title="Toggle dark mode">
                     ☾
                 </button>
@@ -162,7 +168,10 @@
                             Settings
                         </a>
 
-                        <a href="login.html" class="logout">
+                        <a
+                            href="login.html"
+                            class="logout"
+                            id="logoutBtn">
                             Logout
                         </a>
 
@@ -482,39 +491,46 @@
                     <section
                         class="panel section"
                         id="safetyResources"
-                        aria-labelledby="safetyResourcesTitle"
-                    >
+                        aria-labelledby="safetyResourcesTitle">
+
                         <div class="panel-heading">
                             <div>
                                 <p class="small-title">STAY SAFE</p>
-                                <h2 id="safetyResourcesTitle">Safety Resources</h2>
+                                <h2 id="safetyResourcesTitle">
+                                    Safety Resources
+                                </h2>
                             </div>
                         </div>
 
                         <div class="panel-body">
+
                             <article class="resource-card">
                                 <h3>Recognize Unsafe Situations</h3>
                                 <p>
-                                    Pay attention to bullying, harassment, threats,
-                                    violence, and other behavior that may put students at risk.
+                                    Pay attention to bullying, harassment,
+                                    threats, violence, and other behavior
+                                    that may put students at risk.
                                 </p>
                             </article>
 
                             <article class="resource-card">
                                 <h3>Report Concerns Early</h3>
                                 <p>
-                                    Provide accurate details such as what happened,
-                                    where it happened, and when it happened.
+                                    Provide accurate details such as what
+                                    happened, where it happened, and when
+                                    it happened.
                                 </p>
                             </article>
 
                             <article class="resource-card">
                                 <h3>Protect Your Privacy</h3>
                                 <p>
-                                    Avoid sharing unnecessary personal information and
-                                    use SafeReport only through your trusted school account.
+                                    Avoid sharing unnecessary personal
+                                    information and use SafeReport only
+                                    through your trusted school account.
                                 </p>
                             </article>
+
                         </div>
                     </section>
 
@@ -644,7 +660,7 @@
     </section>
 </div>
 
-<!-- EXISTING JAVASCRIPT FILE REFERENCES -->
+<!-- EXISTING JAVASCRIPT -->
 <script src="JS/Tito_Part/storage.js"></script>
 <script src="JS/Tito_Part/validation.js"></script>
 <script src="JS/Tito_Part/toast.js"></script>
@@ -652,6 +668,7 @@
 <script src="JS/Tito_Part/modal.js"></script>
 <script src="JS/main.js"></script>
 
+<!-- DASHBOARD FEATURES -->
 <script src="JS/Arcays_Part/dashboard.js"></script>
 <script src="JS/Arcays_Part/announcements.js"></script>
 <script src="JS/Arcays_Part/profile_feature.js"></script>

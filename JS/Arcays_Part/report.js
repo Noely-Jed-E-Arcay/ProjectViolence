@@ -1,41 +1,221 @@
-
 /* =========================================
-   SAFEREPORT - MY REPORTS
-   Report Table, Statuses, and Statistics
+   SAFEREPORT — MY REPORTS
+   Student-only report listing
 ========================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
+    "use strict";
+
+    const CURRENT_USER_KEY = "currentUser";
+    const LOGIN_KEY = "safeReportLoggedIn";
+    const REPORTS_KEY = "reports";
+
     const tableBody = document.getElementById("reportsTableBody");
 
-    if (!tableBody) return;
+    if (!tableBody) {
+        return;
+    }
 
     const totalCount = document.getElementById("totalCount");
     const reviewCount = document.getElementById("reviewCount");
     const resolvedCount = document.getElementById("resolvedCount");
 
-    // Retrieve reports from shared storage.
+    /* =========================================
+       AUTHENTICATION
+    ========================================= */
+
+    function getCurrentUser() {
+        if (localStorage.getItem(LOGIN_KEY) !== "true") {
+            return null;
+        }
+
+        try {
+            const user = JSON.parse(
+                localStorage.getItem(CURRENT_USER_KEY)
+            );
+
+            if (
+                !user ||
+                typeof user !== "object" ||
+                !user.email
+            ) {
+                return null;
+            }
+
+            return user;
+        } catch (error) {
+            console.error(
+                "Unable to read the current user.",
+                error
+            );
+
+            return null;
+        }
+    }
+
+    function normalizeRole(role) {
+        return String(role || "")
+            .trim()
+            .toLowerCase()
+            .replace(/[_-]+/g, " ")
+            .replace(/\s+/g, " ");
+    }
+
+    function isAdministrator(user) {
+        if (!user) {
+            return false;
+        }
+
+        const role = normalizeRole(user.role);
+
+        return [
+            "admin",
+            "administrator",
+            "admin account"
+        ].includes(role);
+    }
+
+    const currentUser = getCurrentUser();
+
+    /*
+     * My Reports is a student-facing page.
+     * Administrators must use admin-reports.html.
+     */
+    if (!currentUser) {
+        window.location.replace("login.html");
+        return;
+    }
+
+    if (isAdministrator(currentUser)) {
+        window.location.replace("admin-reports.html");
+        return;
+    }
+
+    /* =========================================
+       REPORT STORAGE
+    ========================================= */
+
     function getStoredReports() {
         try {
             if (
                 window.SafeReportStorage &&
                 typeof window.SafeReportStorage.getReports === "function"
             ) {
-                const reports = window.SafeReportStorage.getReports();
+                const reports =
+                    window.SafeReportStorage.getReports();
+
                 return Array.isArray(reports) ? reports : [];
             }
 
-            const reports = JSON.parse(
-                localStorage.getItem("reports") || "[]"
-            );
+            const stored = localStorage.getItem(REPORTS_KEY);
+
+            if (!stored) {
+                return [];
+            }
+
+            const reports = JSON.parse(stored);
 
             return Array.isArray(reports) ? reports : [];
         } catch (error) {
-            console.error("Unable to load reports:", error);
+            console.error(
+                "Unable to retrieve reports.",
+                error
+            );
+
             return [];
         }
     }
 
-    // Normalize statuses for consistent display and filtering.
+    /* =========================================
+       REPORT OWNERSHIP
+    ========================================= */
+
+    function normalizeEmail(email) {
+        return String(email || "")
+            .trim()
+            .toLowerCase();
+    }
+
+    function normalizeStudentId(studentId) {
+        return String(studentId || "")
+            .trim()
+            .toLowerCase();
+    }
+
+    function getReportOwner(report) {
+        if (
+            !report ||
+            !report.submittedBy ||
+            typeof report.submittedBy !== "object"
+        ) {
+            return null;
+        }
+
+        return report.submittedBy;
+    }
+
+    function belongsToCurrentUser(report) {
+        const owner = getReportOwner(report);
+
+        if (!owner || !currentUser) {
+            return false;
+        }
+
+        const currentEmail = normalizeEmail(currentUser.email);
+        const ownerEmail = normalizeEmail(owner.email);
+
+        const currentStudentId = normalizeStudentId(
+            currentUser.studentId ||
+            currentUser.schoolId ||
+            currentUser.schoolID
+        );
+
+        const ownerStudentId = normalizeStudentId(
+            owner.studentId ||
+            owner.schoolId ||
+            owner.schoolID
+        );
+
+        /*
+         * If both records have student IDs, require the IDs
+         * and email addresses to match.
+         *
+         * This prevents an email match alone from overriding
+         * a conflicting student ID.
+         */
+        if (currentStudentId && ownerStudentId) {
+            return (
+                currentStudentId === ownerStudentId &&
+                currentEmail !== "" &&
+                currentEmail === ownerEmail
+            );
+        }
+
+        /*
+         * If student ID information is missing from either
+         * record, use the email address as the fallback.
+         */
+        return (
+            currentEmail !== "" &&
+            ownerEmail !== "" &&
+            currentEmail === ownerEmail
+        );
+    }
+
+    function getVisibleReports() {
+        /*
+         * Administrators are deliberately not allowed to see
+         * all reports through this student-facing page.
+         */
+        return getStoredReports().filter(
+            belongsToCurrentUser
+        );
+    }
+
+    /* =========================================
+       STATUS HELPERS
+    ========================================= */
+
     function normalizeStatus(status) {
         const value = String(status || "")
             .trim()
@@ -43,266 +223,368 @@ document.addEventListener("DOMContentLoaded", () => {
             .replace(/[_-]+/g, " ")
             .replace(/\s+/g, " ");
 
-        if (["resolved", "completed", "closed"].includes(value)) {
+        if (
+            value === "resolved" ||
+            value === "closed" ||
+            value === "completed"
+        ) {
             return "resolved";
         }
 
-        if (value === "in progress") {
-            return "in progress";
+        if (
+            value === "under review" ||
+            value === "in review" ||
+            value === "reviewing" ||
+            value === "in progress" ||
+            value === "investigating"
+        ) {
+            return "review";
         }
 
-        if (value === "pending") {
-            return "pending";
+        return "pending";
+    }
+
+    function getStatusLabel(status) {
+        const normalized = normalizeStatus(status);
+
+        if (normalized === "resolved") {
+            return "Resolved";
         }
 
-        return "under review";
-    }
-
-    // Convert normalized statuses into display labels.
-    function getStatusText(status) {
-        const labels = {
-            "under review": "Under Review",
-            "in progress": "In Progress",
-            "pending": "Pending",
-            "resolved": "Resolved"
-        };
-
-        return labels[normalizeStatus(status)];
-    }
-
-    // Get the submission timestamp for sorting.
-    function getSubmissionTime(report) {
-        const submittedAt =
-            report.createdAt ||
-            report.created_at ||
-            report.submittedAt ||
-            report.submitted_at ||
-            report.timestamp;
-
-        if (submittedAt) {
-            const timestamp = Date.parse(submittedAt);
-
-            if (Number.isFinite(timestamp)) {
-                return timestamp;
-            }
+        if (normalized === "review") {
+            return "Under Review";
         }
 
-        const id = Number(report.id);
-
-        return Number.isFinite(id) ? id : 0;
+        return "Pending";
     }
 
-    // Format dates for display.
-    function formatDate(date) {
-        if (!date) return "Not provided";
+    function getStatusClass(status) {
+        const normalized = normalizeStatus(status);
 
-        const parsedDate = new Date(date);
-
-        if (Number.isNaN(parsedDate.getTime())) {
-            return String(date);
+        if (normalized === "resolved") {
+            return "resolved";
         }
 
-        return parsedDate.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-        });
+        if (normalized === "review") {
+            return "review";
+        }
+
+        return "pending";
     }
 
-    // Prefer the submission date over the incident date.
-    function getSubmittedDate(report) {
+    /* =========================================
+       DATE HELPERS
+    ========================================= */
+
+    function getReportDate(report) {
         return (
+            report.submittedAt ||
+            report.dateSubmitted ||
             report.createdAt ||
             report.created_at ||
-            report.submittedAt ||
-            report.submitted_at ||
             report.timestamp ||
-            report.submissionDate ||
-            report.submission_date ||
             report.date ||
             ""
         );
     }
 
-    // Generate a consistent report ID.
-    function formatReportId(id, index) {
-        const value = String(id ?? index + 1);
-
-        if (value.startsWith("#SR-")) {
-            return value;
+    function formatDate(dateValue) {
+        if (!dateValue) {
+            return "—";
         }
 
-        return `#SR-${value.slice(-6).padStart(6, "0")}`;
+        const date = new Date(dateValue);
+
+        if (Number.isNaN(date.getTime())) {
+            return String(dateValue);
+        }
+
+        return date.toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+        });
     }
 
-    // Assign a CSS class based on the incident type.
-    function getTypeClass(type) {
-        const value = String(type || "").toLowerCase();
+    function getTimestamp(report) {
+        const dateValue = getReportDate(report);
+        const date = new Date(dateValue);
 
-        if (value.includes("harass")) return "harassment-dot";
-        if (value.includes("bull")) return "bullying-dot";
-        if (value.includes("violence")) return "violence-dot";
-        if (value.includes("threat")) return "threat-dot";
-
-        return "safety-dot";
+        return Number.isNaN(date.getTime())
+            ? 0
+            : date.getTime();
     }
 
-    // Create a table cell safely.
-    function createCell(content, className = "") {
+    /* =========================================
+       REPORT FIELD HELPERS
+    ========================================= */
+
+    function getReportId(report, index) {
+        return (
+            report.reportId ||
+            report.id ||
+            report.referenceNumber ||
+            `SR-${String(index + 1).padStart(4, "0")}`
+        );
+    }
+
+    function getIncidentType(report) {
+        return (
+            report.incidentType ||
+            report.type ||
+            report.category ||
+            "Unspecified"
+        );
+    }
+
+    function getLocation(report) {
+        return (
+            report.location ||
+            report.incidentLocation ||
+            report.place ||
+            "Not provided"
+        );
+    }
+
+    function createCell(text, className) {
         const cell = document.createElement("td");
+
+        cell.textContent =
+            text === null ||
+            text === undefined ||
+            text === ""
+                ? "—"
+                : String(text);
 
         if (className) {
             cell.className = className;
         }
 
-        cell.textContent = content || "Not provided";
+        return cell;
+    }
+
+    /* =========================================
+       REPORT DETAILS BUTTON
+    ========================================= */
+
+    function createActionCell(report) {
+        const cell = document.createElement("td");
+        const button = document.createElement("button");
+
+        button.type = "button";
+        button.className = "view-button";
+        button.textContent = "View";
+        button.setAttribute(
+            "aria-label",
+            "View report details"
+        );
+
+        button.addEventListener("click", () => {
+            /*
+             * Check ownership again before opening a report.
+             * This prevents a row from being used to open a
+             * report that no longer belongs to the user.
+             */
+            if (!belongsToCurrentUser(report)) {
+                console.warn(
+                    "Blocked access to a report owned by another user."
+                );
+
+                return;
+            }
+
+            document.dispatchEvent(
+                new CustomEvent("safereport:open-report", {
+                    detail: {
+                        report: report
+                    }
+                })
+            );
+
+            /*
+             * Compatibility event for existing page scripts
+             * that use a report ID to display the details.
+             */
+            document.dispatchEvent(
+                new CustomEvent("safereport:view-report", {
+                    detail: {
+                        report: report,
+                        reportId:
+                            report.reportId ||
+                            report.id ||
+                            report.referenceNumber ||
+                            ""
+                    }
+                })
+            );
+        });
+
+        cell.appendChild(button);
 
         return cell;
     }
 
-    // Render reports into the table.
+    /* =========================================
+       RENDER REPORT TABLE
+    ========================================= */
+
     function renderReports(reports) {
         tableBody.replaceChildren();
 
         reports.forEach((report, index) => {
             const row = document.createElement("tr");
-            const status = normalizeStatus(report.status);
-            const submittedDate = getSubmittedDate(report);
 
-            row.dataset.status = status;
-            row.dataset.date = report.date || "";
-            row.dataset.submitted = String(submittedDate || "");
-            row.dataset.reportId = String(report.id ?? "");
-
-            // Report ID
-            const idCell = document.createElement("td");
-            const idLabel = document.createElement("span");
-
-            idLabel.className = "report-id";
-            idLabel.textContent = formatReportId(report.id, index);
-
-            idCell.appendChild(idLabel);
-            row.appendChild(idCell);
-
-            // Incident type
-            const typeCell = document.createElement("td");
-            const typeLabel = document.createElement("span");
-            const typeDot = document.createElement("span");
-
-            typeLabel.className = "incident-type";
-            typeDot.className = `type-dot ${getTypeClass(report.type)}`;
-
-            typeLabel.append(
-                typeDot,
-                document.createTextNode(
-                    report.type || "Safety Concern"
-                )
+            row.appendChild(
+                createCell(getReportId(report, index))
             );
 
-            typeCell.appendChild(typeLabel);
-            row.appendChild(typeCell);
+            row.appendChild(
+                createCell(getIncidentType(report))
+            );
 
-            // Date submitted
-            const dateCell = createCell(formatDate(submittedDate));
+            row.appendChild(
+                createCell(formatDate(getReportDate(report)))
+            );
 
-            dateCell.dataset.date = String(submittedDate || "");
-            row.appendChild(dateCell);
+            row.appendChild(
+                createCell(getLocation(report))
+            );
 
-            // Location
-            row.appendChild(createCell(report.location));
-
-            // Status
             const statusCell = document.createElement("td");
-            const statusLabel = document.createElement("span");
-            const statusDot = document.createElement("span");
+            const statusBadge = document.createElement("span");
 
-            statusLabel.className =
-                status === "resolved"
-                    ? "status resolved"
-                    : "status reviewing";
+            statusBadge.className =
+                `status-badge ${getStatusClass(report.status)}`;
 
-            statusDot.className = "status-dot";
+            statusBadge.textContent =
+                getStatusLabel(report.status);
 
-            statusLabel.append(
-                statusDot,
-                document.createTextNode(getStatusText(status))
-            );
-
-            statusCell.appendChild(statusLabel);
+            statusCell.appendChild(statusBadge);
             row.appendChild(statusCell);
 
-            // View details button
-            const actionCell = document.createElement("td");
-            const viewButton = document.createElement("button");
+            row.appendChild(createActionCell(report));
 
-            viewButton.type = "button";
-            viewButton.className = "view-button";
-            viewButton.dataset.viewReport = "";
-
-            viewButton.setAttribute(
-                "aria-label",
-                `View report ${formatReportId(report.id, index)}`
+            /*
+             * Store only the report ID as a data attribute.
+             * Do not place report descriptions or personal
+             * information directly into HTML strings.
+             */
+            row.dataset.reportId = String(
+                report.reportId ||
+                report.id ||
+                report.referenceNumber ||
+                ""
             );
-
-            viewButton.textContent = "View →";
-
-            actionCell.appendChild(viewButton);
-            row.appendChild(actionCell);
 
             tableBody.appendChild(row);
         });
     }
 
-    // Update the summary cards.
+    /* =========================================
+       UPDATE STATISTICS
+    ========================================= */
+
     function updateStats(reports) {
         const total = reports.length;
 
-        const resolved = reports.filter(
-            report => normalizeStatus(report.status) === "resolved"
-        ).length;
+        const underReview = reports.filter(report => {
+            return normalizeStatus(report.status) === "review";
+        }).length;
 
-        const active = total - resolved;
+        const resolved = reports.filter(report => {
+            return normalizeStatus(report.status) === "resolved";
+        }).length;
 
         if (totalCount) {
-            totalCount.textContent = total;
+            totalCount.textContent = String(total);
         }
 
         if (reviewCount) {
-            reviewCount.textContent = active;
+            reviewCount.textContent = String(underReview);
         }
 
         if (resolvedCount) {
-            resolvedCount.textContent = resolved;
+            resolvedCount.textContent = String(resolved);
         }
     }
 
-    // Refresh reports and notify the page filters.
+    /* =========================================
+       REFRESH REPORTS
+    ========================================= */
+
     function refreshReports() {
-        const reports = getStoredReports().sort(
-            (a, b) => getSubmissionTime(b) - getSubmissionTime(a)
+        /*
+         * Recheck the login state when refreshing.
+         */
+        const user = getCurrentUser();
+
+        if (!user) {
+            window.location.replace("login.html");
+            return;
+        }
+
+        if (isAdministrator(user)) {
+            window.location.replace("admin-reports.html");
+            return;
+        }
+
+        const reports = getVisibleReports().sort(
+            (a, b) => getTimestamp(b) - getTimestamp(a)
         );
 
         renderReports(reports);
         updateStats(reports);
 
-        window.dispatchEvent(
-            new Event("safereport:reports-updated")
+        document.dispatchEvent(
+            new CustomEvent(
+                "safereport:student-reports-refreshed",
+                {
+                    detail: {
+                        count: reports.length
+                    }
+                }
+            )
         );
     }
 
-    // Listen for changes made in another browser tab.
+    /* =========================================
+       LISTEN FOR REPORT CHANGES
+    ========================================= */
+
     window.addEventListener("storage", event => {
-        if (event.key === "reports" || event.key === null) {
+        if (
+            event.key === REPORTS_KEY ||
+            event.key === CURRENT_USER_KEY ||
+            event.key === LOGIN_KEY
+        ) {
             refreshReports();
         }
     });
 
-    // Listen for report changes announced by other scripts.
-    window.addEventListener(
+    document.addEventListener(
+        "safereport:reports-updated",
+        refreshReports
+    );
+
+    document.addEventListener(
         "safereport:reports-changed",
         refreshReports
     );
 
-    // Initial table rendering.
+    document.addEventListener(
+        "reportsUpdated",
+        refreshReports
+    );
+
+    /*
+     * Allow existing application code to request a refresh
+     * without accessing the internal rendering functions.
+     */
+    window.refreshMyReports = refreshReports;
+
+    /* =========================================
+       INITIAL LOAD
+    ========================================= */
+
     refreshReports();
 });

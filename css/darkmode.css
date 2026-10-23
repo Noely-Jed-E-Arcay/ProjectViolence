@@ -1,0 +1,1384 @@
+/* ============================================================
+   SAFEREPORT - GLOBAL DARK MODE
+   Supports authenticated student and admin interfaces.
+   Theme states:
+   html[data-theme="dark"]
+   body.dark-mode
+
+   Public login/signup pages must remain in light mode.
+============================================================ */
+
+/* ============================================================
+   1. THEME VARIABLES
+============================================================ */
+
+:root {
+    color-scheme: light;
+
+    --dm-bg: #f5f7fb;
+    --dm-surface: #ffffff;
+    --dm-raised: #ffffff;
+    --dm-muted: #f1f5f9;
+    --dm-input: #ffffff;
+
+    --dm-text: #172033;
+    --dm-text-secondary: #475569;
+    --dm-text-muted: #64748b;
+
+    --dm-border: #e2e8f0;
+    --dm-border-strong: #cbd5e1;
+
+    --dm-blue: #3157d5;
+    --dm-blue-hover: #2546b8;
+    --dm-blue-soft: #eef2ff;
+
+    --dm-green: #15803d;
+    --dm-yellow: #b7791f;
+    --dm-red: #b42318;
+
+    --dm-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="dark"],
+body.dark-mode {
+    color-scheme: dark;
+
+    --dm-bg: #0b111b;
+    --dm-surface: #111a28;
+    --dm-raised: #172233;
+    --dm-muted: #1c293b;
+    --dm-input: #0d1521;
+
+    --dm-text: #e7edf7;
+    --dm-text-secondary: #c0cbda;
+    --dm-text-muted: #94a3b8;
+
+    --dm-border: #2b394d;
+    --dm-border-strong: #40516a;
+
+    --dm-blue: #7794ff;
+    --dm-blue-hover: #91a8ff;
+    --dm-blue-soft: #1a2a4b;
+
+    --dm-green: #4ade80;
+    --dm-yellow: #fbbf24;
+    --dm-red: #f87171;
+
+    --dm-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================================
+   2. GLOBAL PAGE BACKGROUNDS
+============================================================ */
+
+html[data-theme="dark"],
+html[data-theme="dark"] body,
+body.dark-mode {
+    background: var(--dm-bg) !important;
+    background-color: var(--dm-bg) !important;
+    color: var(--dm-text) !important;
+}
+
+html[data-theme="dark"] main,
+html[data-theme="dark"] .app,
+html[data-theme="dark"] .content,
+html[data-theme="dark"] .main-content,
+html[data-theme="dark"] .page-content,
+html[data-theme="dark"] .page-container,
+html[data-theme="dark"] .dashboard-content,
+html[data-theme="dark"] .dashboard-main,
+html[data-theme="dark"] .admin-dashboard-content,
+html[data-theme="dark"] .profile-container,
+html[data-theme="dark"] .settings-container,
+html[data-theme="dark"] .reports-container,
+html[data-theme="dark"] .report-container,
+body.dark-mode main,
+body.dark-mode .app,
+body.dark-mode .content,
+body.dark-mode .main-content,
+body.dark-mode .page-content,
+body.dark-mode .page-container,
+body.dark-mode .dashboard-content,
+body.dark-mode .dashboard-main,
+body.dark-mode .admin-dashboard-content,
+body.dark-mode .profile-container,
+body.dark-mode .settings-container,
+body.dark-mode .reports-container,
+body.dark-mode .report-container {
+    background-color: var(--dm-bg) !important;
+    color: var(--dm-text) !important;
+}
+
+/* ============================================================
+   3. GLOBAL TEXT
+============================================================ */
+
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4,
+html[data-theme="dark"] h5,
+html[data-theme="dark"] h6,
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6 {
+    color: var(--dm-text) !important;
+}
+
+html[data-theme="dark"] p,
+html[data-theme="dark"] label,
+html[data-theme="dark"] li,
+html[data-theme="dark"] small,
+html[data-theme="dark"] figcaption,
+body.dark-mode p,
+body.dark-mode label,
+body.dark-mode li,
+body.dark-mode small,
+body.dark-mode figcaption {
+    color: var(--dm-text-secondary);
+}
+
+html[data-theme="dark"] .muted,
+html[data-theme="dark"] .text-muted,
+html[data-theme="dark"] .subtitle,
+html[data-theme="dark"] .description,
+html[data-theme="dark"] .subtext,
+html[data-theme="dark"] .form-hint,
+body.dark-mode .muted,
+body.dark-mode .text-muted,
+body.dark-mode .subtitle,
+body.dark-mode .description,
+body.dark-mode .subtext,
+body.dark-mode .form-hint {
+    color: var(--dm-text-muted) !important;
+}
+
+html[data-theme="dark"] a:not(.primary-button):not(.blue-button):not(.admin-hero-btn),
+body.dark-mode a:not(.primary-button):not(.blue-button):not(.admin-hero-btn) {
+    color: #9db2ff;
+}
+
+html[data-theme="dark"] a:hover,
+body.dark-mode a:hover {
+    text-decoration-color: currentColor;
+}
+
+html[data-theme="dark"] .primary-button,
+html[data-theme="dark"] .blue-button,
+html[data-theme="dark"] .admin-btn-primary,
+html[data-theme="dark"] .admin-hero-btn.primary,
+body.dark-mode .primary-button,
+body.dark-mode .blue-button,
+body.dark-mode .admin-btn-primary,
+body.dark-mode .admin-hero-btn.primary {
+    color: #ffffff !important;
+}
+
+/* ============================================================
+   4. SHARED SIDEBAR AND HEADER
+============================================================ */
+
+html[data-theme="dark"] .sidebar,
+html[data-theme="dark"] aside.sidebar,
+html[data-theme="dark"] .header,
+html[data-theme="dark"] header.header,
+html[data-theme="dark"] .topbar,
+html[data-theme="dark"] .top-bar,
+html[data-theme="dark"] .navbar,
+body.dark-mode .sidebar,
+body.dark-mode aside.sidebar,
+body.dark-mode .header,
+body.dark-mode header.header,
+body.dark-mode .topbar,
+body.dark-mode .top-bar,
+body.dark-mode .navbar {
+    background-color: #111926 !important;
+    color: var(--dm-text) !important;
+    border-color: var(--dm-border) !important;
+    box-shadow: none;
+}
+
+html[data-theme="dark"] .sidebar a,
+body.dark-mode .sidebar a {
+    color: #a0aec2;
+}
+
+html[data-theme="dark"] .sidebar nav a:hover,
+html[data-theme="dark"] .sidebar nav a.active,
+html[data-theme="dark"] .sidebar a.active,
+body.dark-mode .sidebar nav a:hover,
+body.dark-mode .sidebar nav a.active,
+body.dark-mode .sidebar a.active {
+    background-color: #1a2a4b !important;
+    color: #b6c5ff !important;
+    border-color: #34476c !important;
+}
+
+html[data-theme="dark"] .breadcrumb,
+html[data-theme="dark"] .breadcrumb span,
+html[data-theme="dark"] .breadcrumb strong,
+html[data-theme="dark"] .header-subtitle,
+html[data-theme="dark"] .page-title,
+html[data-theme="dark"] .page-title h1,
+html[data-theme="dark"] .page-title p,
+body.dark-mode .breadcrumb,
+body.dark-mode .breadcrumb span,
+body.dark-mode .breadcrumb strong,
+body.dark-mode .header-subtitle,
+body.dark-mode .page-title,
+body.dark-mode .page-title h1,
+body.dark-mode .page-title p {
+    color: var(--dm-text) !important;
+}
+
+/* Sidebar assistance panel */
+
+html[data-theme="dark"] .sidebar-help,
+html[data-theme="dark"] .help-card,
+body.dark-mode .sidebar-help,
+body.dark-mode .help-card {
+    background: #172338 !important;
+    background-color: #172338 !important;
+    color: var(--dm-text-secondary) !important;
+    border: 1px solid #30415a !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="dark"] .sidebar-help *,
+html[data-theme="dark"] .help-card *,
+body.dark-mode .sidebar-help *,
+body.dark-mode .help-card * {
+    color: inherit;
+}
+
+html[data-theme="dark"] .sidebar-help h1,
+html[data-theme="dark"] .sidebar-help h2,
+html[data-theme="dark"] .sidebar-help h3,
+html[data-theme="dark"] .sidebar-help strong,
+body.dark-mode .sidebar-help h1,
+body.dark-mode .sidebar-help h2,
+body.dark-mode .sidebar-help h3,
+body.dark-mode .sidebar-help strong {
+    color: #e5eaf2 !important;
+}
+
+html[data-theme="dark"] .sidebar-help p,
+body.dark-mode .sidebar-help p {
+    color: #a7b3c7 !important;
+}
+
+html[data-theme="dark"] .sidebar-help a,
+html[data-theme="dark"] .sidebar-help button,
+body.dark-mode .sidebar-help a,
+body.dark-mode .sidebar-help button {
+    background-color: #263858 !important;
+    color: #c5d0ff !important;
+    border-color: #3a4d6d !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="dark"] .sidebar-help a:hover,
+html[data-theme="dark"] .sidebar-help button:hover,
+body.dark-mode .sidebar-help a:hover,
+body.dark-mode .sidebar-help button:hover {
+    background-color: #304568 !important;
+    color: #ffffff !important;
+}
+
+/* Profile card: Lloyd Tito / Student */
+
+html[data-theme="dark"] .profile-mini,
+body.dark-mode .profile-mini {
+    background: #172338 !important;
+    background-color: #172338 !important;
+    color: #e5eaf2 !important;
+    border: 1px solid #30415a !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="dark"] .profile-mini strong,
+body.dark-mode .profile-mini strong {
+    color: #e5eaf2 !important;
+}
+
+html[data-theme="dark"] .profile-mini small,
+body.dark-mode .profile-mini small {
+    color: #a7b3c7 !important;
+}
+
+html[data-theme="dark"] .profile-mini .avatar,
+body.dark-mode .profile-mini .avatar {
+    background: #263858 !important;
+    color: #c5d0ff !important;
+    border-color: #3a4d6d !important;
+    box-shadow: none !important;
+}
+
+/* ============================================================
+   5. SEARCH BOXES AND HEADER ACTIONS
+============================================================ */
+
+html[data-theme="dark"] .search-box,
+html[data-theme="dark"] .admin-search,
+html[data-theme="dark"] .admin-date-select,
+html[data-theme="dark"] .admin-report-toolbar select,
+body.dark-mode .search-box,
+body.dark-mode .admin-search,
+body.dark-mode .admin-date-select,
+body.dark-mode .admin-report-toolbar select {
+    background: #172338 !important;
+    background-color: #172338 !important;
+    color: var(--dm-text) !important;
+    border: 1px solid #30415a !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="dark"] .search-box input,
+html[data-theme="dark"] .admin-search input,
+body.dark-mode .search-box input,
+body.dark-mode .admin-search input {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: var(--dm-text) !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="dark"] .search-box input::placeholder,
+html[data-theme="dark"] .admin-search input::placeholder,
+body.dark-mode .search-box input::placeholder,
+body.dark-mode .admin-search input::placeholder {
+    color: #91a0b7 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="dark"] .header-action,
+html[data-theme="dark"] .header-help,
+body.dark-mode .header-action,
+body.dark-mode .header-help {
+    background-color: #172338 !important;
+    color: #d6deeb !important;
+    border: 1px solid #30415a !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="dark"] .header-action:hover,
+html[data-theme="dark"] .header-help:hover,
+body.dark-mode .header-action:hover,
+body.dark-mode .header-help:hover {
+    background-color: #243454 !important;
+    color: #ffffff !important;
+}
+
+/* ============================================================
+   6. STUDENT DASHBOARD
+============================================================ */
+
+html[data-theme="dark"] .hero,
+body.dark-mode .hero {
+    background-color: #15213a !important;
+    color: #e8edff !important;
+    border-color: #2d416b !important;
+}
+
+html[data-theme="dark"] .hero h1,
+html[data-theme="dark"] .hero h2,
+html[data-theme="dark"] .hero h3,
+html[data-theme="dark"] .hero p,
+html[data-theme="dark"] .hero span,
+body.dark-mode .hero h1,
+body.dark-mode .hero h2,
+body.dark-mode .hero h3,
+body.dark-mode .hero p,
+body.dark-mode .hero span {
+    color: #e8edff !important;
+}
+
+html[data-theme="dark"] .stat-box,
+html[data-theme="dark"] .stat-card,
+html[data-theme="dark"] .panel,
+html[data-theme="dark"] .tip,
+html[data-theme="dark"] .quick-action,
+body.dark-mode .stat-box,
+body.dark-mode .stat-card,
+body.dark-mode .panel,
+body.dark-mode .tip,
+body.dark-mode .quick-action {
+    background-color: var(--dm-surface) !important;
+    color: var(--dm-text) !important;
+    border-color: var(--dm-border) !important;
+    box-shadow: var(--dm-shadow);
+}
+
+html[data-theme="dark"] .tip,
+body.dark-mode .tip {
+    background-color: #17243a !important;
+    border-color: #30446b !important;
+}
+
+html[data-theme="dark"] .tip h3,
+html[data-theme="dark"] .tip p,
+html[data-theme="dark"] .tip span,
+body.dark-mode .tip h3,
+body.dark-mode .tip p,
+body.dark-mode .tip span {
+    color: #dfe7fa !important;
+}
+
+html[data-theme="dark"] .stat-box h2,
+html[data-theme="dark"] .stat-box h3,
+html[data-theme="dark"] .stat-box p,
+html[data-theme="dark"] .stat-card h2,
+html[data-theme="dark"] .stat-card p,
+body.dark-mode .stat-box h2,
+body.dark-mode .stat-box h3,
+body.dark-mode .stat-box p,
+body.dark-mode .stat-card h2,
+body.dark-mode .stat-card p {
+    color: var(--dm-text) !important;
+}
+
+html[data-theme="dark"] .stat-box .stat-icon,
+html[data-theme="dark"] .stat-card .stat-icon,
+body.dark-mode .stat-box .stat-icon,
+body.dark-mode .stat-card .stat-icon {
+    background-color: #25344d !important;
+    color: #b8c7ff !important;
+}
+
+/* ============================================================
+   7. ADMIN DASHBOARD AND ADMIN REPORTS
+============================================================ */
+
+html[data-theme="dark"] .admin-dashboard-content,
+body.dark-mode .admin-dashboard-content {
+    background-color: var(--dm-bg) !important;
+    color: var(--dm-text) !important;
+}
+
+html[data-theme="dark"] .admin-hero,
+html[data-theme="dark"] .admin-welcome,
+body.dark-mode .admin-hero,
+body.dark-mode .admin-welcome {
+    color: var(--dm-text) !important;
+}
+
+html[data-theme="dark"] .admin-hero h1,
+html[data-theme="dark"] .admin-hero h2,
+html[data-theme="dark"] .admin-hero p,
+html[data-theme="dark"] .admin-welcome h1,
+html[data-theme="dark"] .admin-welcome h2,
+html[data-theme="dark"] .admin-welcome p,
+body.dark-mode .admin-hero h1,
+body.dark-mode .admin-hero h2,
+body.dark-mode .admin-hero p,
+body.dark-mode .admin-welcome h1,
+body.dark-mode .admin-welcome h2,
+body.dark-mode .admin-welcome p {
+    color: inherit;
+}
+
+html[data-theme="dark"] .admin-panel,
+html[data-theme="dark"] .admin-stat,
+html[data-theme="dark"] .admin-stat-card,
+html[data-theme="dark"] .admin-card,
+html[data-theme="dark"] .admin-widget,
+html[data-theme="dark"] .admin-quick-item,
+html[data-theme="dark"] .admin-dashboard-content .admin-panel,
+html[data-theme="dark"] .admin-dashboard-content .admin-stat-card,
+body.dark-mode .admin-panel,
+body.dark-mode .admin-stat,
+body.dark-mode .admin-stat-card,
+body.dark-mode .admin-card,
+body.dark-mode .admin-widget,
+body.dark-mode .admin-quick-item,
+body.dark-mode .admin-dashboard-content .admin-panel,
+body.dark-mode .admin-dashboard-content .admin-stat-card {
+    background-color: var(--dm-surface) !important;
+    color: var(--dm-text) !important;
+    border-color: var(--dm-border) !important;
+    box-shadow: var(--dm-shadow);
+}
+
+html[data-theme="dark"] .admin-panel h2,
+html[data-theme="dark"] .admin-panel h3,
+html[data-theme="dark"] .admin-panel p,
+html[data-theme="dark"] .admin-stat h2,
+html[data-theme="dark"] .admin-stat h3,
+html[data-theme="dark"] .admin-stat p,
+html[data-theme="dark"] .admin-stat-card h2,
+html[data-theme="dark"] .admin-stat-card h3,
+html[data-theme="dark"] .admin-stat-card p,
+body.dark-mode .admin-panel h2,
+body.dark-mode .admin-panel h3,
+body.dark-mode .admin-panel p,
+body.dark-mode .admin-stat h2,
+body.dark-mode .admin-stat h3,
+body.dark-mode .admin-stat p,
+body.dark-mode .admin-stat-card h2,
+body.dark-mode .admin-stat-card h3,
+body.dark-mode .admin-stat-card p {
+    color: var(--dm-text-secondary) !important;
+}
+
+html[data-theme="dark"] .admin-panel h2,
+html[data-theme="dark"] .admin-panel h3,
+html[data-theme="dark"] .admin-stat h2,
+html[data-theme="dark"] .admin-stat h3,
+body.dark-mode .admin-panel h2,
+body.dark-mode .admin-panel h3,
+body.dark-mode .admin-stat h2,
+body.dark-mode .admin-stat h3 {
+    color: var(--dm-text) !important;
+}
+
+html[data-theme="dark"] .admin-quick-item:hover,
+html[data-theme="dark"] .admin-dashboard-content .admin-quick-item:hover,
+body.dark-mode .admin-quick-item:hover,
+body.dark-mode .admin-dashboard-content .admin-quick-item:hover {
+    background-color: #1c293b !important;
+    border-color: var(--dm-border-strong) !important;
+}
+
+html[data-theme="dark"] .admin-date-select,
+body.dark-mode .admin-date-select {
+    background-color: var(--dm-input) !important;
+    color: var(--dm-text) !important;
+    border-color: var(--dm-border) !important;
+}
+
+html[data-theme="dark"] .stat-orange,
+html[data-theme="dark"] .stat-purple,
+html[data-theme="dark"] .icon-orange,
+body.dark-mode .stat-orange,
+body.dark-mode .stat-purple,
+body.dark-mode .icon-orange {
+    background-color: #25344d !important;
+    color: #c5d0ff !important;
+}
+
+html[data-theme="dark"] .status-under-review,
+html[data-theme="dark"] .badge-review,
+body.dark-mode .status-under-review,
+body.dark-mode .badge-review {
+    background-color: #3b2d17 !important;
+    color: #fbbf24 !important;
+}
+
+html[data-theme="dark"] .status-resolved,
+html[data-theme="dark"] .badge-resolved,
+body.dark-mode .status-resolved,
+body.dark-mode .badge-resolved {
+    background-color: #143323 !important;
+    color: #4ade80 !important;
+}
+
+/* ============================================================
+   8. REPORT INCIDENT PAGE
+============================================================ */
+
+html[data-theme="dark"] .report-layout,
+html[data-theme="dark"] .report-form,
+html[data-theme="dark"] .panel,
+body.dark-mode .report-layout,
+body.dark-mode .report-form,
+body.dark-mode .panel {
+    background-color: var(--dm-surface) !important;
+    color: var(--dm-text) !important;
+    border-color: var(--dm-border) !important;
+}
+
+html[data-theme="dark"] .report-form h1,
+html[data-theme="dark"] .report-form h2,
+html[data-theme="dark"] .report-form h3,
+html[data-theme="dark"] .report-form label,
+body.dark-mode .report-form h1,
+body.dark-mode .report-form h2,
+body.dark-mode .report-form h3,
+body.dark-mode .report-form label {
+    color: var(--dm-text-secondary) !important;
+}
+
+html[data-theme="dark"] .report-info,
+html[data-theme="dark"] .report-info-panel,
+html[data-theme="dark"] .report-guidance,
+body.dark-mode .report-info,
+body.dark-mode .report-info-panel,
+body.dark-mode .report-guidance {
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .report-info h1,
+html[data-theme="dark"] .report-info h2,
+html[data-theme="dark"] .report-info h3,
+html[data-theme="dark"] .report-info p,
+html[data-theme="dark"] .report-info li,
+html[data-theme="dark"] .report-info span,
+html[data-theme="dark"] .report-info-panel *,
+html[data-theme="dark"] .report-guidance *,
+body.dark-mode .report-info h1,
+body.dark-mode .report-info h2,
+body.dark-mode .report-info h3,
+body.dark-mode .report-info p,
+body.dark-mode .report-info li,
+body.dark-mode .report-info span,
+body.dark-mode .report-info-panel *,
+body.dark-mode .report-guidance * {
+    color: #ffffff !important;
+}
+
+/* ============================================================
+   9. ALL FORM CONTROLS
+============================================================ */
+
+html[data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea,
+body.dark-mode input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
+body.dark-mode select,
+body.dark-mode textarea {
+    background-color: var(--dm-input) !important;
+    color: var(--dm-text) !important;
+    border-color: var(--dm-border-strong) !important;
+}
+
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder,
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+    color: #8797ad !important;
+    opacity: 1;
+}
+
+html[data-theme="dark"] input:focus,
+html[data-theme="dark"] select:focus,
+html[data-theme="dark"] textarea:focus,
+body.dark-mode input:focus,
+body.dark-mode select:focus,
+body.dark-mode textarea:focus {
+    background-color: #111c2b !important;
+    color: var(--dm-text) !important;
+    border-color: #7794ff !important;
+    box-shadow: 0 0 0 3px rgba(119, 148, 255, 0.16) !important;
+    outline: none;
+}
+
+html[data-theme="dark"] select option,
+body.dark-mode select option {
+    background-color: #111a28;
+    color: #e7edf7;
+}
+
+html[data-theme="dark"] input[type="checkbox"],
+html[data-theme="dark"] input[type="radio"],
+body.dark-mode input[type="checkbox"],
+body.dark-mode input[type="radio"] {
+    accent-color: #7794ff;
+}
+
+html[data-theme="dark"] input[type="file"],
+body.dark-mode input[type="file"] {
+    color: var(--dm-text-secondary) !important;
+}
+
+html[data-theme="dark"] input[type="file"]::file-selector-button,
+body.dark-mode input[type="file"]::file-selector-button {
+    background-color: #202d41 !important;
+    color: #e7edf7 !important;
+    border: 1px solid var(--dm-border-strong);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-right: 12px;
+    cursor: pointer;
+}
+
+/* ============================================================
+   10. MY REPORTS: FILTERS, TABLES AND DETAIL DIALOG
+============================================================ */
+
+html[data-theme="dark"] .filters,
+html[data-theme="dark"] .filter-row,
+html[data-theme="dark"] .filter-label,
+html[data-theme="dark"] .report-count,
+html[data-theme="dark"] .table-footer,
+body.dark-mode .filters,
+body.dark-mode .filter-row,
+body.dark-mode .filter-label,
+body.dark-mode .report-count,
+body.dark-mode .table-footer {
+    background-color: var(--dm-raised) !important;
+    color: var(--dm-text-secondary) !important;
+    border-color: var(--dm-border) !important;
+}
+
+html[data-theme="dark"] .filters input,
+html[data-theme="dark"] .filters select,
+body.dark-mode .filters input,
+body.dark-mode .filters select {
+    background-color: var(--dm-input) !important;
+    color: var(--dm-text) !important;
+    border-color: var(--dm-border-strong) !important;
+}
+
+html[data-theme="dark"] table,
+html[data-theme="dark"] thead,
+html[data-theme="dark"] tbody,
+body.dark-mode table,
+body.dark-mode thead,
+body.dark-mode tbody {
+    background-color: var(--dm-surface) !important;
+    color: var(--dm-text) !important;
+}
+
+html[data-theme="dark"] th,
+body.dark-mode th {
+    background-color: #192537 !important;
+    color: #bdc9da !important;
+    border-color: var(--dm-border) !important;
+}
+
+html[data-theme="dark"] td,
+body.dark-mode td {
+    background-color: var(--dm-surface) !important;
+    color: var(--dm-text-secondary) !important;
+    border-color: var(--dm-border) !important;
+}
+
+html[data-theme="dark"] tbody tr:hover td,
+body.dark-mode tbody tr:hover td {
+    background-color: #1a2739 !important;
+}
+
+html[data-theme="dark"] .secondary-button,
+html[data-theme="dark"] .view-button,
+html[data-theme="dark"] .reset-filters,
+html[data-theme="dark"] .details-close,
+body.dark-mode .secondary-button,
+body.dark-mode .view-button,
+body.dark-mode .reset-filters,
+body.dark-mode .details-close {
+    background-color: #202d41 !important;
+    color: #e2e8f0 !important;
+    border-color: var(--dm-border-strong) !important;
+}
+
+html[data-theme="dark"] .secondary-button:hover,
+html[data-theme="dark"] .view-button:hover,
+html[data-theme="dark"] .reset-filters:hover,
+html[data-theme="dark"] .details-close:hover,
+body.dark-mode .secondary-button:hover,
+body.dark-mode .view-button:hover,
+body.dark-mode .reset-filters:hover,
+body.dark-mode .details-close:hover {
+    background-color: #2a3a52 !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .details-dialog,
+html[data-theme="dark"] .details-field,
+html[data-theme="dark"] .details-notice,
+body.dark-mode .details-dialog,
+body.dark-mode .details-field,
+body.dark-mode .details-notice {
+    background-color: #111a28 !important;
+    color: var(--dm-text-secondary) !important;
+    border-color: var(--dm-border) !important;
+}
+
+html[data-theme="dark"] .details-field strong,
+html[data-theme="dark"] .details-field span,
+html[data-theme="dark"] .details-dialog h2,
+html[data-theme="dark"] .details-dialog h3,
+body.dark-mode .details-field strong,
+body.dark-mode .details-field span,
+body.dark-mode .details-dialog h2,
+body.dark-mode .details-dialog h3 {
+    color: var(--dm-text) !important;
+}
+
+html[data-theme="dark"] .report-count,
+body.dark-mode .report-count {
+    background-color: #1a2a4b !important;
+    color: #b6c5ff !important;
+    border-color: #34476c !important;
+}
+
+/* ============================================================
+   11. PROFILE PAGE
+============================================================ */
+
+html[data-theme="dark"] .profile-section,
+html[data-theme="dark"] .profile-content,
+html[data-theme="dark"] .profile-details,
+html[data-theme="dark"] .profile-info,
+html[data-theme="dark"] .profile-form,
+html[data-theme="dark"] .profile-form-section,
+html[data-theme="dark"] .profile-card,
+body.dark-mode .profile-section,
+body.dark-mode .profile-content,
+body.dark-mode .profile-details,
+body.dark-mode .profile-info,
+body.dark-mode .profile-form,
+body.dark-mode .profile-form-section,
+body.dark-mode .profile-card {
+    background-color: var(--dm-surface) !important;
+    color: var(--dm-text) !important;
+    border-color: var(--dm-border) !important;
+}
+
+html[data-theme="dark"] .profile-form input,
+html[data-theme="dark"] .profile-form select,
+html[data-theme="dark"] .profile-form textarea,
+body.dark-mode .profile-form input,
+body.dark-mode .profile-form select,
+body.dark-mode .profile-form textarea {
+    background-color: var(--dm-input) !important;
+    color: var(--dm-text) !important;
+    border-color: var(--dm-border-strong) !important;
+}
+
+/* ============================================================
+   12. SETTINGS PANEL AND SETTINGS PAGE
+============================================================ */
+
+html[data-theme="dark"] .settings-page,
+html[data-theme="dark"] .settings-section,
+html[data-theme="dark"] .settings-content,
+html[data-theme="dark"] .settings-group,
+html[data-theme="dark"] .settings-row,
+html[data-theme="dark"] .settings-list,
+html[data-theme="dark"] .settings-item,
+body.dark-mode .settings-page,
+body.dark-mode .settings-section,
+body.dark-mode .settings-content,
+body.dark-mode .settings-group,
+body.dark-mode .settings-row,
+body.dark-mode .settings-list,
+body.dark-mode .settings-item {
+    background-color: var(--dm-surface) !important;
+    color: var(--dm-text) !important;
+    border-color: var(--dm-border) !important;
+}
+
+html[data-theme="dark"] .settings-item:hover,
+body.dark-mode .settings-item:hover {
+    background-color: #1c293b !important;
+    color: var(--dm-text) !important;
+}
+
+html[data-theme="dark"] .settings-item h2,
+html[data-theme="dark"] .settings-item h3,
+html[data-theme="dark"] .settings-item strong,
+html[data-theme="dark"] .settings-content h2,
+html[data-theme="dark"] .settings-content h3,
+body.dark-mode .settings-item h2,
+body.dark-mode .settings-item h3,
+body.dark-mode .settings-item strong,
+body.dark-mode .settings-content h2,
+body.dark-mode .settings-content h3 {
+    color: var(--dm-text) !important;
+}
+
+html[data-theme="dark"] .settings-item p,
+html[data-theme="dark"] .settings-content p,
+body.dark-mode .settings-item p,
+body.dark-mode .settings-content p {
+    color: var(--dm-text-secondary) !important;
+}
+
+html[data-theme="dark"] .settings-icon,
+body.dark-mode .settings-icon {
+    background-color: #25344d !important;
+    color: #c5d0ff !important;
+}
+
+html[data-theme="dark"] .settings-overlay,
+html[data-theme="dark"] .settings-panel,
+body.dark-mode .settings-overlay,
+body.dark-mode .settings-panel {
+    background-color: #111a28 !important;
+    color: var(--dm-text) !important;
+    border-color: var(--dm-border) !important;
+    box-shadow: var(--dm-shadow) !important;
+}
+
+html[data-theme="dark"] .settings-back,
+html[data-theme="dark"] .settings-item,
+body.dark-mode .settings-back,
+body.dark-mode .settings-item {
+    color: var(--dm-text-secondary);
+}
+
+html[data-theme="dark"] .settings-back:hover,
+body.dark-mode .settings-back:hover {
+    background-color: #1c293b !important;
+}
+
+/* ============================================================
+   13. PROFILE DROPDOWN
+============================================================ */
+
+html[data-theme="dark"] .profile-dropdown,
+body.dark-mode .profile-dropdown {
+    background-color: #111a28 !important;
+    color: var(--dm-text) !important;
+    border-color: var(--dm-border) !important;
+    box-shadow: var(--dm-shadow) !important;
+}
+
+html[data-theme="dark"] .profile-dropdown a,
+body.dark-mode .profile-dropdown a {
+    background-color: transparent !important;
+    color: var(--dm-text-secondary) !important;
+}
+
+html[data-theme="dark"] .profile-dropdown a:hover,
+body.dark-mode .profile-dropdown a:hover {
+    background-color: #1c293b !important;
+    color: #b6c5ff !important;
+}
+
+html[data-theme="dark"] .profile-dropdown a.logout:hover,
+body.dark-mode .profile-dropdown a.logout:hover {
+    background-color: #3b1e25 !important;
+    color: #fca5a5 !important;
+}
+
+/* ============================================================
+   14. MODALS, OVERLAYS AND CONFIRMATION DIALOGS
+============================================================ */
+
+html[data-theme="dark"] .modal-overlay,
+html[data-theme="dark"] .overlay,
+html[data-theme="dark"] .dialog-overlay,
+html[data-theme="dark"] .settings-overlay,
+body.dark-mode .modal-overlay,
+body.dark-mode .overlay,
+body.dark-mode .dialog-overlay,
+body.dark-mode .settings-overlay {
+    background-color: rgba(2, 6, 15, 0.78);
+}
+
+html[data-theme="dark"] .modal,
+html[data-theme="dark"] .modal-content,
+html[data-theme="dark"] .dialog,
+html[data-theme="dark"] .confirm-dialog,
+html[data-theme="dark"] .settings-panel,
+html[data-theme="dark"] .delete-confirm,
+body.dark-mode .modal,
+body.dark-mode .modal-content,
+body.dark-mode .dialog,
+body.dark-mode .confirm-dialog,
+body.dark-mode .settings-panel,
+body.dark-mode .delete-confirm {
+    background-color: #111a28 !important;
+    color: var(--dm-text) !important;
+    border-color: var(--dm-border) !important;
+    box-shadow: var(--dm-shadow) !important;
+}
+
+/* ============================================================
+   15. PRIVACY NOTICES AND SUPPORT PANELS
+============================================================ */
+
+html[data-theme="dark"] .privacy-box,
+html[data-theme="dark"] .notice,
+html[data-theme="dark"] .alert-info,
+html[data-theme="dark"] .support-banner,
+html[data-theme="dark"] .support-card,
+body.dark-mode .privacy-box,
+body.dark-mode .notice,
+body.dark-mode .alert-info,
+body.dark-mode .support-banner,
+body.dark-mode .support-card {
+    background-color: #17243a !important;
+    color: #d8e2f5 !important;
+    border-color: #30446b !important;
+}
+
+html[data-theme="dark"] .privacy-box *,
+html[data-theme="dark"] .notice *,
+html[data-theme="dark"] .alert-info *,
+html[data-theme="dark"] .support-banner *,
+html[data-theme="dark"] .support-card *,
+body.dark-mode .privacy-box *,
+body.dark-mode .notice *,
+body.dark-mode .alert-info *,
+body.dark-mode .support-banner *,
+body.dark-mode .support-card * {
+    color: inherit;
+}
+
+html[data-theme="dark"] .privacy-box strong,
+html[data-theme="dark"] .notice strong,
+body.dark-mode .privacy-box strong,
+body.dark-mode .notice strong {
+    color: #b6c5ff !important;
+}
+
+/* ============================================================
+   16. EMPTY STATES
+============================================================ */
+
+html[data-theme="dark"] .empty-state,
+html[data-theme="dark"] .empty-state-content,
+html[data-theme="dark"] .empty-message,
+html[data-theme="dark"] .empty-icon,
+body.dark-mode .empty-state,
+body.dark-mode .empty-state-content,
+body.dark-mode .empty-message,
+body.dark-mode .empty-icon {
+    background-color: var(--dm-surface) !important;
+    color: var(--dm-text-secondary) !important;
+    border-color: var(--dm-border) !important;
+}
+
+/* ============================================================
+   17. ADMIN TABLES
+============================================================ */
+
+html[data-theme="dark"] .admin-reports-table,
+html[data-theme="dark"] .admin-reports-table tbody,
+body.dark-mode .admin-reports-table,
+body.dark-mode .admin-reports-table tbody {
+    background-color: var(--dm-surface) !important;
+    color: var(--dm-text) !important;
+}
+
+html[data-theme="dark"] .admin-reports-table th,
+html[data-theme="dark"] .admin-dashboard-content .admin-reports-table th,
+body.dark-mode .admin-reports-table th,
+body.dark-mode .admin-dashboard-content .admin-reports-table th {
+    background-color: #192537 !important;
+    color: #bdc9da !important;
+    border-color: var(--dm-border) !important;
+}
+
+html[data-theme="dark"] .admin-reports-table td,
+html[data-theme="dark"] .admin-dashboard-content .admin-reports-table td,
+body.dark-mode .admin-reports-table td,
+body.dark-mode .admin-dashboard-content .admin-reports-table td {
+    background-color: var(--dm-surface) !important;
+    color: var(--dm-text-secondary) !important;
+    border-color: var(--dm-border) !important;
+}
+
+html[data-theme="dark"] .admin-reports-table tbody tr:hover,
+html[data-theme="dark"] .admin-dashboard-content .admin-reports-table tbody tr:hover,
+body.dark-mode .admin-reports-table tbody tr:hover,
+body.dark-mode .admin-dashboard-content .admin-reports-table tbody tr:hover {
+    background-color: #1a2739 !important;
+}
+
+/* ============================================================
+   18. BUTTONS AND HOVER STATES
+============================================================ */
+
+html[data-theme="dark"] button.secondary-button,
+html[data-theme="dark"] button.view-button,
+html[data-theme="dark"] button.reset-filters,
+body.dark-mode button.secondary-button,
+body.dark-mode button.view-button,
+body.dark-mode button.reset-filters {
+    background-color: #202d41 !important;
+    color: #e2e8f0 !important;
+    border-color: var(--dm-border-strong) !important;
+}
+
+html[data-theme="dark"] button.secondary-button:hover,
+html[data-theme="dark"] button.view-button:hover,
+html[data-theme="dark"] button.reset-filters:hover,
+body.dark-mode button.secondary-button:hover,
+body.dark-mode button.view-button:hover,
+body.dark-mode button.reset-filters:hover {
+    background-color: #2a3a52 !important;
+    color: #ffffff !important;
+}
+
+/* ============================================================
+   19. THEME TOGGLE BUTTON
+============================================================ */
+
+#themeToggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    padding: 0;
+
+    background-color: #ffffff;
+    color: #334155;
+
+    border: 1px solid #dce2eb;
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+#themeToggle:hover {
+    background-color: #f0f3f8;
+    border-color: #b8c5e8;
+    transform: translateY(-1px);
+}
+
+#themeToggle svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+}
+
+html[data-theme="dark"] #themeToggle,
+body.dark-mode #themeToggle {
+    background-color: #202b3b !important;
+    color: #e2e8f0 !important;
+    border-color: #3a475b !important;
+}
+
+html[data-theme="dark"] #themeToggle:hover,
+body.dark-mode #themeToggle:hover {
+    background-color: #2a384c !important;
+    border-color: #586a85 !important;
+}
+
+/* ============================================================
+   20. FOCUS, SELECTION AND ACCESSIBILITY
+============================================================ */
+
+html[data-theme="dark"] :focus-visible,
+body.dark-mode :focus-visible {
+    outline-color: #819bff;
+}
+
+html[data-theme="dark"] ::selection,
+body.dark-mode ::selection {
+    background-color: #3855a3;
+    color: #ffffff;
+}
+
+html[data-theme="dark"] img,
+html[data-theme="dark"] video,
+html[data-theme="dark"] canvas,
+body.dark-mode img,
+body.dark-mode video,
+body.dark-mode canvas {
+    filter: none;
+}
+
+/* ============================================================
+   21. FINAL SHARED COMPONENT FIXES
+   Profile card, Report Incident header/search, Need Assistance
+============================================================ */
+
+/* Profile card: remove the harsh black shade */
+
+html[data-theme="dark"] .profile-mini,
+body.dark-mode .profile-mini {
+    background: #172338 !important;
+    background-color: #172338 !important;
+    color: #e5eaf2 !important;
+    border: 1px solid #30415a !important;
+    box-shadow: none !important;
+    filter: none !important;
+}
+
+html[data-theme="dark"] .profile-mini strong,
+body.dark-mode .profile-mini strong {
+    color: #e5eaf2 !important;
+}
+
+html[data-theme="dark"] .profile-mini small,
+body.dark-mode .profile-mini small {
+    color: #a7b3c7 !important;
+}
+
+/* Keep the profile avatar consistent with the theme */
+
+html[data-theme="dark"] .profile-mini .avatar,
+body.dark-mode .profile-mini .avatar {
+    background: #263858 !important;
+    background-color: #263858 !important;
+    color: #c5d0ff !important;
+    border-color: #3a4d6d !important;
+    box-shadow: none !important;
+}
+
+/* Report Incident top header */
+
+html[data-theme="dark"] .header,
+html[data-theme="dark"] header.header,
+body.dark-mode .header,
+body.dark-mode header.header {
+    background: #111c2e !important;
+    background-color: #111c2e !important;
+    color: #e5eaf2 !important;
+    border-bottom: 1px solid #2b3a50 !important;
+    box-shadow: none !important;
+}
+
+/* Search field container */
+
+html[data-theme="dark"] .search-box,
+body.dark-mode .search-box {
+    background: #172338 !important;
+    background-color: #172338 !important;
+    color: #e5eaf2 !important;
+    border: 1px solid #30415a !important;
+    box-shadow: none !important;
+}
+
+/* Search text field */
+
+html[data-theme="dark"] .search-box input,
+body.dark-mode .search-box input {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #e5eaf2 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="dark"] .search-box input::placeholder,
+body.dark-mode .search-box input::placeholder {
+    color: #91a0b7 !important;
+    opacity: 1 !important;
+}
+
+/* Search icon */
+
+html[data-theme="dark"] .search-box span,
+body.dark-mode .search-box span {
+    color: #91a0b7 !important;
+}
+
+/* Header text */
+
+html[data-theme="dark"] .header h1,
+html[data-theme="dark"] .header h2,
+html[data-theme="dark"] .header h3,
+html[data-theme="dark"] .header p,
+html[data-theme="dark"] .header label,
+body.dark-mode .header h1,
+body.dark-mode .header h2,
+body.dark-mode .header h3,
+body.dark-mode .header p,
+body.dark-mode .header label {
+    color: #e5eaf2;
+}
+
+/* Need Assistance panel: remove white background */
+
+html[data-theme="dark"] .sidebar-help,
+body.dark-mode .sidebar-help {
+    background: #172338 !important;
+    background-color: #172338 !important;
+    color: #c4cede !important;
+    border: 1px solid #30415a !important;
+    box-shadow: none !important;
+    filter: none !important;
+}
+
+/* Need Assistance icon */
+
+html[data-theme="dark"] .sidebar-help .help-icon,
+body.dark-mode .sidebar-help .help-icon {
+    background: #263858 !important;
+    background-color: #263858 !important;
+    color: #c5d0ff !important;
+    border: 1px solid #3a4d6d !important;
+    box-shadow: none !important;
+}
+
+/* Need Assistance title */
+
+html[data-theme="dark"] .sidebar-help h1,
+html[data-theme="dark"] .sidebar-help h2,
+html[data-theme="dark"] .sidebar-help h3,
+html[data-theme="dark"] .sidebar-help strong,
+body.dark-mode .sidebar-help h1,
+body.dark-mode .sidebar-help h2,
+body.dark-mode .sidebar-help h3,
+body.dark-mode .sidebar-help strong {
+    color: #e5eaf2 !important;
+}
+
+/* Need Assistance description */
+
+html[data-theme="dark"] .sidebar-help p,
+body.dark-mode .sidebar-help p {
+    color: #a7b3c7 !important;
+}
+
+/* Need Assistance links and buttons */
+
+html[data-theme="dark"] .sidebar-help a,
+html[data-theme="dark"] .sidebar-help button,
+body.dark-mode .sidebar-help a,
+body.dark-mode .sidebar-help button {
+    background: #263858 !important;
+    background-color: #263858 !important;
+    color: #c5d0ff !important;
+    border-color: #3a4d6d !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="dark"] .sidebar-help a:hover,
+html[data-theme="dark"] .sidebar-help button:hover,
+body.dark-mode .sidebar-help a:hover,
+body.dark-mode .sidebar-help button:hover {
+    background: #304568 !important;
+    background-color: #304568 !important;
+    color: #ffffff !important;
+}
+
+/* Header buttons */
+
+html[data-theme="dark"] .header-action,
+html[data-theme="dark"] .header-help,
+body.dark-mode .header-action,
+body.dark-mode .header-help {
+    background: #172338 !important;
+    background-color: #172338 !important;
+    color: #d6deeb !important;
+    border: 1px solid #30415a !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="dark"] .header-action:hover,
+html[data-theme="dark"] .header-help:hover,
+body.dark-mode .header-action:hover,
+body.dark-mode .header-help:hover {
+    background: #243454 !important;
+    background-color: #243454 !important;
+    color: #ffffff !important;
+}
+
+/* ============================================================
+   22. REDUCED-MOTION ACCESSIBILITY
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    html[data-theme="dark"] *,
+    html[data-theme="dark"] *::before,
+    html[data-theme="dark"] *::after,
+    body.dark-mode *,
+    body.dark-mode *::before,
+    body.dark-mode *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

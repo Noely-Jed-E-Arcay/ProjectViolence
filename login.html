@@ -34,7 +34,6 @@
 
         </div>
 
-
         <!-- RIGHT SIDE -->
         <div class="login-right">
 
@@ -44,7 +43,7 @@
                 Login to your SafeReport account
             </p>
 
-            <form onsubmit="handleUnifiedLogin(event)" id="loginForm">
+            <form id="loginForm">
 
                 <div
                     id="loginError"
@@ -59,7 +58,8 @@
                     role="status"
                     aria-live="polite"
                 ></div>
-<label for="email">
+
+                <label for="email">
                     Email Address
                 </label>
 
@@ -68,6 +68,7 @@
                     id="email"
                     name="email"
                     placeholder="Enter your email"
+                    autocomplete="username"
                     required
                 >
 
@@ -80,6 +81,7 @@
                     id="password"
                     name="password"
                     placeholder="Enter your password"
+                    autocomplete="current-password"
                     required
                 >
 
@@ -97,7 +99,7 @@
 
                 </div>
 
-                <button type="submit">
+                <button type="submit" id="loginButton">
                     Login
                 </button>
 
@@ -110,7 +112,6 @@
                 </a>
 
             </form>
-
 
             <div class="create-account">
 
@@ -132,45 +133,211 @@
 
     </div>
 
-
-    <!-- Existing student authentication remains in tracel/auth.js.
-         The unified handler below adds the embedded administrator account. -->
+    <!-- EXISTING AUTHENTICATION -->
     <script src="tracel/auth.js"></script>
 
+    <!-- LOGIN HANDLER -->
     <script>
-    function handleUnifiedLogin(event) {
-        event.preventDefault();
+    (function () {
+        "use strict";
 
-        const email = document.getElementById("email").value.trim().toLowerCase();
-        const password = document.getElementById("password").value;
+        const USERS_KEY = "safeReportUsers";
+        const CURRENT_USER_KEY = "currentUser";
+        const LEGACY_USER_KEY = "safeReportUser";
+        const LOGIN_KEY = "safeReportLoggedIn";
+
+        const form = document.getElementById("loginForm");
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
         const errorBox = document.getElementById("loginError");
         const successBox = document.getElementById("loginSuccess");
+        const loginButton = document.getElementById("loginButton");
 
-        errorBox.textContent = "";
-        successBox.textContent = "";
-
-        // Embedded administrator account. No separate admin login page is needed.
-        const ADMIN_EMAIL = "admin@safereport.com";
-        const ADMIN_PASSWORD = "Admin123!";
-
-        if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-            sessionStorage.setItem("safeReportAdminLoggedIn", "true");
-            sessionStorage.setItem("safeReportAdminEmail", ADMIN_EMAIL);
-            successBox.textContent = "Administrator login successful. Opening reports...";
-
-            window.setTimeout(function () {
-                window.location.href = "admin-reports.html";
-            }, 300);
-            return;
+        function normalizeEmail(email) {
+            return String(email || "").trim().toLowerCase();
         }
 
-        // All other accounts use the existing student authentication.
-        if (typeof loginUser === "function") {
-            loginUser(event);
-        } else {
-            errorBox.textContent = "Student authentication is unavailable.";
+        function showError(message) {
+            errorBox.textContent = message;
+            successBox.textContent = "";
         }
-    }
+
+        function getStoredUsers() {
+            let users = [];
+
+            try {
+                const storedUsers = localStorage.getItem(USERS_KEY);
+
+                if (storedUsers) {
+                    const parsedUsers = JSON.parse(storedUsers);
+
+                    if (Array.isArray(parsedUsers)) {
+                        users = parsedUsers;
+                    }
+                }
+            } catch (error) {
+                console.error(
+                    "Unable to read registered accounts:",
+                    error
+                );
+
+                throw new Error(
+                    "Account information could not be loaded. Please try again."
+                );
+            }
+
+            /*
+             * Preserve compatibility with the older single-account
+             * storage format without duplicating existing accounts.
+             */
+            try {
+                const legacyAccount = localStorage.getItem(LEGACY_USER_KEY);
+
+                if (legacyAccount) {
+                    const parsedAccount = JSON.parse(legacyAccount);
+
+                    if (
+                        parsedAccount &&
+                        typeof parsedAccount === "object" &&
+                        parsedAccount.email
+                    ) {
+                        const alreadyExists = users.some(account =>
+                            normalizeEmail(account.email) ===
+                            normalizeEmail(parsedAccount.email)
+                        );
+
+                        if (!alreadyExists) {
+                            users.push(parsedAccount);
+                        }
+
+                        localStorage.setItem(
+                            USERS_KEY,
+                            JSON.stringify(users)
+                        );
+                    }
+                }
+            } catch (error) {
+                console.error(
+                    "Unable to read the legacy account:",
+                    error
+                );
+            }
+
+            return users;
+        }
+
+        function saveLoginSession(user, isAdmin) {
+            /*
+             * Preserve the account's existing fields and role.
+             */
+            localStorage.setItem(
+                CURRENT_USER_KEY,
+                JSON.stringify(user)
+            );
+
+            localStorage.setItem(
+                LEGACY_USER_KEY,
+                JSON.stringify(user)
+            );
+
+            localStorage.setItem(LOGIN_KEY, "true");
+
+            if (isAdmin) {
+                sessionStorage.setItem(
+                    "safeReportAdminLoggedIn",
+                    "true"
+                );
+
+                sessionStorage.setItem(
+                    "safeReportAdminEmail",
+                    normalizeEmail(user.email)
+                );
+            } else {
+                sessionStorage.removeItem(
+                    "safeReportAdminLoggedIn"
+                );
+
+                sessionStorage.removeItem(
+                    "safeReportAdminEmail"
+                );
+            }
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+
+            errorBox.textContent = "";
+            successBox.textContent = "";
+
+            const email = normalizeEmail(emailInput.value);
+            const password = passwordInput.value;
+
+            if (!email || !password) {
+                showError("Please enter your email and password.");
+                return;
+            }
+
+            loginButton.disabled = true;
+            loginButton.textContent = "Logging in...";
+
+            try {
+                const users = getStoredUsers();
+
+                const matchedUser = users.find(account =>
+                    normalizeEmail(account.email) === email &&
+                    String(account.password || "") === password
+                );
+
+                if (!matchedUser) {
+                    showError(
+                        "Incorrect email or password, or no matching account exists."
+                    );
+
+                    return;
+                }
+
+                const role = String(matchedUser.role || "Student")
+                    .trim()
+                    .toLowerCase()
+                    .replace(/\s+account$/i, "");
+
+                const isAdmin =
+                    role === "admin" ||
+                    role === "administrator";
+
+                /*
+                 * Only accounts already marked as administrators
+                 * in the stored account record use the admin route.
+                 */
+                saveLoginSession(matchedUser, isAdmin);
+
+                successBox.textContent = isAdmin
+                    ? "Administrator login successful. Opening reports..."
+                    : "Login successful. Opening dashboard...";
+
+                window.setTimeout(function () {
+                    window.location.href = isAdmin
+                        ? "admin-reports.html"
+                        : "index.html";
+                }, 300);
+
+            } catch (error) {
+                console.error("Login failed:", error);
+
+                showError(
+                    error.message ||
+                    "Unable to log in. Please try again."
+                );
+
+            } finally {
+                loginButton.disabled = false;
+                loginButton.textContent = "Login";
+            }
+        }
+
+        form.addEventListener("submit", handleLogin);
+
+    })();
     </script>
 
 </body>

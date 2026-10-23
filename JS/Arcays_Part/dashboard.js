@@ -1,4 +1,3 @@
-
 /* =========================================
    SAFEREPORT - DASHBOARD
    Statistics, Recent Activity, and Reports
@@ -17,7 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (
             event.key === null ||
             event.key === "reports" ||
-            event.key === "safeReportReports"
+            event.key === "safeReportReports" ||
+            event.key === "currentUser" ||
+            event.key === "safeReportLoggedIn"
         ) {
             refreshDashboard();
         }
@@ -30,11 +31,55 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 });
 
+/* =========================================
+   REFRESH DASHBOARD
+========================================= */
+
 function refreshDashboard() {
-    const reports = getReports();
+    // Only display reports belonging to the current student.
+    const reports = getVisibleReports();
 
     updateStatistics(reports);
     renderRecentActivity(reports);
+}
+
+/* =========================================
+   CURRENT USER
+========================================= */
+
+function getCurrentUser() {
+    try {
+        if (localStorage.getItem("safeReportLoggedIn") !== "true") {
+            return null;
+        }
+
+        const savedUser = localStorage.getItem("currentUser");
+
+        if (!savedUser) {
+            return null;
+        }
+
+        const user = JSON.parse(savedUser);
+
+        if (
+            !user ||
+            typeof user !== "object" ||
+            Array.isArray(user) ||
+            typeof user.email !== "string" ||
+            user.email.trim() === ""
+        ) {
+            return null;
+        }
+
+        return user;
+    } catch (error) {
+        console.error(
+            "Unable to identify the current student:",
+            error
+        );
+
+        return null;
+    }
 }
 
 /* =========================================
@@ -71,6 +116,75 @@ function getReports() {
         console.error("Unable to load saved reports:", error);
         return [];
     }
+}
+
+/* =========================================
+   REPORT OWNERSHIP
+========================================= */
+
+function belongsToCurrentUser(report, user) {
+    if (!report || !user || !report.submittedBy) {
+        return false;
+    }
+
+    const owner = report.submittedBy;
+
+    if (
+        typeof owner !== "object" ||
+        Array.isArray(owner)
+    ) {
+        return false;
+    }
+
+    const userEmail = String(user.email || "")
+        .trim()
+        .toLowerCase();
+
+    const ownerEmail = String(owner.email || "")
+        .trim()
+        .toLowerCase();
+
+    const userStudentId = String(
+        user.studentId || user.student_id || user.schoolId || ""
+    ).trim().toLowerCase();
+
+    const ownerStudentId = String(
+        owner.studentId || owner.student_id || owner.schoolId || ""
+    ).trim().toLowerCase();
+
+    /*
+     * If both records contain a Student ID, it must match.
+     * Do not fall back to email when both IDs exist but differ.
+     */
+    if (userStudentId && ownerStudentId) {
+        return userStudentId === ownerStudentId;
+    }
+
+    /*
+     * Use email when a Student ID is unavailable
+     * on either the user record or the report owner.
+     */
+    if (userEmail && ownerEmail) {
+        return userEmail === ownerEmail;
+    }
+
+    // Reports without identifiable ownership are not shown.
+    return false;
+}
+
+function getVisibleReports() {
+    const user = getCurrentUser();
+
+    // Fail closed if there is no valid student session.
+    if (!user) {
+        return [];
+    }
+
+    const allReports = getReports();
+
+    return allReports.filter(report =>
+        belongsToCurrentUser(report, user)
+    );
 }
 
 /* =========================================
@@ -219,7 +333,7 @@ function renderRecentActivity(reports) {
         return;
     }
 
-    // Display the three most recent reports.
+    // Display the three most recent reports belonging to this student.
     const latestReports = [...reports]
         .sort((a, b) => getReportTimestamp(b) - getReportTimestamp(a))
         .slice(0, 3);

@@ -1,0 +1,552 @@
+/* ==========================================
+   SAFEREPORT - MY REPORTS THEME
+   Dark mode and shared surface refinements
+========================================== */
+
+/* Default theme variables */
+:root {
+    --surface-soft: #f8fafc;
+}
+
+/* ==========================================
+   DARK MODE BASE
+========================================== */
+
+body.dark-mode {
+    --background: #0b1220;
+    --surface: #111c2e;
+    --surface-soft: #172338;
+
+    --text: #e5eaf2;
+    --muted: #a7b3c7;
+    --subtle: #91a0b7;
+    --border: #2b3a50;
+
+    --primary-light: #1e2b4a;
+
+    --success-bg: #123326;
+    --warning-bg: #3a2d13;
+
+    --shell-border: #2b3a50;
+    --shell-text: #e5eaf2;
+    --shell-muted: #a7b3c7;
+    --shell-subtle: #91a0b7;
+
+    background: var(--background);
+    color: var(--text);
+}
+
+/* ==========================================
+   MAIN SURFACES
+========================================== */
+
+body.dark-mode .sidebar,
+body.dark-mode .header,
+body.dark-mode .stat-box,
+body.dark-mode .panel,
+body.dark-mode .details-dialog {
+    background: var(--surface) !important;
+    color: var(--text) !important;
+    border-color: var(--border) !important;
+}
+
+/* Sidebar help and support sections */
+
+body.dark-mode .sidebar-help,
+body.dark-mode .support-banner {
+    background: linear-gradient(
+        145deg,
+        #172338,
+        #111c2e
+    ) !important;
+
+    color: var(--text) !important;
+    border-color: var(--border) !important;
+}
+
+/* ==========================================
+   SIDEBAR
+========================================== */
+
+body.dark-mode .sidebar-label {
+    color: var(--subtle) !important;
+}
+
+body.dark-mode .sidebar nav a {
+    color: #c4cede !important;
+}
+
+body.dark-mode .sidebar nav a:hover,
+body.dark-mode .sidebar nav a.active {
+    color: #aebfff !important;
+    background: var(--primary-light) !important;
+    border-color: #34476c !important;
+}
+
+body.dark-mode .sidebar-help strong,
+body.dark-mode .sidebar-help p {
+    color: var(--muted) !important;
+}
+
+/* Sidebar help icon */
+
+body.dark-mode .help-icon {
+    background: #25344d !important;
+    color: #c5d0ff !important;
+    border-color: var(--border) !important;
+}
+
+/* Sidebar profile */
+
+body.dark-mode .profile-mini {
+    background: #192537 !important;
+    color: var(--text) !important;
+    border-color: var(--border) !important;
+}
+
+body.dark-mode .profile-mini strong {
+    color: var(--text) !important;
+}
+
+body.dark-mode .profile-mini small {
+    color: var(--muted) !important;
+}
+
+body.dark-mode .sidebar-bottom {
+    border-color: var(--border) !important;
+}
+
+body.dark-mode .sidebar .logout {
+    color: var(--muted) !important;
+    background: transparent !important;
+}
+
+body.dark-mode .sidebar .logout:hover {
+    color: #b7c5ff !important;
+    background: var(--primary-light) !important;
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+body.dark-mode .header {
+    background: rgba(17, 28, 46, 0.96) !important;
+    border-color: var(--border) !important;
+}
+
+body.dark-mode .breadcrumb,
+body.dark-mode .breadcrumb > span:first-child,
+body.dark-mode .breadcrumb strong {
+    color: var(--text) !important;
+}
+
+body.dark-mode .breadcrumb-separator {
+    color: #64748b !important;
+}
+
+body.dark-mode .header-subtitle {
+    color: var(--muted) !important;
+}
+
+/* Header action buttons */
+
+body.dark-mode .header-action,
+body.dark-mode .header-help {
+    background: #172338 !important;
+    color: #d6deeb !important;
+    border-color: var(--border) !important;
+}
+
+body.dark-mode .header-help:hover,
+body.dark-mode .header-action:hover {
+    background: #243454 !important;
+}
+
+/* ==========================================
+   PROFILE DROPDOWN
+========================================== */
+
+body.dark-mode .profile-dropdown {
+    background: var(--surface) !important;
+    border-color: var(--border) !important;
+}
+
+body.dark-mode .profile-dropdown a {
+    color: #d6deeb !important;
+}
+
+body.dark-mode .profile-dropdown a:hover {
+    background: var(--primary-light) !important;
+    color: #b7c5ff !important;
+}
+
+body.dark-mode .profile-dropdown a.logout {
+    color: #fca5a5 !important;
+}
+
+body.dark-mode .profile-dropdown a.logout:hover {
+    background: #451a1a !important;
+    color: #fca5a5 !important;
+}
+
+/* ==========================================
+   PAGE TEXT
+========================================== */
+
+body.dark-mode .page-title h1,
+body.dark-mode .page-title p,
+body.dark-mode .eyebrow,
+body.dark-mode .stat-bottom h2,
+body.dark-mode .stat-bottom p,
+body.dark-mode .panel-title-row h2,
+body.dark-mode .panel-heading h2,
+body.dark-mode .filter-heading h3,
+body.dark-mode .details-dialog h2,
+body.dark-mode .details-dialog h3,
+body.dark-mode .details-field strong {
+    color: var(--text) !important;
+}
+
+body.dark-mode .page-title p,
+body.dark-mode .panel-heading p,
+body.dark-mode .filter-heading p,
+body.dark-mode .page-footer,
+body.dark-mode .footer,
+body.dark-mode .details-id {
+    color: var(--muted) !important;
+}
+
+body.dark-mode .eyebrow-dot {
+    background: #8ba2ff !important;
+    box-shadow: 0 0 0 4px #25344d !important;
+}
+
+/* ==========================================
+   SEARCH AND FORM CONTROLS
+========================================== */
+
+body.dark-mode .profile-mini,
+body.dark-mode .search-box,
+body.dark-mode .filters input,
+body.dark-mode .filters select,
+body.dark-mode .search-field,
+body.dark-mode .select-field,
+body.dark-mode .details-field,
+body.dark-mode .details-notice {
+    background: #0f1929 !important;
+    color: var(--text) !important;
+    border-color: var(--border) !important;
+}
+
+body.dark-mode .search-box input,
+body.dark-mode .filters input,
+body.dark-mode .filters select {
+    background: transparent !important;
+    color: var(--text) !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+body.dark-mode .filters input::placeholder,
+body.dark-mode .search-box input::placeholder {
+    color: #91a0b7 !important;
+}
+
+body.dark-mode .filters select option {
+    background: #111c2e;
+    color: var(--text);
+}
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+body.dark-mode .secondary-button,
+body.dark-mode .view-button,
+body.dark-mode .reset-filters,
+body.dark-mode .details-close {
+    background: #172338 !important;
+    color: #d6deeb !important;
+    border-color: var(--border) !important;
+}
+
+body.dark-mode .secondary-button:hover,
+body.dark-mode .view-button:hover,
+body.dark-mode .reset-filters:hover,
+body.dark-mode .details-close:hover {
+    background: #243454 !important;
+    color: #ffffff !important;
+    border-color: #40516a !important;
+}
+
+/* Preserve white text on primary buttons */
+
+body.dark-mode .primary-button,
+body.dark-mode .blue-button {
+    color: #ffffff !important;
+}
+
+/* ==========================================
+   STAT CARDS
+========================================== */
+
+body.dark-mode .stat-box {
+    background: var(--surface) !important;
+    border-color: var(--border) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+}
+
+body.dark-mode .stat-box:hover {
+    border-color: #40516a !important;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25) !important;
+}
+
+body.dark-mode .stat-icon,
+body.dark-mode .report-count,
+body.dark-mode .empty-icon {
+    background: var(--primary-light) !important;
+    color: #b7c5ff !important;
+    border-color: #34476c !important;
+}
+
+/* ==========================================
+   REPORT PANEL AND FILTERS
+========================================== */
+
+body.dark-mode .panel {
+    background: var(--surface) !important;
+    border-color: var(--border) !important;
+}
+
+body.dark-mode .panel-heading {
+    background: var(--surface) !important;
+    border-color: var(--border) !important;
+}
+
+body.dark-mode .panel-body {
+    background: var(--surface) !important;
+}
+
+body.dark-mode .filters {
+    background: #172338 !important;
+    border-color: var(--border) !important;
+}
+
+body.dark-mode .filter-heading {
+    color: var(--text) !important;
+}
+
+body.dark-mode .table-footer {
+    color: var(--muted) !important;
+    border-color: var(--border) !important;
+}
+
+/* ==========================================
+   REPORT TABLE
+========================================== */
+
+body.dark-mode .table-wrap {
+    background: var(--surface) !important;
+    border-color: var(--border) !important;
+}
+
+body.dark-mode table,
+body.dark-mode thead,
+body.dark-mode tbody {
+    background: var(--surface) !important;
+    color: var(--text) !important;
+}
+
+body.dark-mode table th {
+    background: #172338 !important;
+    color: #b8c4d8 !important;
+    border-color: var(--border) !important;
+}
+
+body.dark-mode table td {
+    background: var(--surface) !important;
+    color: #d7deea !important;
+    border-color: var(--border) !important;
+}
+
+body.dark-mode tbody tr:hover td {
+    background: #1a2739 !important;
+}
+
+body.dark-mode .report-id {
+    color: #aebfff !important;
+}
+
+body.dark-mode .incident-type {
+    color: #d7deea !important;
+}
+
+/* ==========================================
+   REPORT STATUS
+========================================== */
+
+body.dark-mode .reviewing {
+    background: var(--warning-bg) !important;
+    color: #fbbf24 !important;
+}
+
+body.dark-mode .resolved {
+    background: var(--success-bg) !important;
+    color: #4ade80 !important;
+}
+
+/* ==========================================
+   EMPTY STATE
+========================================== */
+
+body.dark-mode .empty-state {
+    background: transparent !important;
+    color: var(--text) !important;
+}
+
+body.dark-mode .empty-state h3 {
+    color: var(--text) !important;
+}
+
+body.dark-mode .empty-state p {
+    color: var(--muted) !important;
+}
+
+/* ==========================================
+   SUPPORT BANNER
+========================================== */
+
+body.dark-mode .support-banner {
+    background: linear-gradient(
+        145deg,
+        #172338,
+        #111c2e
+    ) !important;
+
+    border-color: var(--border) !important;
+}
+
+body.dark-mode .support-copy h2 {
+    color: var(--text) !important;
+}
+
+body.dark-mode .support-copy p {
+    color: var(--muted) !important;
+}
+
+/* Support icon: remove the white square */
+
+body.dark-mode .support-symbol {
+    background: #25344d !important;
+    color: #c5d0ff !important;
+    border-color: var(--border) !important;
+}
+
+/* Support link: remove the white button background */
+
+body.dark-mode .support-link {
+    background: #172338 !important;
+    color: #b7c5ff !important;
+    border-color: var(--border) !important;
+}
+
+body.dark-mode .support-link:hover {
+    background: #243454 !important;
+    color: #ffffff !important;
+    border-color: #40516a !important;
+}
+
+/* Secure note icon */
+
+body.dark-mode .secure-note {
+    color: var(--muted) !important;
+}
+
+body.dark-mode .secure-note > span {
+    background: #123326 !important;
+    color: #4ade80 !important;
+}
+
+/* ==========================================
+   REPORT DETAILS DIALOG
+========================================== */
+
+body.dark-mode .details-overlay {
+    background: rgba(0, 0, 0, 0.72) !important;
+}
+
+body.dark-mode .details-dialog {
+    background: var(--surface) !important;
+    color: var(--text) !important;
+    border-color: var(--border) !important;
+}
+
+body.dark-mode .details-header,
+body.dark-mode .details-footer {
+    background: var(--surface) !important;
+    border-color: var(--border) !important;
+}
+
+body.dark-mode .details-header h2 {
+    color: var(--text) !important;
+}
+
+body.dark-mode .details-eyebrow {
+    color: #aebfff !important;
+}
+
+body.dark-mode .details-field {
+    background: #172338 !important;
+    border-color: var(--border) !important;
+}
+
+body.dark-mode .details-field > span {
+    color: var(--muted) !important;
+}
+
+body.dark-mode .details-field strong {
+    color: var(--text) !important;
+}
+
+body.dark-mode .details-notice {
+    background: #172338 !important;
+    border-color: #34476c !important;
+    color: #b7c5ff !important;
+}
+
+body.dark-mode .details-notice p {
+    color: #c0cbda !important;
+}
+
+body.dark-mode .details-close {
+    background: #172338 !important;
+    color: var(--text) !important;
+    border-color: var(--border) !important;
+}
+
+/* ==========================================
+   FOCUS STATES
+========================================== */
+
+body.dark-mode button:focus-visible,
+body.dark-mode a:focus-visible,
+body.dark-mode input:focus-visible,
+body.dark-mode select:focus-visible {
+    outline-color: rgba(139, 162, 255, 0.75) !important;
+}
+
+/* ==========================================
+   REDUCED MOTION ACCESSIBILITY
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    body.dark-mode *,
+    body.dark-mode *::before,
+    body.dark-mode *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
+}

@@ -1,604 +1,691 @@
 /* =========================================
    SAFEREPORT AUTHENTICATION SYSTEM
+   Multi-Account Support
+   Login, Registration, Profile, and Logout
 ========================================= */
 
+(function () {
+    "use strict";
 
-/* =========================================
-   CREATE ACCOUNT
-========================================= */
+    const USERS_KEY = "safeReportUsers";
+    const LEGACY_USER_KEY = "safeReportUser";
+    const CURRENT_USER_KEY = "currentUser";
+    const LOGIN_KEY = "safeReportLoggedIn";
 
-function createAccount(event) {
+    /* =========================================
+       ACCOUNT STORAGE
+    ========================================= */
 
-    event.preventDefault();
+    function getAllUsers() {
+        let users = [];
 
-    const fullName =
-        document.getElementById("fullname").value.trim();
+        try {
+            const savedUsers = localStorage.getItem(USERS_KEY);
 
-    const email =
-        document.getElementById("email").value.trim().toLowerCase();
+            if (savedUsers) {
+                const parsedUsers = JSON.parse(savedUsers);
 
-    const studentId =
-        document.getElementById("studentid").value.trim();
-
-    const password =
-        document.getElementById("password").value;
-
-    const confirmPassword =
-        document.getElementById("confirm").value;
-
-    const terms =
-        document.getElementById("terms").checked;
-
-
-    /* CHECK REQUIRED FIELDS */
-
-    if (
-        fullName === "" ||
-        email === "" ||
-        studentId === "" ||
-        password === "" ||
-        confirmPassword === ""
-    ) {
-
-        alert("Please complete all fields.");
-
-        return;
-    }
-
-
-    /* CHECK EMAIL */
-
-    if (!email.includes("@")) {
-
-        alert("Please enter a valid email address.");
-
-        return;
-    }
-
-
-    /* CHECK PASSWORD */
-
-    if (password.length < 6) {
-
-        alert("Password must be at least 6 characters.");
-
-        return;
-    }
-
-
-    /* CHECK PASSWORD MATCH */
-
-    if (password !== confirmPassword) {
-
-        alert("Passwords do not match.");
-
-        return;
-    }
-
-
-    /* CHECK TERMS */
-
-    if (!terms) {
-
-        alert("Please agree to the Terms and Conditions.");
-
-        return;
-    }
-
-
-    /* CHECK EXISTING ACCOUNT */
-
-    const existingUser =
-        localStorage.getItem("safeReportUser");
-
-    if (existingUser) {
-
-        const user =
-            JSON.parse(existingUser);
-
-        if (
-            user.email.toLowerCase() === email
-        ) {
-
-            alert(
-                "An account with this email already exists."
-            );
-
-            return;
+                if (Array.isArray(parsedUsers)) {
+                    users = parsedUsers;
+                }
+            }
+        } catch (error) {
+            console.error("Unable to load registered accounts:", error);
         }
 
-        if (
-            user.studentId === studentId
-        ) {
+        // Migrate the previous single-account format.
+        try {
+            const legacyUser = localStorage.getItem(LEGACY_USER_KEY);
 
-            alert(
-                "This Student ID is already registered."
+            if (legacyUser) {
+                const parsedUser = JSON.parse(legacyUser);
+
+                if (
+                    parsedUser &&
+                    typeof parsedUser === "object" &&
+                    parsedUser.email
+                ) {
+                    const alreadyExists = users.some(
+                        user =>
+                            normalizeEmail(user.email) ===
+                            normalizeEmail(parsedUser.email)
+                    );
+
+                    if (!alreadyExists) {
+                        users.push(parsedUser);
+                    }
+
+                    localStorage.setItem(
+                        USERS_KEY,
+                        JSON.stringify(users)
+                    );
+                }
+            }
+        } catch (error) {
+            console.error(
+                "Unable to migrate the previous account:",
+                error
             );
+        }
 
-            return;
+        return users;
+    }
+
+    function saveAllUsers(users) {
+        if (!Array.isArray(users)) {
+            throw new TypeError("Accounts must be stored as an array.");
+        }
+
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    }
+
+    function normalizeEmail(email) {
+        return String(email || "").trim().toLowerCase();
+    }
+
+    function getCurrentUser() {
+        try {
+            const savedUser = localStorage.getItem(CURRENT_USER_KEY);
+
+            if (!savedUser) {
+                return null;
+            }
+
+            const user = JSON.parse(savedUser);
+
+            return user && typeof user === "object"
+                ? user
+                : null;
+
+        } catch (error) {
+            console.error("Unable to read the current account:", error);
+            return null;
         }
     }
 
-
-    /* CREATE USER */
-
-    const newUser = {
-
-        fullName: fullName,
-
-        email: email,
-
-        studentId: studentId,
-
-        password: password,
-
-        role: "Student",
-
-        dateCreated:
-            new Date().toLocaleDateString()
-
-    };
-
-
-    /* SAVE ACCOUNT */
-
-    localStorage.setItem(
-        "safeReportUser",
-        JSON.stringify(newUser)
-    );
-
-
-    /* REMOVE OLD LOGIN */
-
-    localStorage.removeItem(
-        "safeReportLoggedIn"
-    );
-
-    localStorage.removeItem(
-        "currentUser"
-    );
-
-
-    alert(
-        "Account created successfully! You can now login."
-    );
-
-
-    /* GO TO LOGIN */
-
-    window.location.href =
-        "login.html";
-
-}
-
-
-/* =========================================
-   LOGIN
-========================================= */
-
-function loginUser(event) {
-
-    event.preventDefault();
-
-
-    const email =
-        document
-            .getElementById("email")
-            .value
-            .trim()
-            .toLowerCase();
-
-
-    const password =
-        document
-            .getElementById("password")
-            .value;
-
-
-    /* GET SAVED ACCOUNT */
-
-    const savedUser =
-        localStorage.getItem("safeReportUser");
-
-
-    if (!savedUser) {
-
-        alert(
-            "No account found. Please create an account first."
-        );
-
-        return;
-    }
-
-
-    let user;
-
-    try {
-
-        user = JSON.parse(savedUser);
-
-    } catch (error) {
-
-        alert(
-            "There is a problem with the saved account. Please create a new account."
-        );
-
-        localStorage.removeItem(
-            "safeReportUser"
-        );
-
-        return;
-    }
-
-
-    /* CHECK LOGIN */
-
-    const savedEmail =
-        String(user.email)
-            .trim()
-            .toLowerCase();
-
-
-    if (
-        email === savedEmail &&
-        password === user.password
-    ) {
-
-        /* SAVE LOGIN STATUS */
-
+    function saveCurrentUser(user) {
         localStorage.setItem(
-            "safeReportLoggedIn",
-            "true"
-        );
-
-
-        /* SAVE CURRENT USER */
-
-        localStorage.setItem(
-            "currentUser",
+            CURRENT_USER_KEY,
             JSON.stringify(user)
         );
 
+        localStorage.setItem(LOGIN_KEY, "true");
 
-        alert(
-            "Login successful!"
+        // Maintain compatibility with older code.
+        localStorage.setItem(
+            LEGACY_USER_KEY,
+            JSON.stringify(user)
         );
-
-
-        /* GO TO DASHBOARD */
-
-        window.location.href =
-            "index.html";
-
-
-    } else {
-
-        alert(
-            "Incorrect email or password."
-        );
-
     }
 
-}
+    /* =========================================
+       REGISTRATION
+    ========================================= */
 
-
-/* =========================================
-   CHECK LOGIN
-========================================= */
-
-function checkLogin() {
-
-    const loggedIn =
-        localStorage.getItem(
-            "safeReportLoggedIn"
-        );
-
-
-    if (loggedIn !== "true") {
-
-        window.location.href =
-            "login.html";
-
-    }
-
-}
-
-
-/* =========================================
-   GET CURRENT USER
-========================================= */
-
-function getCurrentUser() {
-
-    const user =
-        localStorage.getItem(
-            "currentUser"
-        );
-
-
-    if (!user) {
-
-        return null;
-
-    }
-
-
-    try {
-
-        return JSON.parse(user);
-
-    } catch (error) {
-
-        return null;
-
-    }
-
-}
-
-
-/* =========================================
-   DISPLAY USER INFORMATION
-========================================= */
-
-function displayUserInfo() {
-
-    const user =
-        getCurrentUser();
-
-
-    if (!user) {
-
-        return;
-
-    }
-
-
-    /* NAME */
-
-    const nameElements =
-        document.querySelectorAll(
-            ".user-name"
-        );
-
-
-    nameElements.forEach(
-        function(element) {
-
-            element.textContent =
-                user.fullName;
-
+    function createAccount(event) {
+        if (event) {
+            event.preventDefault();
         }
-    );
 
+        const fullName =
+            document.getElementById("fullname")?.value.trim() || "";
 
-    /* EMAIL */
-
-    const emailElements =
-        document.querySelectorAll(
-            ".user-email"
+        const email = normalizeEmail(
+            document.getElementById("email")?.value
         );
 
+        const studentId =
+            document.getElementById("studentid")?.value.trim() || "";
 
-    emailElements.forEach(
-        function(element) {
+        const password =
+            document.getElementById("password")?.value || "";
 
-            element.textContent =
-                user.email;
+        const confirmPassword =
+            document.getElementById("confirm")?.value || "";
 
+        const terms =
+            document.getElementById("terms")?.checked || false;
+
+        const errorBox = document.getElementById("signupError");
+        const successBox = document.getElementById("signupSuccess");
+
+        if (errorBox) errorBox.textContent = "";
+        if (successBox) successBox.textContent = "";
+
+        function showError(message) {
+            if (errorBox) {
+                errorBox.textContent = message;
+            } else {
+                alert(message);
+            }
         }
-    );
 
-
-    /* STUDENT ID */
-
-    const studentElements =
-        document.querySelectorAll(
-            ".student-id"
-        );
-
-
-    studentElements.forEach(
-        function(element) {
-
-            element.textContent =
-                user.studentId;
-
+        if (
+            !fullName ||
+            !email ||
+            !studentId ||
+            !password ||
+            !confirmPassword
+        ) {
+            showError("Please complete all required fields.");
+            return;
         }
-    );
 
-
-    /* ROLE */
-
-    const roleElements =
-        document.querySelectorAll(
-            ".user-role"
-        );
-
-
-    roleElements.forEach(
-        function(element) {
-
-            element.textContent =
-                user.role;
-
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            showError("Please enter a valid email address.");
+            return;
         }
-    );
 
-}
+        if (password.length < 6) {
+            showError("Password must be at least 6 characters long.");
+            return;
+        }
 
+        if (password !== confirmPassword) {
+            showError("Passwords do not match.");
+            return;
+        }
 
-/* =========================================
-   LOGOUT
-========================================= */
+        if (!terms) {
+            showError("Please agree to the Terms and Conditions.");
+            return;
+        }
 
-function logoutUser() {
+        const users = getAllUsers();
 
-    localStorage.removeItem(
-        "safeReportLoggedIn"
-    );
-
-    localStorage.removeItem(
-        "currentUser"
-    );
-
-
-    alert(
-        "You have been logged out."
-    );
-
-
-    window.location.href =
-        "login.html";
-
-}
-
-
-/* =========================================
-   UPDATE PROFILE
-========================================= */
-
-function updateProfile(event) {
-
-    event.preventDefault();
-
-
-    const user =
-        getCurrentUser();
-
-
-    if (!user) {
-
-        alert(
-            "Please login first."
+        const existingEmail = users.some(
+            user => normalizeEmail(user.email) === email
         );
 
-        return;
+        if (existingEmail) {
+            showError("An account with this email already exists.");
+            return;
+        }
 
-    }
+        const normalizedStudentId = studentId.toLowerCase();
 
-
-    const fullNameElement =
-        document.getElementById(
-            "profileFullName"
+        const existingStudentId = users.some(
+            user =>
+                String(user.studentId || "")
+                    .trim()
+                    .toLowerCase() === normalizedStudentId
         );
 
+        if (existingStudentId) {
+            showError("This Student ID is already registered.");
+            return;
+        }
 
-    const emailElement =
-        document.getElementById(
-            "profileEmail"
+        const newUser = {
+            fullName,
+            email,
+            studentId,
+            password,
+            role: "Student",
+            dateCreated: new Date().toISOString()
+        };
+
+        try {
+            users.push(newUser);
+            saveAllUsers(users);
+
+            localStorage.setItem(
+                LEGACY_USER_KEY,
+                JSON.stringify(newUser)
+            );
+
+            // Registration does not automatically sign in.
+            localStorage.removeItem(LOGIN_KEY);
+            localStorage.removeItem(CURRENT_USER_KEY);
+
+            if (successBox) {
+                successBox.textContent =
+                    "Account created successfully. You can now log in.";
+            } else {
+                alert(
+                    "Account created successfully! You can now log in."
+                );
+            }
+
+            window.setTimeout(() => {
+                window.location.href = "login.html";
+            }, 500);
+
+        } catch (error) {
+            console.error("Account registration failed:", error);
+            showError("Unable to create the account. Please try again.");
+        }
+    }
+
+    /* =========================================
+       LOGIN
+    ========================================= */
+
+    function loginUser(event) {
+        if (event) {
+            event.preventDefault();
+        }
+
+        const email = normalizeEmail(
+            document.getElementById("email")?.value
         );
 
+        const password =
+            document.getElementById("password")?.value || "";
 
-    if (fullNameElement) {
+        const errorBox = document.getElementById("loginError");
+        const successBox = document.getElementById("loginSuccess");
 
-        user.fullName =
-            fullNameElement.value.trim();
+        if (errorBox) errorBox.textContent = "";
+        if (successBox) successBox.textContent = "";
 
-    }
+        function showError(message) {
+            if (errorBox) {
+                errorBox.textContent = message;
+            } else {
+                alert(message);
+            }
+        }
 
+        if (!email || !password) {
+            showError("Please enter your email and password.");
+            return;
+        }
 
-    if (emailElement) {
+        const users = getAllUsers();
 
-        user.email =
-            emailElement.value
-                .trim()
-                .toLowerCase();
-
-    }
-
-
-    localStorage.setItem(
-        "safeReportUser",
-        JSON.stringify(user)
-    );
-
-
-    localStorage.setItem(
-        "currentUser",
-        JSON.stringify(user)
-    );
-
-
-    alert(
-        "Profile updated successfully!"
-    );
-
-
-    displayUserInfo();
-
-}
-
-
-/* =========================================
-   LOAD PROFILE
-========================================= */
-
-function loadProfile() {
-
-    const user =
-        getCurrentUser();
-
-
-    if (!user) {
-
-        return;
-
-    }
-
-
-    const fullNameElement =
-        document.getElementById(
-            "profileFullName"
+        const matchedUser = users.find(user =>
+            normalizeEmail(user.email) === email &&
+            user.password === password
         );
 
+        if (!matchedUser) {
+            showError(
+                "Incorrect email or password, or no matching account exists."
+            );
+            return;
+        }
 
-    const emailElement =
-        document.getElementById(
-            "profileEmail"
+        try {
+            saveCurrentUser(matchedUser);
+
+            sessionStorage.removeItem("safeReportAdminLoggedIn");
+            sessionStorage.removeItem("safeReportAdminEmail");
+
+            if (successBox) {
+                successBox.textContent =
+                    "Login successful. Opening dashboard...";
+            }
+
+            window.setTimeout(() => {
+                window.location.href = "index.html";
+            }, successBox ? 250 : 0);
+
+        } catch (error) {
+            console.error("Login failed:", error);
+            showError("Unable to log in. Please try again.");
+        }
+    }
+
+    /* =========================================
+       AUTHENTICATION CHECK
+    ========================================= */
+
+    function checkLogin() {
+        const loggedIn =
+            localStorage.getItem(LOGIN_KEY) === "true";
+
+        const user = getCurrentUser();
+
+        if (!loggedIn || !user) {
+            localStorage.removeItem(LOGIN_KEY);
+            localStorage.removeItem(CURRENT_USER_KEY);
+
+            window.location.href = "login.html";
+            return false;
+        }
+
+        return true;
+    }
+
+    /* =========================================
+       DISPLAY USER INFORMATION
+    ========================================= */
+
+    function displayUserInfo() {
+        const user = getCurrentUser();
+
+        if (!user) {
+            return;
+        }
+
+        document.querySelectorAll(".user-name").forEach(element => {
+            element.textContent = user.fullName || "User";
+        });
+
+        document.querySelectorAll(".user-email").forEach(element => {
+            element.textContent = user.email || "";
+        });
+
+        document.querySelectorAll(".student-id").forEach(element => {
+            element.textContent = user.studentId || "";
+        });
+
+        const roleLabel = String(user.role || "Student")
+            .replace(/\s+Account$/i, "")
+            .trim() || "Student";
+
+        document.querySelectorAll(".user-role").forEach(element => {
+            element.textContent = roleLabel;
+        });
+
+        const initials = String(user.fullName || "U")
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean)
+            .slice(0, 2)
+            .map(part => part.charAt(0).toUpperCase())
+            .join("");
+
+        document.querySelectorAll(
+            ".header-avatar, .profile-mini .avatar"
+        ).forEach(element => {
+            element.textContent = initials || "U";
+        });
+
+        document.querySelectorAll(
+            ".profile-mini .profile-details strong"
+        ).forEach(element => {
+            element.textContent = user.fullName || "User";
+        });
+
+        document.querySelectorAll(
+            ".profile-mini .profile-details small"
+        ).forEach(element => {
+            element.textContent = roleLabel;
+        });
+    }
+
+    /* =========================================
+       LOGOUT
+    ========================================= */
+
+    function logoutUser(event) {
+        if (event) {
+            event.preventDefault();
+        }
+
+        localStorage.removeItem(LOGIN_KEY);
+        localStorage.removeItem(CURRENT_USER_KEY);
+
+        sessionStorage.removeItem("safeReportAdminLoggedIn");
+        sessionStorage.removeItem("safeReportAdminEmail");
+
+        window.location.href = "login.html";
+    }
+
+    /* =========================================
+       UPDATE PROFILE
+    ========================================= */
+
+    function updateProfile(event) {
+        if (event) {
+            event.preventDefault();
+        }
+
+        const user = getCurrentUser();
+
+        if (
+            !user ||
+            localStorage.getItem(LOGIN_KEY) !== "true"
+        ) {
+            alert("Please log in before updating your profile.");
+            window.location.href = "login.html";
+            return;
+        }
+
+        const firstNameElement =
+            document.getElementById("profileFirstName");
+
+        const lastNameElement =
+            document.getElementById("profileLastName");
+
+        const fullNameElement =
+            document.getElementById("profileFullName");
+
+        const emailElement =
+            document.getElementById("profileEmail");
+
+        const studentIdElement =
+            document.getElementById("profileStudentId");
+
+        const oldFullName = String(user.fullName || "").trim();
+        const oldNameParts = oldFullName.split(/\s+/).filter(Boolean);
+
+        const fallbackFirstName = oldNameParts.length > 1
+            ? oldNameParts.slice(0, -1).join(" ")
+            : oldFullName;
+
+        const fallbackLastName = oldNameParts.length > 1
+            ? oldNameParts[oldNameParts.length - 1]
+            : "";
+
+        let newFullName;
+
+        if (firstNameElement || lastNameElement) {
+            const firstName = firstNameElement
+                ? firstNameElement.value.trim()
+                : fallbackFirstName;
+
+            const lastName = lastNameElement
+                ? lastNameElement.value.trim()
+                : fallbackLastName;
+
+            if (!firstName || !lastName) {
+                alert("Please enter both your first name and last name.");
+                return;
+            }
+
+            newFullName = `${firstName} ${lastName}`.trim();
+
+        } else {
+            newFullName = fullNameElement
+                ? fullNameElement.value.trim()
+                : oldFullName;
+        }
+
+        const newEmail = emailElement
+            ? normalizeEmail(emailElement.value)
+            : normalizeEmail(user.email);
+
+        const newStudentId = studentIdElement
+            ? studentIdElement.value.trim()
+            : String(user.studentId || "").trim();
+
+        if (!newFullName || !newEmail || !newStudentId) {
+            alert("Name, email, and Student ID cannot be empty.");
+            return;
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail)) {
+            alert("Please enter a valid email address.");
+            return;
+        }
+
+        const users = getAllUsers();
+
+        const previousEmail = normalizeEmail(user.email);
+
+        const previousStudentId = String(user.studentId || "")
+            .trim()
+            .toLowerCase();
+
+        // Prevent duplicate email addresses.
+        const duplicateEmail = users.some(account =>
+            normalizeEmail(account.email) === newEmail &&
+            normalizeEmail(account.email) !== previousEmail
         );
 
+        if (duplicateEmail) {
+            alert("Another account is already using this email.");
+            return;
+        }
 
-    const studentIdElement =
-        document.getElementById(
-            "profileStudentId"
+        // Prevent duplicate Student IDs.
+        const duplicateStudentId = users.some(account =>
+            String(account.studentId || "").trim().toLowerCase() ===
+                newStudentId.toLowerCase() &&
+            String(account.studentId || "").trim().toLowerCase() !==
+                previousStudentId
         );
 
+        if (duplicateStudentId) {
+            alert("Another account is already using this Student ID.");
+            return;
+        }
 
-    if (fullNameElement) {
+        // Find the account using its original email and Student ID.
+        const userIndex = users.findIndex(account =>
+            normalizeEmail(account.email) === previousEmail &&
+            String(account.studentId || "").trim().toLowerCase() ===
+                previousStudentId
+        );
 
-        fullNameElement.value =
-            user.fullName;
+        if (userIndex === -1) {
+            alert("Your account could not be found. Please log in again.");
+            return;
+        }
 
+        // Preserve existing account properties and update profile details.
+        const updatedUser = {
+            ...users[userIndex],
+            ...user,
+            fullName: newFullName,
+            email: newEmail,
+            studentId: newStudentId
+        };
+
+        try {
+            users[userIndex] = updatedUser;
+
+            // Save updated account information.
+            saveAllUsers(users);
+            saveCurrentUser(updatedUser);
+
+            // Keep the legacy account record synchronized.
+            localStorage.setItem(
+                LEGACY_USER_KEY,
+                JSON.stringify(updatedUser)
+            );
+
+            // Refresh profile fields and account name displays.
+            loadProfile();
+
+            alert("Profile updated successfully.");
+
+        } catch (error) {
+            console.error("Profile update failed:", error);
+            alert("Unable to update your profile. Please try again.");
+        }
     }
 
+    /* =========================================
+       LOAD PROFILE FORM
+    ========================================= */
 
-    if (emailElement) {
+    function loadProfile() {
+        const user = getCurrentUser();
 
-        emailElement.value =
-            user.email;
+        if (!user) {
+            return;
+        }
 
-    }
+        const firstNameElement =
+            document.getElementById("profileFirstName");
 
+        const lastNameElement =
+            document.getElementById("profileLastName");
 
-    if (studentIdElement) {
+        const fullNameElement =
+            document.getElementById("profileFullName");
 
-        studentIdElement.value =
-            user.studentId;
+        const emailElement =
+            document.getElementById("profileEmail");
 
-    }
+        const studentIdElement =
+            document.getElementById("profileStudentId");
 
-}
+        // Split the stored full name into the form's name fields.
+        const nameParts = String(user.fullName || "")
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean);
 
+        const firstName = nameParts.length > 1
+            ? nameParts.slice(0, -1).join(" ")
+            : (nameParts[0] || "");
 
-/* =========================================
-   RUN WHEN PAGE LOADS
-========================================= */
+        const lastName = nameParts.length > 1
+            ? nameParts[nameParts.length - 1]
+            : "";
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
+        if (firstNameElement) {
+            firstNameElement.value = firstName;
+        }
+
+        if (lastNameElement) {
+            lastNameElement.value = lastName;
+        }
+
+        if (fullNameElement) {
+            fullNameElement.value = user.fullName || "";
+        }
+
+        if (emailElement) {
+            emailElement.value = user.email || "";
+        }
+
+        if (studentIdElement) {
+            studentIdElement.value = user.studentId || "";
+        }
 
         displayUserInfo();
-
     }
-);
+
+    /* =========================================
+       LOGOUT LINK HANDLING
+    ========================================= */
+
+    function setupLogoutLinks() {
+        document.querySelectorAll(
+            'a.logout, #logoutBtn, [data-logout]'
+        ).forEach(link => {
+            link.addEventListener("click", logoutUser);
+        });
+    }
+
+    /* =========================================
+       INITIALIZATION
+    ========================================= */
+
+    document.addEventListener("DOMContentLoaded", () => {
+        displayUserInfo();
+        loadProfile();
+        setupLogoutLinks();
+    });
+
+    /* =========================================
+       PUBLIC FUNCTIONS
+       Used by existing HTML onsubmit handlers
+    ========================================= */
+
+    window.createAccount = createAccount;
+    window.loginUser = loginUser;
+    window.checkLogin = checkLogin;
+    window.getCurrentUser = getCurrentUser;
+    window.displayUserInfo = displayUserInfo;
+    window.logoutUser = logoutUser;
+    window.updateProfile = updateProfile;
+    window.loadProfile = loadProfile;
+
+})();

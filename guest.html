@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#3157d5">
+
+    <title>SafeReport | A Safer School Starts Here</title>
+
+    <style>
+        /* =========================================
+           GLOBAL STYLES
+        ========================================= */
+
+        :root {
+            --primary: #3157d5;
+            --primary-dark: #2444b5;
+            --primary-light: #edf2ff;
+            --text: #182230;
+            --muted: #667085;
+            --background: #ffffff;
+            --surface: #f7f9fc;
+            --border: #e5eaf2;
+            --success: #15966a;
+            --radius: 18px;
+            --shadow: 0 12px 35px rgba(24, 34, 48, 0.07);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: var(--text);
+            background: var(--background);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1160px, calc(100% - 48px));
+            margin: 0 auto;
+        }
+
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-heading {
+            max-width: 660px;
+            margin: 0 auto 52px;
+            text-align: center;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            margin-bottom: 14px;
+            color: var(--primary);
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .section-heading h2 {
+            margin-bottom: 16px;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        /* =========================================
+           BUTTONS
+        ========================================= */
+
+        .button {
+            display: inline-flex;
+            min-height: 48px;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 12px 22px;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            font-size: 0.94rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        .button-primary {
+            color: #ffffff;
+            background: var(--primary);
+            box-shadow: 0 7px 18px rgba(49, 87, 213, 0.2);
+        }
+
+        .button-primary:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 10px 24px rgba(49, 87, 213, 0.28);
+        }
+
+        .button-secondary {
+            color: var(--text);
+            background: #ffffff;
+            border-color: var(--border);
+        }
+
+        .button-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .button-white {
+            color: var(--primary);
+            background: #ffffff;
+        }
+
+        .button-white:hover {
+            background: #edf2ff;
+        }
+
+        /* =========================================
+           NAVIGATION
+        ========================================= */
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(14px);
+        }
+
+        .navbar {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            flex-shrink: 0;
+        }
+
+        .brand-icon {
+            display: grid;
+            width: 42px;
+            height: 42px;
+            place-items: center;
+            color: #ffffff;
+            background: var(--primary);
+            border-radius: 12px;
+            font-size: 1.35rem;
+            box-shadow: 0 5px 13px rgba(49, 87, 213, 0.2);
+        }
+
+        .brand-name {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: -0.6px;
+        }
+
+        .brand-name span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a:not(.button) {
+            color: #596579;
+            font-size: 0.92rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:not(.button):hover {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mobile-menu-button {
+            display: none;
+            width: 44px;
+            height: 44px;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 1.35rem;
+            cursor: pointer;
+        }
+
+        /* =========================================
+           HERO
+        ========================================= */
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 96px 0 100px;
+            background:
+                radial-gradient(
+                    circle at 88% 18%,
+                    rgba(92, 128, 255, 0.12),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 5% 95%,
+                    rgba(49, 87, 213, 0.07),
+                    transparent 30%
+                ),
+                #ffffff;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            align-items: center;
+            gap: 70px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 25px;
+            padding: 8px 13px;
+            color: var(--primary);
+            background: var(--primary-light);
+            border: 1px solid #dce5ff;
+            border-radius: 100px;
+            font-size: 0.81rem;
+            font-weight: 700;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+        }
+
+        .hero h1 {
+            max-width: 650px;
+            margin-bottom: 24px;
+            font-size: clamp(2.8rem, 5.4vw, 4.4rem);
+            font-weight: 800;
+            line-height: 1.08;
+            letter-spacing: -2.8px;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero-description {
+            max-width: 540px;
+            margin-bottom: 32px;
+            color: var(--muted);
+            font-size: 1.08rem;
+            line-height: 1.85;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 13px;
+            margin-bottom: 30px;
+        }
+
+        .hero-note {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--muted);
+            font-size: 0.86rem;
+        }
+
+        .hero-note span {
+            color: var(--success);
+            font-weight: 800;
+        }
+
+        /* HERO VISUAL */
+
+        .hero-visual {
+            position: relative;
+            padding: 24px;
+        }
+
+        .visual-glow {
+            position: absolute;
+            inset: 8% 0;
+            background: linear-gradient(
+                135deg,
+                #e9efff,
+                #f4f7ff,
+                #e2eaff
+            );
+            border-radius: 35px;
+            transform: rotate(-4deg);
+        }
+
+        .dashboard-preview {
+            position: relative;
+            overflow: hidden;
+            background: #ffffff;
+            border: 1px solid #e4e9f3;
+            border-radius: 22px;
+            box-shadow: 0 25px 70px rgba(33, 54, 111, 0.14);
+        }
+
+        .preview-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 19px 22px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .preview-brand {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 0.9rem;
+            font-weight: 800;
+        }
+
+        .preview-brand-icon {
+            display: grid;
+            width: 31px;
+            height: 31px;
+            place-items: center;
+            color: #ffffff;
+            background: var(--primary);
+            border-radius: 9px;
+        }
+
+        .preview-label {
+            padding: 5px 9px;
+            color: var(--success);
+            background: #eaf9f2;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 800;
+        }
+
+        .preview-content {
+            padding: 26px;
+        }
+
+        .preview-content h3 {
+            margin-bottom: 6px;
+            font-size: 1.2rem;
+        }
+
+        .preview-subtitle {
+            margin-bottom: 22px;
+            color: var(--muted);
+            font-size: 0.82rem;
+        }
+
+        .preview-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 13px;
+            padding: 17px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+        }
+
+        .preview-card-icon {
+            display: grid;
+            width: 43px;
+            height: 43px;
+            flex-shrink: 0;
+            place-items: center;
+            color: var(--primary);
+            background: var(--primary-light);
+            border-radius: 12px;
+            font-size: 1.2rem;
+        }
+
+        .preview-card h4 {
+            margin-bottom: 3px;
+            font-size: 0.88rem;
+        }
+
+        .preview-card p {
+            color: var(--muted);
+            font-size: 0.76rem;
+            line-height: 1.6;
+        }
+
+        .preview-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 19px;
+            padding: 15px;
+            color: #ffffff;
+            background: var(--primary);
+            border-radius: 12px;
+        }
+
+        .preview-bottom strong {
+            font-size: 0.83rem;
+        }
+
+        .preview-bottom span {
+            font-size: 0.78rem;
+            opacity: 0.85;
+        }
+
+        /* =========================================
+           TRUST STRIP
+        ========================================= */
+
+        .trust-strip {
+            padding: 25px 0;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .trust-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 18px 45px;
+            color: #596579;
+            font-size: 0.9rem;
+            font-weight: 650;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .trust-check {
+            color: var(--success);
+            font-size: 1.05rem;
+            font-weight: 900;
+        }
+
+        /* =========================================
+           FEATURES
+        ========================================= */
+
+        .features-section {
+            background: #ffffff;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            padding: 31px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                border-color 0.25s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: #c8d5ff;
+            box-shadow: var(--shadow);
+        }
+
+        .feature-icon {
+            display: grid;
+            width: 55px;
+            height: 55px;
+            margin-bottom: 23px;
+            place-items: center;
+            color: var(--primary);
+            background: var(--primary-light);
+            border-radius: 15px;
+            font-size: 1.55rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 12px;
+            font-size: 1.14rem;
+        }
+
+        .feature-card p {
+            color: var(--muted);
+            font-size: 0.94rem;
+            line-height: 1.8;
+        }
+
+        /* =========================================
+           HOW IT WORKS
+        ========================================= */
+
+        .how-section {
+            background: var(--surface);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 25px;
+        }
+
+        .step-card {
+            position: relative;
+            padding: 32px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+
+        .step-number {
+            display: grid;
+            width: 46px;
+            height: 46px;
+            margin-bottom: 23px;
+            place-items: center;
+            color: #ffffff;
+            background: var(--primary);
+            border-radius: 13px;
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .step-card h3 {
+            margin-bottom: 12px;
+            font-size: 1.12rem;
+        }
+
+        .step-card p {
+            color: var(--muted);
+            font-size: 0.93rem;
+            line-height: 1.8;
+        }
+
+        /* =========================================
+           PRIVACY SECTION
+        ========================================= */
+
+        .privacy-section {
+            background: #ffffff;
+        }
+
+        .privacy-panel {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            align-items: center;
+            gap: 55px;
+            padding: 55px;
+            background: linear-gradient(
+                135deg,
+                #f0f4ff,
+                #f8faff
+            );
+            border: 1px solid #e0e8ff;
+            border-radius: 25px;
+        }
+
+        .privacy-illustration {
+            display: grid;
+            min-height: 260px;
+            place-items: center;
+        }
+
+        .privacy-shield {
+            display: grid;
+            width: 165px;
+            height: 165px;
+            place-items: center;
+            color: var(--primary);
+            background: #ffffff;
+            border: 1px solid #dfe7ff;
+            border-radius: 38px;
+            box-shadow: 0 20px 45px rgba(49, 87, 213, 0.12);
+            font-size: 5rem;
+            transform: rotate(-5deg);
+        }
+
+        .privacy-content h2 {
+            margin-bottom: 18px;
+            font-size: clamp(1.9rem, 3.5vw, 2.5rem);
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+
+        .privacy-content > p {
+            margin-bottom: 24px;
+            color: var(--muted);
+            line-height: 1.85;
+        }
+
+        .privacy-list {
+            display: grid;
+            gap: 14px;
+            list-style: none;
+        }
+
+        .privacy-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.92rem;
+            font-weight: 650;
+        }
+
+        .privacy-list li span {
+            color: var(--success);
+            font-weight: 900;
+        }
+
+        /* =========================================
+           CALL TO ACTION
+        ========================================= */
+
+        .cta-section {
+            padding: 35px 0 100px;
+        }
+
+        .cta-panel {
+            padding: 65px 35px;
+            color: #ffffff;
+            background: linear-gradient(
+                120deg,
+                #3157d5,
+                #2444b5
+            );
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 20px 45px rgba(49, 87, 213, 0.18);
+        }
+
+        .cta-panel h2 {
+            max-width: 680px;
+            margin: 0 auto 17px;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+
+        .cta-panel p {
+            max-width: 590px;
+            margin: 0 auto 28px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .cta-actions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 13px;
+        }
+
+        .cta-outline {
+            color: #ffffff;
+            background: transparent;
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .cta-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        .site-footer {
+            padding: 32px 0;
+            background: #f8faff;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 22px;
+        }
+
+        .footer-brand p {
+            margin-top: 9px;
+            color: var(--muted);
+            font-size: 0.83rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 22px;
+        }
+
+        .footer-links a {
+            color: #596579;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            width: 100%;
+            padding-top: 22px;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        /* =========================================
+           RESPONSIVE DESIGN
+        ========================================= */
+
+        @media (max-width: 980px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+
+            .hero-copy {
+                max-width: 720px;
+            }
+
+            .hero-visual {
+                width: min(620px, 100%);
+                margin: 0 auto;
+            }
+
+            .feature-grid,
+            .steps-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .privacy-panel {
+                gap: 25px;
+                padding: 35px;
+            }
+
+            .nav-links {
+                gap: 19px;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .container {
+                width: min(100% - 32px, 600px);
+            }
+
+            .section {
+                padding: 72px 0;
+            }
+
+            .navbar {
+                min-height: 70px;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .brand-name {
+                font-size: 1.15rem;
+            }
+
+            .mobile-menu-button {
+                display: inline-flex;
+            }
+
+            .nav-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 8px 0 18px;
+                order: 3;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links li a:not(.button) {
+                display: block;
+                padding: 12px 4px;
+            }
+
+            .nav-actions {
+                margin-left: auto;
+            }
+
+            .nav-actions .button {
+                min-height: 42px;
+                padding: 9px 13px;
+                font-size: 0.84rem;
+            }
+
+            .hero {
+                padding: 65px 0 70px;
+            }
+
+            .hero h1 {
+                font-size: clamp(2.55rem, 10vw, 3.5rem);
+                letter-spacing: -1.8px;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+
+            .hero-visual {
+                padding: 12px 3px;
+            }
+
+            .preview-content {
+                padding: 18px;
+            }
+
+            .trust-content {
+                gap: 16px 24px;
+                justify-content: flex-start;
+            }
+
+            .feature-grid,
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-card,
+            .step-card {
+                padding: 26px;
+            }
+
+            .privacy-panel {
+                grid-template-columns: 1fr;
+                padding: 28px 22px;
+            }
+
+            .privacy-illustration {
+                min-height: 185px;
+            }
+
+            .privacy-shield {
+                width: 125px;
+                height: 125px;
+                font-size: 4rem;
+                border-radius: 30px;
+            }
+
+            .cta-panel {
+                padding: 48px 23px;
+            }
+
+            .footer-content {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .footer-links {
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .brand {
+                gap: 7px;
+            }
+
+            .brand-icon {
+                width: 36px;
+                height: 36px;
+            }
+
+            .brand-name {
+                font-size: 1rem;
+            }
+
+            .nav-actions {
+                gap: 6px;
+            }
+
+            .nav-actions .button {
+                padding: 8px 10px;
+                font-size: 0.78rem;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .preview-topbar {
+                padding: 15px;
+            }
+
+            .preview-content {
+                padding: 14px;
+            }
+
+            .preview-card {
+                padding: 13px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================================
+         PUBLIC NAVIGATION
+    ========================================= -->
+
+    <header class="site-header">
+        <div class="container">
+            <nav class="navbar" aria-label="Main navigation">
+
+                <a class="brand" href="guest.html" aria-label="SafeReport home">
+                    <span class="brand-icon" aria-hidden="true">🛡</span>
+
+                    <span class="brand-name">
+                        Safe<span>Report</span>
+                    </span>
+                </a>
+
+                <ul class="nav-links" id="navLinks">
+                    <li>
+                        <a href="#home">Home</a>
+                    </li>
+
+                    <li>
+                        <a href="#features">Features</a>
+                    </li>
+
+                    <li>
+                        <a href="#how-it-works">How It Works</a>
+                    </li>
+
+                    <li>
+                        <a href="#privacy">Privacy</a>
+                    </li>
+                </ul>
+
+                <div class="nav-actions">
+                    <a class="button button-secondary" href="login.html">
+                        Log In
+                    </a>
+
+                    <a class="button button-primary" href="signup.html">
+                        Get Started
+                    </a>
+
+                    <button
+                        class="mobile-menu-button"
+                        id="mobileMenuButton"
+                        type="button"
+                        aria-label="Open navigation menu"
+                        aria-controls="navLinks"
+                        aria-expanded="false">
+                        ☰
+                    </button>
+                </div>
+
+            </nav>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- =========================================
+             HERO
+        ========================================= -->
+
+        <section class="hero" id="home">
+            <div class="container">
+                <div class="hero-grid">
+
+                    <div class="hero-copy">
+
+                        <div class="hero-badge">
+                            <span class="status-dot"></span>
+                            A safer school community starts here
+                        </div>
+
+                        <h1>
+                            Your voice can make
+                            <span>a difference.</span>
+                        </h1>
+
+                        <p class="hero-description">
+                            SafeReport provides a dedicated platform for
+                            reporting school incidents, raising concerns,
+                            and helping school personnel build a safer
+                            learning environment for everyone.
+                        </p>
+
+                        <div class="hero-actions">
+                            <a class="button button-primary" href="signup.html">
+                                Create Your Account
+                                <span aria-hidden="true">→</span>
+                            </a>
+
+                            <a class="button button-secondary" href="#how-it-works">
+                                Learn How It Works
+                            </a>
+                        </div>
+
+                        <p class="hero-note">
+                            <span aria-hidden="true">✓</span>
+                            A convenient way to report and track concerns.
+                        </p>
+
+                    </div>
+
+                    <!-- Illustrative interface preview -->
+
+                    <div class="hero-visual" aria-label="Illustration of the SafeReport platform">
+
+                        <div class="visual-glow"></div>
+
+                        <div class="dashboard-preview">
+
+                            <div class="preview-topbar">
+
+                                <div class="preview-brand">
+                                    <span class="preview-brand-icon" aria-hidden="true">
+                                        🛡
+                                    </span>
+
+                                    <span>SafeReport</span>
+                                </div>
+
+                                <span class="preview-label">
+                                    Student Safety
+                                </span>
+
+                            </div>
+
+                            <div class="preview-content">
+
+                                <h3>A safer campus starts with awareness.</h3>
+
+                                <p class="preview-subtitle">
+                                    Your concerns deserve attention.
+                                </p>
+
+                                <div class="preview-card">
+
+                                    <div class="preview-card-icon" aria-hidden="true">
+                                        ＋
+                                    </div>
+
+                                    <div>
+                                        <h4>Report an Incident</h4>
+
+                                        <p>
+                                            Provide information about a
+                                            school-related concern.
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                                <div class="preview-card">
+
+                                    <div class="preview-card-icon" aria-hidden="true">
+                                        ▤
+                                    </div>
+
+                                    <div>
+                                        <h4>Track Your Reports</h4>
+
+                                        <p>
+                                            Follow the recorded status
+                                            of your submitted reports.
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                                <div class="preview-card">
+
+                                    <div class="preview-card-icon" aria-hidden="true">
+                                        ◈
+                                    </div>
+
+                                    <div>
+                                        <h4>Support School Safety</h4>
+
+                                        <p>
+                                            Help bring important concerns
+                                            to the attention of school personnel.
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                                <div class="preview-bottom">
+                                    <strong>Your voice matters.</strong>
+
+                                    <span>Take the first step →</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================
+             TRUST STRIP
+        ========================================= -->
+
+        <section class="trust-strip" aria-label="Platform highlights">
+            <div class="container">
+                <div class="trust-content">
+
+                    <div class="trust-item">
+                        <span class="trust-check" aria-hidden="true">✓</span>
+                        Accessible reporting
+                    </div>
+
+                    <div class="trust-item">
+                        <span class="trust-check" aria-hidden="true">✓</span>
+                        Organized incident records
+                    </div>
+
+                    <div class="trust-item">
+                        <span class="trust-check" aria-hidden="true">✓</span>
+                        Report status tracking
+                    </div>
+
+                    <div class="trust-item">
+                        <span class="trust-check" aria-hidden="true">✓</span>
+                        School safety awareness
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================
+             FEATURES
+        ========================================= -->
+
+        <section class="section features-section" id="features">
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <span class="eyebrow">What SafeReport Offers</span>
+
+                    <h2>
+                        A better way to raise concerns
+                    </h2>
+
+                    <p>
+                        Simple tools designed to make school incident
+                        reporting more accessible, organized, and manageable.
+                    </p>
+
+                </div>
+
+                <div class="feature-grid">
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon" aria-hidden="true">
+                            ＋
+                        </div>
+
+                        <h3>Incident Reporting</h3>
+
+                        <p>
+                            Submit details about school-related incidents
+                            through a structured reporting process.
+                        </p>
+
+                    </article>
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon" aria-hidden="true">
+                            ◈
+                        </div>
+
+                        <h3>Privacy Awareness</h3>
+
+                        <p>
+                            Understand how reports are intended to be
+                            handled and why responsible information
+                            management matters.
+                        </p>
+
+                    </article>
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon" aria-hidden="true">
+                            ▤
+                        </div>
+
+                        <h3>Report Tracking</h3>
+
+                        <p>
+                            Keep track of your submitted reports and
+                            review the status information available
+                            through your account.
+                        </p>
+
+                    </article>
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon" aria-hidden="true">
+                            ◎
+                        </div>
+
+                        <h3>Centralized Records</h3>
+
+                        <p>
+                            Help authorized school personnel organize
+                            incident records and manage follow-up.
+                        </p>
+
+                    </article>
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon" aria-hidden="true">
+                            ↗
+                        </div>
+
+                        <h3>Accessible Platform</h3>
+
+                        <p>
+                            Access the website using a modern browser
+                            on a desktop, laptop, tablet, or phone.
+                        </p>
+
+                    </article>
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon" aria-hidden="true">
+                            ♧
+                        </div>
+
+                        <h3>Community Awareness</h3>
+
+                        <p>
+                            Encourage students and school communities
+                            to take concerns seriously and contribute
+                            to a safer learning environment.
+                        </p>
+
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================
+             HOW IT WORKS
+        ========================================= -->
+
+        <section class="section how-section" id="how-it-works">
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <span class="eyebrow">Getting Started</span>
+
+                    <h2>
+                        Three steps toward safer schools
+                    </h2>
+
+                    <p>
+                        Start by creating an account, submit your concern,
+                        and use the available tools to follow your report.
+                    </p>
+
+                </div>
+
+                <div class="steps-grid">
+
+                    <article class="step-card">
+
+                        <div class="step-number">01</div>
+
+                        <h3>Create an Account</h3>
+
+                        <p>
+                            Register using the information requested
+                            by the platform, then log in to access
+                            the features available to your account.
+                        </p>
+
+                    </article>
+
+                    <article class="step-card">
+
+                        <div class="step-number">02</div>
+
+                        <h3>Submit Your Report</h3>
+
+                        <p>
+                            Describe the incident as clearly as possible
+                            and provide the information requested by
+                            the reporting form.
+                        </p>
+
+                    </article>
+
+                    <article class="step-card">
+
+                        <div class="step-number">03</div>
+
+                        <h3>Follow Its Status</h3>
+
+                        <p>
+                            Open your reports page to review the status
+                            information available for reports associated
+                            with your account.
+                        </p>
+
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================
+             PRIVACY
+        ========================================= -->
+
+        <section class="section privacy-section" id="privacy">
+            <div class="container">
+
+                <div class="privacy-panel">
+
+                    <div class="privacy-illustration">
+                        <div class="privacy-shield" aria-hidden="true">
+                            🛡
+                        </div>
+                    </div>
+
+                    <div class="privacy-content">
+
+                        <span class="eyebrow">
+                            Privacy Matters
+                        </span>
+
+                        <h2>
+                            Reporting concerns should be handled responsibly.
+                        </h2>
+
+                        <p>
+                            School incident reports can contain sensitive
+                            information. SafeReport is designed to support
+                            an organized reporting process and appropriate
+                            access to report information.
+                        </p>
+
+                        <ul class="privacy-list">
+
+                            <li>
+                                <span aria-hidden="true">✓</span>
+                                <span>
+                                    Use clear and accurate information
+                                    when submitting a report.
+                                </span>
+                            </li>
+
+                            <li>
+                                <span aria-hidden="true">✓</span>
+                                <span>
+                                    Access account features through
+                                    your own login.
+                                </span>
+                            </li>
+
+                            <li>
+                                <span aria-hidden="true">✓</span>
+                                <span>
+                                    Share sensitive incident details
+                                    responsibly.
+                                </span>
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================
+             CALL TO ACTION
+        ========================================= -->
+
+        <section class="cta-section">
+            <div class="container">
+
+                <div class="cta-panel">
+
+                    <h2>
+                        Help make your school a safer place.
+                    </h2>
+
+                    <p>
+                        Start using SafeReport to access the reporting
+                        tools available to registered users.
+                    </p>
+
+                    <div class="cta-actions">
+
+                        <a class="button button-white" href="signup.html">
+                            Create an Account
+                            <span aria-hidden="true">→</span>
+                        </a>
+
+                        <a class="button cta-outline" href="login.html">
+                            Already Registered? Log In
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
+
+    <footer class="site-footer">
+        <div class="container">
+
+            <div class="footer-content">
+
+                <div class="footer-brand">
+
+                    <a class="brand" href="guest.html">
+                        <span class="brand-icon" aria-hidden="true">
+                            🛡
+                        </span>
+
+                        <span class="brand-name">
+                            Safe<span>Report</span>
+                        </span>
+                    </a>
+
+                    <p>
+                        Supporting a safer and more responsible
+                        school community.
+                    </p>
+
+                </div>
+
+                <nav class="footer-links" aria-label="Footer navigation">
+
+                    <a href="#home">Home</a>
+
+                    <a href="#features">Features</a>
+
+                    <a href="#privacy">Privacy</a>
+
+                    <a href="login.html">Log In</a>
+
+                    <a href="signup.html">Create Account</a>
+
+                </nav>
+
+            </div>
+
+            <div class="copyright">
+                &copy; <span id="currentYear"></span> SafeReport.
+                All rights reserved.
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- =========================================
+         PUBLIC PAGE JAVASCRIPT
+    ========================================= -->
+
+    <script>
+        (function () {
+            "use strict";
+
+            const menuButton = document.getElementById("mobileMenuButton");
+            const navLinks = document.getElementById("navLinks");
+            const currentYear = document.getElementById("currentYear");
+
+            if (currentYear) {
+                currentYear.textContent = new Date().getFullYear();
+            }
+
+            if (menuButton && navLinks) {
+                menuButton.addEventListener("click", function () {
+                    const isOpen = navLinks.classList.toggle("open");
+
+                    menuButton.setAttribute(
+                        "aria-expanded",
+                        String(isOpen)
+                    );
+
+                    menuButton.setAttribute(
+                        "aria-label",
+                        isOpen
+                            ? "Close navigation menu"
+                            : "Open navigation menu"
+                    );
+
+                    menuButton.textContent = isOpen ? "✕" : "☰";
+                });
+
+                navLinks.querySelectorAll("a").forEach(function (link) {
+                    link.addEventListener("click", function () {
+                        navLinks.classList.remove("open");
+
+                        menuButton.setAttribute("aria-expanded", "false");
+                        menuButton.setAttribute(
+                            "aria-label",
+                            "Open navigation menu"
+                        );
+
+                        menuButton.textContent = "☰";
+                    });
+                });
+            }
+        })();
+    </script>
+
+</body>
+</html>

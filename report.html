@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,12 +8,46 @@
 
     <title>SafeReport | Report Incident</title>
 
+    <!-- AUTHENTICATION GUARD -->
+    <script>
+    (function () {
+        "use strict";
+
+        let studentAuthenticated = false;
+        let adminAuthenticated = false;
+
+        try {
+            const savedUser = localStorage.getItem("currentUser");
+            const currentUser = savedUser ? JSON.parse(savedUser) : null;
+
+            studentAuthenticated =
+                localStorage.getItem("safeReportLoggedIn") === "true" &&
+                currentUser !== null &&
+                typeof currentUser === "object";
+        } catch (error) {
+            console.error("Unable to verify student authentication:", error);
+        }
+
+        try {
+            adminAuthenticated =
+                sessionStorage.getItem("safeReportAdminLoggedIn") === "true";
+        } catch (error) {
+            console.error("Unable to verify admin authentication:", error);
+        }
+
+        if (!studentAuthenticated && !adminAuthenticated) {
+            window.location.replace("login.html");
+        }
+    })();
+    </script>
+
     <!-- CSS FILES -->
     <link rel="stylesheet" href="css/report.css">
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/profileF.css">
     <link rel="stylesheet" href="css/settingsOL.css">
     <link rel="stylesheet" href="css/myreports-shell.css">
+    <link rel="stylesheet" href="css/darkmode.css">
 </head>
 
 <body>
@@ -70,16 +105,17 @@
                 </p>
             </div>
 
+            <!-- DYNAMIC USER PROFILE -->
             <div class="profile-mini">
-                <div class="avatar" aria-hidden="true">J</div>
+                <div class="avatar" aria-hidden="true">U</div>
 
                 <div class="profile-details">
-                    <strong>John Loyd Arcay. Panla-an</strong>
-                    <small>Student Account</small>
+                    <strong class="user-name">User</strong>
+                    <small class="user-role">Student</small>
                 </div>
             </div>
 
-            <a class="logout" href="login.html">
+            <a class="logout" href="login.html" id="sidebarLogout">
                 <span aria-hidden="true">↪</span>
                 <span>Logout</span>
             </a>
@@ -128,6 +164,7 @@
                     <span class="notification-dot">2</span>
                 </button>
 
+                <!-- DARK MODE TOGGLE -->
                 <button
                     type="button"
                     class="header-action"
@@ -155,7 +192,7 @@
                         aria-label="Open profile menu"
                         aria-expanded="false"
                         aria-controls="profileDropdown">
-                        J
+                        U
                     </button>
 
                     <div
@@ -172,7 +209,10 @@
                             Settings
                         </a>
 
-                        <a href="login.html" class="logout">
+                        <a
+                            href="login.html"
+                            class="logout"
+                            id="headerLogout">
                             Logout
                         </a>
 
@@ -452,6 +492,9 @@
     </section>
 </div>
 
+<!-- AUTHENTICATION -->
+<script src="tracel/auth.js"></script>
+
 <!-- EXISTING JAVASCRIPT FILES -->
 <script src="JS/Tito_Part/storage.js"></script>
 <script src="JS/Tito_Part/validation.js"></script>
@@ -460,6 +503,91 @@
 <script src="JS/Tito_Part/modal.js"></script>
 <script src="JS/main.js"></script>
 <script src="JS/Arcays_Part/reportForm.js"></script>
+
+<!-- PROFILE DISPLAY -->
+<script>
+(function () {
+    "use strict";
+
+    function updateReportPageProfile() {
+        let user = null;
+
+        try {
+            const savedUser = localStorage.getItem("currentUser");
+
+            if (savedUser) {
+                user = JSON.parse(savedUser);
+            }
+
+            if (!user) {
+                const legacyUser = localStorage.getItem("safeReportUser");
+
+                if (legacyUser) {
+                    user = JSON.parse(legacyUser);
+                }
+            }
+        } catch (error) {
+            console.error("Unable to load profile information:", error);
+            return;
+        }
+
+        if (!user || typeof user !== "object") {
+            return;
+        }
+
+        const fullName = String(user.fullName || "User").trim();
+        const role = String(user.role || "Student")
+            .replace(/\s+Account$/i, "")
+            .trim() || "Student";
+
+        const initials = fullName
+            .split(/\s+/)
+            .filter(Boolean)
+            .slice(0, 2)
+            .map(part => part.charAt(0).toUpperCase())
+            .join("") || "U";
+
+        document.querySelectorAll(".user-name").forEach(element => {
+            element.textContent = fullName;
+        });
+
+        document.querySelectorAll(".user-role").forEach(element => {
+            element.textContent = role;
+        });
+
+        document.querySelectorAll(
+            ".profile-mini .avatar, .header-avatar"
+        ).forEach(element => {
+            element.textContent = initials;
+        });
+
+        document.querySelectorAll(".user-email").forEach(element => {
+            element.textContent = user.email || "";
+        });
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener(
+            "DOMContentLoaded",
+            updateReportPageProfile
+        );
+    } else {
+        updateReportPageProfile();
+    }
+
+    // Refresh the profile display if another page or tab
+    // updates the current user's saved account information.
+    window.addEventListener("storage", event => {
+        if (
+            event.key === "currentUser" ||
+            event.key === "safeReportUser"
+        ) {
+            updateReportPageProfile();
+        }
+    });
+
+})();
+</script>
 
 </body>
 </html>
