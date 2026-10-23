@@ -102,7 +102,8 @@
     transform: translateX(3px);
 }
 
-.sidebar nav a.active {
+.sidebar nav a.active,
+.sidebar nav a[aria-current="page"] {
     color: var(--shell-primary) !important;
     background: var(--shell-primary-light) !important;
     border-color: #e1e7ff !important;
@@ -329,6 +330,21 @@ main {
     color: var(--shell-muted) !important;
     font-size: 18px !important;
     cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s,
+        transform 0.2s;
+}
+
+.header-action:hover {
+    border-color: #dce4ff !important;
+    background: var(--shell-primary-light) !important;
+    color: var(--shell-primary) !important;
+    transform: translateY(-1px);
+}
+
+.header-action:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
 }
 
 .notification-dot {
@@ -392,6 +408,41 @@ main {
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
+.header-avatar.profile-avatar,
+.profile-mini .profile-avatar {
+    width: 38px !important;
+    height: 38px !important;
+    border: 3px solid #e8edff !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #3157d5, #4668e8) !important;
+    color: #ffffff !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+}
+
+.sidebar-bottom .profile-mini {
+    min-height: 62px !important;
+    padding: 10px 11px !important;
+    border: 1px solid #e1e9fb !important;
+    border-radius: 14px !important;
+    background: linear-gradient(135deg, #f8faff, #f1f5ff) !important;
+    box-shadow: 0 4px 14px rgba(49, 87, 213, 0.06) !important;
+}
+
+.sidebar-bottom .profile-mini .avatar {
+    flex: 0 0 40px;
+    width: 40px !important;
+    height: 40px !important;
+    border: 3px solid #fff !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #3157d5, #6a72f2) !important;
+    color: #fff !important;
+    box-shadow: 0 3px 9px rgba(49, 87, 213, .24) !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    letter-spacing: .2px;
+}
+
 .header-avatar:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(49, 87, 213, 0.2);
@@ -435,6 +486,12 @@ main {
 .profile-dropdown button:hover {
     background: var(--shell-primary-light) !important;
     color: var(--shell-primary) !important;
+}
+
+.profile-dropdown a:focus-visible,
+.profile-dropdown button:focus-visible {
+    outline: 2px solid var(--shell-primary) !important;
+    outline-offset: 1px;
 }
 
 .profile-dropdown a.logout {

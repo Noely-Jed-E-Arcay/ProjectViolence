@@ -229,26 +229,21 @@
             users.push(newUser);
             saveAllUsers(users);
 
-            localStorage.setItem(
-                LEGACY_USER_KEY,
-                JSON.stringify(newUser)
-            );
-
-            // Registration does not automatically sign in.
-            localStorage.removeItem(LOGIN_KEY);
-            localStorage.removeItem(CURRENT_USER_KEY);
+            sessionStorage.removeItem("safeReportAdminLoggedIn");
+            sessionStorage.removeItem("safeReportAdminEmail");
+            saveCurrentUser(newUser);
 
             if (successBox) {
                 successBox.textContent =
-                    "Account created successfully. You can now log in.";
+                    "Account created successfully. Opening your dashboard...";
             } else {
                 alert(
-                    "Account created successfully! You can now log in."
+                    "Account created successfully! Opening your dashboard."
                 );
             }
 
             window.setTimeout(() => {
-                window.location.href = "login.html";
+                window.location.href = "index.html";
             }, 500);
 
         } catch (error) {
@@ -341,7 +336,7 @@
             localStorage.removeItem(LOGIN_KEY);
             localStorage.removeItem(CURRENT_USER_KEY);
 
-            window.location.href = "login.html";
+            window.location.href = "guest.html";
             return false;
         }
 
@@ -421,7 +416,7 @@
         sessionStorage.removeItem("safeReportAdminLoggedIn");
         sessionStorage.removeItem("safeReportAdminEmail");
 
-        window.location.href = "login.html";
+        window.location.href = "guest.html";
     }
 
     /* =========================================

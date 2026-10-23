@@ -176,7 +176,7 @@
                 </div>
             </div>
 
-            <a class="logout" href="login.html">
+            <a class="logout" href="guest.html">
                 <span>↪</span> Logout
             </a>
         </div>
@@ -207,14 +207,14 @@
                         aria-label="Search your reports">
                 </div>
 
-                <button
-                    type="button"
+                <a
                     class="header-action"
+                    href="index.html#announcements"
                     id="notificationBtn"
-                    aria-label="Notifications">
+                    aria-label="View latest announcements"
+                    title="View latest announcements">
                     ♧
-                    <span class="notification-dot" aria-hidden="true">2</span>
-                </button>
+                </a>
 
                 <button
                     type="button"
@@ -245,7 +245,7 @@
                     <div class="profile-dropdown" id="profileDropdown" hidden>
                         <a href="profile.html">My Profile</a>
                         <a href="#" class="settings" id="openSettingsBtn">Settings</a>
-                        <a href="login.html" class="logout" id="logoutBtn">
+                        <a href="guest.html" class="logout" id="logoutBtn">
                             Logout
                         </a>
                     </div>
@@ -381,6 +381,7 @@
                                 aria-label="Filter by status"
                             >
                                 <option value="all">All Statuses</option>
+                                <option value="pending">Pending</option>
                                 <option value="under review">Under Review</option>
                                 <option value="in progress">In Progress</option>
                                 <option value="resolved">Resolved</option>
@@ -604,27 +605,31 @@
                 type="button"
                 class="settings-item"
                 data-setting="Privacy Settings"
+                disabled
+                title="Privacy preferences are not configurable in this version."
             >
                 <span>Privacy Settings</span>
-                <span class="settings-arrow" aria-hidden="true">›</span>
+                <span class="settings-note">Not available</span>
             </button>
 
-            <button
-                type="button"
+            <a
                 class="settings-item"
+                href="settings.html#notificationTitle"
                 data-setting="Notification Settings"
             >
                 <span>Notification Settings</span>
                 <span class="settings-arrow" aria-hidden="true">›</span>
-            </button>
+            </a>
 
             <button
                 type="button"
                 class="settings-item"
                 data-setting="Security Settings"
+                disabled
+                title="Account security controls require a secure server-side account system."
             >
                 <span>Security Settings</span>
-                <span class="settings-arrow" aria-hidden="true">›</span>
+                <span class="settings-note">Not available</span>
             </button>
         </div>
     </section>
@@ -655,6 +660,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const tableFooterText = document.getElementById("tableFooterText");
     const detailsOverlay = document.getElementById("reportDetailsOverlay");
     const detailsBody = document.getElementById("reportDetailsBody");
+    const reportPhotoDisplay = document.getElementById("reportPhotoDisplay");
     const profileBtn = document.getElementById("profileBtn");
     const profileDropdown = document.getElementById("profileDropdown");
     const settingsBtn = document.getElementById("openSettingsBtn");
@@ -884,22 +890,6 @@ document.addEventListener("DOMContentLoaded", () => {
         settingsPanel.setAttribute("aria-hidden", "true");
     }
 
-    profileBtn?.addEventListener("click", event => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        closeSettingsPanel();
-
-        if (!profileDropdown) return;
-
-        profileDropdown.hidden = !profileDropdown.hidden;
-
-        profileBtn.setAttribute(
-            "aria-expanded",
-            String(!profileDropdown.hidden)
-        );
-    });
-
     settingsBtn?.addEventListener("click", event => {
         event.preventDefault();
         event.stopPropagation();
@@ -970,6 +960,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const date = cells[2]?.textContent.trim() || "N/A";
         const location = cells[3]?.textContent.trim() || "N/A";
         const status = normalizeStatus(row.dataset.status);
+        const report = findStoredReport(row, getStoredReports());
 
         const statusLabels = {
             "under review": "Under Review",
@@ -984,6 +975,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const statusClass = statusText === "Resolved"
             ? "resolved"
             : "reviewing";
+        const incidentDate = report?.date || report?.incidentDate || "Not provided";
+        const incidentTime = report?.time || "Not provided";
+        const people = report?.people || report?.peopleInvolved || "Not provided";
+        const description = report?.description || "No description provided.";
+        const photoSource = report?.photo || report?.image || "";
 
         detailsBody.innerHTML = `
             <div class="details-status-row">
@@ -1010,17 +1006,40 @@ document.addEventListener("DOMContentLoaded", () => {
                     <span>Location</span>
                     <strong>${escapeHTML(location)}</strong>
                 </div>
-            </div>
-
-            <div class="details-notice">
-                <span>ⓘ</span>
-                <p>
-                    This dialog displays the information available in the
-                    reports table. Additional case notes or administrator
-                    updates require the corresponding saved report data.
-                </p>
+                <div class="details-field">
+                    <span>Date of Incident</span>
+                    <strong>${escapeHTML(incidentDate)}</strong>
+                </div>
+                <div class="details-field">
+                    <span>Time</span>
+                    <strong>${escapeHTML(incidentTime)}</strong>
+                </div>
+                <div class="details-field details-field-full">
+                    <span>People Involved</span>
+                    <strong>${escapeHTML(people)}</strong>
+                </div>
+                <div class="details-field details-field-full">
+                    <span>Description</span>
+                    <p class="details-description">${escapeHTML(description)}</p>
+                </div>
+                <div class="details-field">
+                    <span>Identity preference</span>
+                    <strong>${report?.anonymous === true ? "Anonymous to administrators" : "Shared with administrators"}</strong>
+                </div>
             </div>
         `;
+
+        reportPhotoDisplay.replaceChildren();
+
+        if (
+            typeof photoSource === "string" &&
+            /^data:image\/(?:png|jpe?g|gif|webp|bmp|avif);base64,/i.test(photoSource)
+        ) {
+            const image = document.createElement("img");
+            image.src = photoSource;
+            image.alt = "Photo attached to this incident report";
+            reportPhotoDisplay.appendChild(image);
+        }
 
         detailsOverlay.hidden = false;
         document.body.style.overflow = "hidden";

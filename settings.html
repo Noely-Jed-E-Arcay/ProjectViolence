@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/profileF.css">
     <link rel="stylesheet" href="css/myreports-shell.css">
     <link rel="stylesheet" href="css/settingsOL.css">
+    <link rel="stylesheet" href="css/account-settings.css">
     <link rel="stylesheet" href="css/darkmode.css">
 </head>
 
@@ -66,7 +67,7 @@
                 </div>
             </div>
 
-            <a class="logout" href="login.html">
+            <a class="logout" href="guest.html">
                 <span aria-hidden="true">↪</span>
                 <span>Logout</span>
             </a>
@@ -109,7 +110,7 @@
                     <div class="profile-dropdown" id="profileDropdown" hidden>
                         <a href="profile.html">My Profile</a>
                         <a href="settings.html" class="settings" id="openSettingsBtn">Settings</a>
-                        <a href="login.html" class="logout" id="logoutBtn">Logout</a>
+                        <a href="guest.html" class="logout" id="logoutBtn">Logout</a>
                     </div>
                 </div>
             </div>
@@ -126,10 +127,11 @@
             <section class="security-grid section" aria-label="Security and privacy settings">
 
                 <article class="card">
-                    <h2>Account Security</h2>
+                    <h2 id="accountSecurityTitle">Account Security</h2>
 
                     <p>
-                        Your account should use a strong password and secure login information.
+                        Change the password used the next time you log in.
+                        Credentials remain in this browser in this prototype.
                     </p>
 
                     <button
@@ -144,18 +146,53 @@
                 <article class="card">
                     <h2>Privacy Settings</h2>
 
-                    <p>
-                        Your incident reports are confidential and should only be visible to authorized personnel.
-                    </p>
+                    <p>Choose whether your identity appears in administrator report details.</p>
 
-                    <button
-                        type="button"
+                    <a
+                        href="#privacyPreferences"
                         class="primary-button blue-button"
                         id="privacySettingsBtn"
                     >
-                        Manage Privacy
-                    </button>
+                        Privacy Settings
+                    </a>
                 </article>
+            </section>
+
+            <section class="card section" id="privacyPreferences" aria-labelledby="privacyPreferencesTitle">
+                <h2 id="privacyPreferencesTitle">Privacy Preferences</h2>
+                <p>
+                    These preferences control what the administrator interface
+                    displays. They do not remove information from your saved
+                    report or prevent inspection of browser storage.
+                </p>
+
+                <form class="privacy-settings-form" id="privacySettingsForm">
+                    <label class="privacy-choice" for="hideIdentityInAdminReports">
+                        <input
+                            type="checkbox"
+                            id="hideIdentityInAdminReports"
+                            name="hideIdentityInAdminReports"
+                        >
+                        <span>
+                            <strong>Hide my identity in administrator report details</strong>
+                            <small>
+                                When enabled, administrators see “Identity hidden by
+                                reporter preference” instead of your name and email.
+                                Your report ownership data remains stored for account
+                                matching and report management.
+                            </small>
+                        </span>
+                    </label>
+
+                    <div class="privacy-settings-actions">
+                        <button class="primary-button blue-button" type="submit">
+                            Save Privacy Preferences
+                        </button>
+                        <button class="secondary-button" type="button" id="cancelPrivacyChanges">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
             </section>
 
             <!-- NOTIFICATION SETTINGS -->
@@ -187,6 +224,44 @@
                 </label>
             </section>
 
+            <section class="card section" id="emergencyContacts" aria-labelledby="emergencyContactsTitle">
+                <h2 id="emergencyContactsTitle">Emergency Contact</h2>
+                <p>
+                    Save a contact you can call from the dashboard. SafeReport
+                    does not provide or verify emergency service numbers.
+                </p>
+
+                <form id="emergencyContactForm" class="emergency-contact-form">
+                    <label for="emergencyContactName">Contact name</label>
+                    <input
+                        id="emergencyContactName"
+                        name="emergencyContactName"
+                        type="text"
+                        maxlength="80"
+                        autocomplete="name"
+                        placeholder="For example, trusted contact">
+
+                    <label for="emergencyContactPhone">Phone number</label>
+                    <input
+                        id="emergencyContactPhone"
+                        name="emergencyContactPhone"
+                        type="tel"
+                        maxlength="30"
+                        autocomplete="tel"
+                        placeholder="+1 555 010 1234"
+                        aria-describedby="emergencyContactHelp">
+                    <small id="emergencyContactHelp">
+                        Enter a number you are authorized to call. Digits, spaces,
+                        +, parentheses, and hyphens are accepted.
+                    </small>
+
+                    <div id="emergencyContactFeedback" role="status" aria-live="polite"></div>
+                    <button class="primary-button blue-button" type="submit">
+                        Save Emergency Contact
+                    </button>
+                </form>
+            </section>
+
             <!-- PRIVACY GUIDANCE -->
             <section class="card section" aria-labelledby="privacyGuidanceTitle">
                 <h2 id="privacyGuidanceTitle">Privacy Guidance</h2>
@@ -209,6 +284,9 @@
 <script src="JS/Tito_Part/navbar.js"></script>
 <script src="JS/Tito_Part/modal.js"></script>
 <script src="JS/Arcays_Part/profile_feature.js"></script>
+<script src="JS/Tito_Part/account-security.js"></script>
+<script src="JS/Tito_Part/privacy-settings.js"></script>
+<script src="JS/Tito_Part/emergency-contacts.js"></script>
 
 </body>
 </html>

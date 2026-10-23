@@ -626,6 +626,70 @@ main {
     background: #fff;
 }
 
+.report-identity-options {
+    display: grid;
+    gap: 10px;
+    margin: 14px 0;
+    padding: 15px;
+    border: 1px solid #e0e7f2;
+    border-radius: 11px;
+}
+
+.report-identity-options legend {
+    padding: 0 5px;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.identity-choice {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0 !important;
+    padding: 11px;
+    border: 1px solid #e7ecf5;
+    border-radius: 9px;
+    background: #fbfcff;
+}
+
+.report-identity-options .identity-choice {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0;
+    padding: 11px;
+    border: 1px solid #e7ecf5;
+    border-radius: 9px;
+    background: #fbfcff;
+}
+
+.identity-choice input {
+    margin-top: 3px;
+    width: auto !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    accent-color: #3157d5;
+}
+
+.identity-choice span {
+    display: grid;
+    gap: 3px;
+}
+
+.identity-choice strong {
+    color: #263858;
+    font-size: 12px;
+}
+
+.identity-choice small {
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.55;
+}
+
 .report-form h2 {
     margin-bottom: 10px;
     color: #1e293b;
@@ -674,6 +738,15 @@ main {
     border-color: #3157d5;
     background: #fff;
     box-shadow: 0 0 0 3px rgba(49,87,213,.09);
+}
+
+.report-form .report-identity-options .identity-choice input[type="radio"] {
+    width: auto;
+    min-height: 0;
+    margin: 3px 0 0;
+    padding: 0;
+    border: 0;
+    box-shadow: none;
 }
 
 .report-form select {
@@ -957,4 +1030,23 @@ footer p {
     html {
         scroll-behavior: auto;
     }
+}
+.photo-preview {
+    margin-top: 10px;
+}
+
+.photo-preview img {
+    display: block;
+    max-width: 100%;
+    max-height: 240px;
+    border: 1px solid #e5eaf2;
+    border-radius: 10px;
+    object-fit: contain;
+}
+
+#photoHelp {
+    display: block;
+    margin-top: 5px;
+    color: #64748b;
+    font-size: 12px;
 }

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="css/myreports-shell.css">
     <link rel="stylesheet" href="css/settingsOL.css">
     <link rel="stylesheet" href="css/darkmode.css">
+    <link rel="stylesheet" href="css/admin-dashboard.css">
 </head>
 
 <body>
@@ -20,27 +21,51 @@
 <div class="app">
 
     <!-- SIDEBAR -->
-    <aside class="sidebar">
+    <aside class="sidebar admin-sidebar">
 
-        <a class="sidebar-brand" href="admin-reports.html" aria-label="SafeReport administrator home">
+        <a class="sidebar-brand" href="admin-dashboard.html" aria-label="SafeReport administrator dashboard">
             <span class="shield" aria-hidden="true">🛡</span>
             <span>SafeReport</span>
         </a>
 
-        <div class="sidebar-label">ADMINISTRATION</div>
+        <div class="sidebar-label">OVERVIEW</div>
+        <nav aria-label="Administrator overview">
+            <a href="admin-dashboard.html">
+                <span class="side-icon" aria-hidden="true">⌂</span>
+                <span>Dashboard</span>
+            </a>
+        </nav>
 
-        <nav aria-label="Admin navigation">
-
+        <div class="sidebar-label">REPORT MANAGEMENT</div>
+        <nav aria-label="Report management navigation">
             <a class="active" href="admin-reports.html" aria-current="page">
                 <span class="side-icon" aria-hidden="true">▤</span>
-                <span>Manage Reports</span>
+                <span>All Reports</span>
             </a>
+            <a href="admin-reports.html?status=pending">
+                <span class="side-icon" aria-hidden="true">◷</span>
+                <span>Pending Review</span>
+            </a>
+            <a href="admin-reports.html?status=under%20review">
+                <span class="side-icon" aria-hidden="true">◉</span>
+                <span>Under Review</span>
+            </a>
+            <a href="admin-reports.html?status=resolved">
+                <span class="side-icon" aria-hidden="true">✓</span>
+                <span>Resolved</span>
+            </a>
+        </nav>
 
+        <div class="sidebar-label">ACCOUNT</div>
+        <nav aria-label="Administrator account navigation">
             <a href="admin-profile.html">
                 <span class="side-icon" aria-hidden="true">◯</span>
                 <span>My Profile</span>
             </a>
-
+            <a href="admin-profile.html#admin-security">
+                <span class="side-icon" aria-hidden="true">⚙</span>
+                <span>Settings</span>
+            </a>
         </nav>
 
         <div class="sidebar-bottom">
@@ -60,7 +85,7 @@
                 </div>
             </div>
 
-            <a class="logout" href="login.html">
+            <a class="logout" href="guest.html">
                 <span aria-hidden="true">↪</span>
                 <span>Logout</span>
             </a>
@@ -106,7 +131,9 @@
                     type="button"
                     class="header-action"
                     id="notificationBtn"
-                    aria-label="Notifications"
+                    aria-label="Notifications unavailable"
+                    title="Notifications are not available for administrator accounts."
+                    disabled
                 >♧</button>
 
                 <button
@@ -140,7 +167,7 @@
                         >Settings</a>
 
                         <a
-                            href="login.html"
+                            href="guest.html"
                             class="logout"
                             id="logoutBtn"
                         >Logout</a>
@@ -350,24 +377,50 @@
             <div>
                 <span class="details-eyebrow">REPORT DETAILS</span>
                 <h2 id="adminDetailsTitle">Report information</h2>
+                <p class="details-subtitle" id="adminDetailsSubtitle">
+                    Review the submitted information and update its status.
+                </p>
             </div>
 
-            <button
-                type="button"
-                class="details-close"
-                id="closeAdminDetails"
-                aria-label="Close report details"
-            >×</button>
+            <div class="details-header-actions">
+                <span class="admin-status admin-status-pending" id="adminDetailsStatus">
+                    <span class="admin-status-dot" aria-hidden="true"></span>
+                    Pending
+                </span>
+                <button
+                    type="button"
+                    class="details-close"
+                    id="closeAdminDetails"
+                    aria-label="Close report details"
+                >×</button>
+            </div>
 
         </div>
 
         <div class="details-body" id="adminReportDetailsBody"></div>
 
         <div
-            id="adminReportPhoto"
-            class="report-photo-display"
-            aria-label="Incident photo"
+            class="admin-status-editor-container"
+            id="adminStatusEditorContainer"
         ></div>
+
+        <section
+            id="adminEvidenceSection"
+            class="admin-evidence-section"
+            aria-labelledby="adminEvidenceTitle"
+        >
+            <div class="admin-detail-section-heading">
+                <div>
+                    <h3 id="adminEvidenceTitle">Attached evidence</h3>
+                    <p>Images included with this report.</p>
+                </div>
+            </div>
+            <div
+                id="adminReportPhoto"
+                class="report-photo-display"
+                aria-label="Incident photo"
+            ></div>
+        </section>
 
         <!-- UNIQUE MODAL FEEDBACK ID -->
         <div class="details-footer">

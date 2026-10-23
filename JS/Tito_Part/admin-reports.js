@@ -110,12 +110,28 @@ document.addEventListener("DOMContentLoaded", function () {
         "adminReportDetailsBody"
     );
 
+    const statusEditorContainer = document.getElementById(
+        "adminStatusEditorContainer"
+    );
+
     const detailsFeedback = document.getElementById(
         "adminReportDetailsFeedback"
     );
 
     const detailsPhoto = document.getElementById(
         "adminReportPhoto"
+    );
+
+    const detailsStatus = document.getElementById(
+        "adminDetailsStatus"
+    );
+
+    const detailsSubtitle = document.getElementById(
+        "adminDetailsSubtitle"
+    );
+
+    const evidenceSection = document.getElementById(
+        "adminEvidenceSection"
     );
 
     const closeDetailsButton = document.getElementById(
@@ -653,6 +669,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         report.status = newStatus;
+        report.reviewedAt = report.reviewedAt || new Date().toISOString();
+        report.statusUpdatedAt = new Date().toISOString();
 
         if (!saveStoredReports(reports)) {
             showDetailsFeedback(
@@ -667,6 +685,16 @@ document.addEventListener("DOMContentLoaded", function () {
             "Report status updated to " + newStatus + "."
         );
 
+        if (detailsStatus) {
+            detailsStatus.className =
+                "admin-status admin-status-" +
+                normalizeStatus(newStatus).replace(/\s+/g, "-");
+            detailsStatus.replaceChildren();
+            const dot = createElement("span", "admin-status-dot");
+            dot.setAttribute("aria-hidden", "true");
+            detailsStatus.append(dot, document.createTextNode(getStatusLabel(newStatus)));
+        }
+
         refreshReports();
     }
 
@@ -674,51 +702,115 @@ document.addEventListener("DOMContentLoaded", function () {
     // REPORT DETAILS
     // =========================================
 
-    function addDetailRow(label, value) {
-        if (!detailsBody) return;
+    function createDetailSection(title) {
+        const section = createElement("section", "admin-detail-section");
+        section.appendChild(
+            createElement("h3", "admin-detail-section-title", title)
+        );
+        const grid = createElement("div", "admin-detail-grid");
+        section.appendChild(grid);
+        detailsBody.appendChild(section);
+        return grid;
+    }
+
+    function addDetailRow(container, label, value, className = "") {
+        if (!container) return;
 
         const wrapper = createElement(
             "div",
-            "admin-report-detail-row"
+            `admin-report-detail-row${className ? ` ${className}` : ""}`
         );
-
+        wrapper.dataset.detailField = label.toLowerCase().replace(/\s+/g, "-");
         wrapper.append(
-            createElement("strong", "", label),
-            createElement(
-                "p",
-                "",
-                value || "Not provided"
-            )
+            createElement("span", "admin-detail-label", label),
+            createElement("p", "admin-detail-value", value || "Not provided")
         );
 
-        detailsBody.appendChild(wrapper);
+        container.appendChild(wrapper);
+        return wrapper;
+    }
+
+    function isReporterIdentityHidden(report) {
+        const reporter = report?.submittedBy;
+
+        if (report?.anonymous === true) {
+            return true;
+        }
+
+        if (!reporter || typeof reporter !== "object") {
+            return false;
+        }
+
+        // An explicit per-report choice takes precedence over the legacy
+        // account-wide masking preference.
+        if (report?.anonymous === false) {
+            return false;
+        }
+
+        const email = String(reporter.email || "").trim().toLowerCase();
+
+        if (email) {
+            try {
+                const settingsKey =
+                    "safeReportSettings:" + encodeURIComponent(email);
+                const savedSettings = JSON.parse(
+                    localStorage.getItem(settingsKey) || "null"
+                );
+
+                if (savedSettings?.hideIdentityInAdminReports === true) {
+                    return true;
+                }
+            } catch (error) {
+                console.error(
+                    "Unable to read reporter privacy preferences:",
+                    error
+                );
+            }
+        }
+
+        return false;
+    }
+
+    function getReporterIdentity(report) {
+        const reporter = report?.submittedBy;
+
+        if (isReporterIdentityHidden(report)) {
+            return report?.anonymous === true
+                ? "Anonymous report — identity hidden by reporter"
+                : "Identity hidden by reporter preference";
+        }
+
+        if (!reporter || typeof reporter !== "object") {
+            return "Not provided";
+        }
+
+        const email = String(reporter.email || "").trim().toLowerCase();
+        return String(reporter.fullName || email || "Not provided");
     }
 
     function addStatusEditor(report) {
-        if (!detailsBody) return;
+        if (!statusEditorContainer) return;
 
-        const wrapper = createElement(
-            "div",
-            "admin-report-detail-row"
-        );
+        const wrapper = createElement("section", "admin-status-editor-panel");
 
         const label = createElement(
-            "label",
-            "",
-            "Update Report Status"
+            "div",
+            "admin-status-editor-heading"
         );
-
-        label.htmlFor = "adminStatusEditor";
+        label.append(
+            createElement("h3", "", "Update report status"),
+            createElement(
+                "p",
+                "",
+                "Choose the latest review stage, then save your change."
+            )
+        );
+        const selectLabel = createElement("label", "admin-status-editor-label", "Status");
+        selectLabel.htmlFor = "adminStatusEditor";
 
         const select = document.createElement("select");
 
         select.id = "adminStatusEditor";
-        select.style.display = "block";
-        select.style.width = "100%";
-        select.style.marginTop = "8px";
-        select.style.padding = "10px";
-        select.style.borderRadius = "6px";
-        select.style.border = "1px solid #ccc";
 
         const statuses = [
             "Pending",
@@ -750,7 +842,7 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
         saveButton.type = "button";
-        saveButton.style.marginTop = "10px";
+        saveButton.classList.add("admin-status-save");
 
         saveButton.addEventListener("click", function () {
             updateReportStatus(
@@ -759,8 +851,10 @@ document.addEventListener("DOMContentLoaded", function () {
             );
         });
 
-        wrapper.append(label, select, saveButton);
-        detailsBody.appendChild(wrapper);
+        const controls = createElement("div", "admin-status-editor-controls");
+        controls.append(selectLabel, select, saveButton);
+        wrapper.append(label, controls);
+        statusEditorContainer.replaceChildren(wrapper);
     }
 
     function openReportDetails(id, button) {
@@ -779,24 +873,68 @@ document.addEventListener("DOMContentLoaded", function () {
         selectedReportId = String(report.id);
         lastFocusedElement = button || document.activeElement;
 
+        if (detailsSubtitle) {
+            detailsSubtitle.textContent =
+                `${formatReportId(report)} · Submitted ${formatDate(getSubmittedDate(report))}`;
+        }
+        if (detailsStatus) {
+            detailsStatus.className =
+                "admin-status admin-status-" +
+                normalizeStatus(report.status).replace(/\s+/g, "-");
+            detailsStatus.replaceChildren();
+            const dot = createElement("span", "admin-status-dot");
+            dot.setAttribute("aria-hidden", "true");
+            detailsStatus.append(dot, document.createTextNode(getStatusLabel(report.status)));
+        }
+
         if (detailsBody) {
             detailsBody.replaceChildren();
 
-            addDetailRow("Report ID", formatReportId(report));
-            addDetailRow("Incident Type", report.type);
-            addDetailRow("Incident Date", report.date);
+            const incident = createDetailSection("Incident overview");
+            addDetailRow(incident, "Report ID", formatReportId(report));
+            addDetailRow(incident, "Incident Type", report.type);
+            addDetailRow(incident, "Incident Date", report.date);
+            addDetailRow(incident, "Date Submitted", formatDate(getSubmittedDate(report)));
+            addDetailRow(incident, "Time", report.time);
+            addDetailRow(incident, "Location", report.location);
+
+            const reporterDetails = createDetailSection("Reporter information");
             addDetailRow(
-                "Date Submitted",
-                formatDate(getSubmittedDate(report))
+                reporterDetails,
+                "Reporter",
+                getReporterIdentity(report),
+                "admin-detail-field-full"
             );
-            addDetailRow("Time", report.time);
-            addDetailRow("Location", report.location);
-            addDetailRow("People Involved", report.people);
+            const reporter = report.submittedBy;
+            const identityHidden = isReporterIdentityHidden(report);
             addDetailRow(
-                "Current Status",
-                getStatusLabel(report.status)
+                reporterDetails,
+                "Reporter Email",
+                identityHidden
+                    ? "Hidden by reporter choice"
+                    : String(reporter?.email || "Not provided")
             );
-            addDetailRow("Description", report.description);
+            addDetailRow(
+                reporterDetails,
+                "Student ID",
+                identityHidden
+                    ? "Hidden by reporter choice"
+                    : String(reporter?.studentId || "Not provided")
+            );
+
+            const incidentDetails = createDetailSection("Incident details");
+            addDetailRow(
+                incidentDetails,
+                "People Involved",
+                report.people,
+                "admin-detail-field-full"
+            );
+            addDetailRow(
+                incidentDetails,
+                "Description",
+                report.description,
+                "admin-detail-field-full admin-detail-description"
+            );
 
             addStatusEditor(report);
         }
@@ -824,6 +962,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
 
                 detailsPhoto.appendChild(image);
+                evidenceSection.hidden = false;
+            } else {
+                detailsPhoto.appendChild(
+                    createElement(
+                        "p",
+                        "admin-evidence-empty",
+                        "No evidence was attached to this report."
+                    )
+                );
+                evidenceSection.hidden = false;
             }
         }
 
@@ -1050,6 +1198,21 @@ document.addEventListener("DOMContentLoaded", function () {
         ) {
             refreshReports();
         }
+
+        if (
+            selectedReportId &&
+            event.key &&
+            event.key.startsWith("safeReportSettings:")
+        ) {
+            const report = findReportById(selectedReportId);
+            const reporterValue = detailsBody?.querySelector(
+                '[data-detail-field="reporter"] .admin-detail-value'
+            );
+
+            if (report && reporterValue) {
+                reporterValue.textContent = getReporterIdentity(report);
+            }
+        }
     });
 
     window.addEventListener(
@@ -1063,8 +1226,43 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
     // =========================================
-    // INITIALIZE
+    // INITIALIZE FROM DASHBOARD LINKS
     // =========================================
 
+    const query = new URLSearchParams(window.location.search);
+    const requestedStatus = String(query.get("status") || "")
+        .trim()
+        .toLowerCase()
+        .replace(/[_-]+/g, " ")
+        .replace(/\s+/g, " ");
+    const validStatuses = [
+        "all",
+        "pending",
+        "under review",
+        "in progress",
+        "resolved"
+    ];
+
+    if (statusFilter && validStatuses.includes(requestedStatus)) {
+        statusFilter.value = requestedStatus;
+    }
+
+    const requestedSearch = query.get("q");
+    if (requestedSearch !== null) {
+        searchInputs.forEach(input => {
+            input.value = requestedSearch;
+        });
+    }
+
     refreshReports();
+
+    const requestedReportId = query.get("view");
+    if (requestedReportId) {
+        const requestedReport = findReportById(requestedReportId);
+        if (requestedReport) {
+            openReportDetails(requestedReport.id, null);
+        } else {
+            showFeedback("The requested report could not be found.", true);
+        }
+    }
 });

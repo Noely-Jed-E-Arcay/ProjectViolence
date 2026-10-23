@@ -385,7 +385,22 @@ body {
 
 
 .create-account a:hover {
+    text-decoration: underline;
+}
 
+.guest-return {
+    margin-top: 18px;
+    text-align: center;
+}
+
+.guest-return a {
+    color: #64748b;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.guest-return a:hover {
+    color: #3159df;
     text-decoration: underline;
 }
 

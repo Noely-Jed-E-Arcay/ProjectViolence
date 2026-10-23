@@ -8,6 +8,7 @@
     <title>Login - SafeReport</title>
 
     <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/page-transitions.css">
 </head>
 
 <body>
@@ -129,12 +130,17 @@
 
             </div>
 
+            <p class="guest-return">
+                <a href="guest.html">← Back to the welcome page</a>
+            </p>
+
         </div>
 
     </div>
 
     <!-- EXISTING AUTHENTICATION -->
     <script src="tracel/auth.js"></script>
+    <script src="JS/page-transitions.js"></script>
 
     <!-- LOGIN HANDLER -->
     <script>
@@ -145,6 +151,13 @@
         const CURRENT_USER_KEY = "currentUser";
         const LEGACY_USER_KEY = "safeReportUser";
         const LOGIN_KEY = "safeReportLoggedIn";
+        const DEMO_ADMIN = Object.freeze({
+            fullName: "SafeReport Administrator",
+            email: "admin@safereport.local",
+            password: "SafeReportAdmin!2026",
+            role: "Admin",
+            localDemoAccount: true
+        });
 
         const form = document.getElementById("loginForm");
         const emailInput = document.getElementById("email");
@@ -221,6 +234,34 @@
                     "Unable to read the legacy account:",
                     error
                 );
+            }
+
+            const existingDemoEmail = users.some(account =>
+                normalizeEmail(account.email) ===
+                normalizeEmail(DEMO_ADMIN.email)
+            );
+
+            if (!existingDemoEmail) {
+                users.push({
+                    ...DEMO_ADMIN,
+                    dateCreated: new Date().toISOString()
+                });
+
+                try {
+                    localStorage.setItem(
+                        USERS_KEY,
+                        JSON.stringify(users)
+                    );
+                } catch (error) {
+                    console.error(
+                        "Unable to save the local demo administrator account:",
+                        error
+                    );
+
+                    throw new Error(
+                        "The local administrator account could not be initialized. Please check browser storage and try again."
+                    );
+                }
             }
 
             return users;
@@ -312,12 +353,12 @@
                 saveLoginSession(matchedUser, isAdmin);
 
                 successBox.textContent = isAdmin
-                    ? "Administrator login successful. Opening reports..."
+                    ? "Administrator login successful. Opening dashboard..."
                     : "Login successful. Opening dashboard...";
 
                 window.setTimeout(function () {
                     window.location.href = isAdmin
-                        ? "admin-reports.html"
+                        ? "admin-dashboard.html"
                         : "index.html";
                 }, 300);
 

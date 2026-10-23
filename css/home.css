@@ -697,6 +697,16 @@ main {
     animation: tabContentEnter 0.35s ease-out both;
 }
 
+.dashboard-search-status {
+    margin: 0 0 14px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text-soft);
+    font-size: 12px;
+}
+
 .small-title {
     margin-bottom: 7px;
     color: var(--primary);
@@ -1156,6 +1166,22 @@ main {
 .quick-action:hover .quick-arrow {
     color: var(--primary);
     transform: translateX(3px);
+}
+
+.quick-action[aria-disabled="true"] {
+    color: var(--muted);
+    cursor: not-allowed;
+    opacity: 0.72;
+}
+
+.quick-action[aria-disabled="true"] .quick-icon {
+    background: var(--surface-soft);
+    color: var(--muted);
+}
+
+.quick-action[aria-disabled="true"]:hover .quick-icon,
+.quick-action[aria-disabled="true"]:hover .quick-arrow {
+    transform: none;
 }
 
 /* SAFETY TIP */
@@ -1859,6 +1885,349 @@ footer:not(.dashboard-footer) p {
     }
 }
 
+/* DASHBOARD TYPOGRAPHY AND CONTENT REFINEMENT */
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+}
+
+.content {
+    width: min(94%, 1320px);
+    padding-top: 8px;
+}
+
+.app .sidebar nav a {
+    font-size: 14px !important;
+}
+
+.app .sidebar-help strong {
+    font-size: 13px;
+}
+
+.app .sidebar-help p {
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.app .profile-mini strong {
+    font-size: 12px;
+}
+
+.app .profile-mini small {
+    font-size: 11px;
+}
+
+.app .breadcrumb {
+    font-size: 13px;
+}
+
+.app .header-subtitle {
+    font-size: 12px !important;
+}
+
+.app .hero {
+    min-height: 0;
+    padding: clamp(28px, 4vw, 44px);
+    border-radius: 18px;
+    background: linear-gradient(112deg, #173b75 0%, #244b99 58%, #3157d5 100%);
+    box-shadow: 0 12px 28px rgba(23, 59, 117, 0.16);
+}
+
+.app .hero h1 {
+    max-width: 700px;
+    font-size: clamp(32px, 3.5vw, 42px);
+    letter-spacing: -1.1px;
+    line-height: 1.12;
+}
+
+.app .hero-text > p:not(.small-title) {
+    max-width: 660px;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.app .hero-icon {
+    flex-basis: 140px;
+    width: 140px;
+    height: 140px;
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.1);
+    font-size: 66px;
+    animation: none;
+}
+
+.app .hero-icon::before,
+.app .hero-icon::after {
+    display: none;
+}
+
+.app .primary-button,
+.app .secondary-button {
+    min-height: 46px;
+    padding: 11px 17px;
+    font-size: 14px;
+}
+
+.app .stats {
+    gap: 14px;
+    margin: 20px 0 26px;
+}
+
+.app .stat-box {
+    gap: 14px;
+    padding: 20px 18px;
+    border-radius: 15px;
+}
+
+.app .stat-box h2,
+.app .stat-box h3 {
+    font-size: 28px;
+}
+
+.app .stat-box p {
+    font-size: 13px;
+}
+
+.app .stat-box small {
+    font-size: 12px;
+}
+
+.app .dashboard-grid {
+    gap: 22px;
+}
+
+.app .dashboard-main-column,
+.app .dashboard-side-column {
+    gap: 22px;
+}
+
+.app .panel {
+    border-radius: 16px;
+}
+
+.app .panel-heading {
+    padding: 18px 20px;
+}
+
+.app .panel-heading h2 {
+    font-size: 18px;
+    letter-spacing: -0.25px;
+}
+
+.app .panel-heading .small-title,
+.app .small-title {
+    font-size: 11px;
+    letter-spacing: 1.15px;
+}
+
+.app .panel-heading a {
+    font-size: 13px;
+}
+
+.app .panel-body {
+    padding: 18px 20px;
+}
+
+.app .announcement {
+    gap: 15px;
+    padding: 18px 0;
+}
+
+.app .announcement-icon {
+    flex-basis: 46px;
+    width: 46px;
+    height: 46px;
+    font-size: 21px;
+}
+
+.app .tag {
+    font-size: 10px;
+}
+
+.app .announcement h3 {
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.app .announcement p {
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+.app .announcement small {
+    font-size: 12px;
+}
+
+.app .quick-action {
+    gap: 13px;
+    padding: 15px 0;
+}
+
+.app .quick-action strong {
+    font-size: 14px;
+}
+
+.app .quick-action > span:nth-child(2) > span {
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+#safetyResources .panel-body {
+    display: grid;
+    gap: 11px;
+    padding: 16px;
+}
+
+#safetyResources .resource-card {
+    position: relative;
+    padding: 14px 15px 14px 18px;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--primary);
+    border-radius: 11px;
+    background: var(--surface-soft);
+    transition: border-color var(--transition), background-color var(--transition),
+        transform var(--transition);
+}
+
+#safetyResources .resource-card:hover {
+    border-color: #cbd7ff;
+    border-left-color: var(--primary);
+    transform: translateX(2px);
+}
+
+#safetyResources .resource-card h3 {
+    margin: 0 0 5px;
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 750;
+    letter-spacing: -0.15px;
+    line-height: 1.4;
+}
+
+#safetyResources .resource-card p {
+    color: var(--text-soft);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.app .tip h3 {
+    font-size: 18px;
+}
+
+.app .tip p:not(.small-title) {
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+.app .activity {
+    gap: 13px;
+    padding: 16px 0;
+}
+
+.app .activity strong {
+    font-size: 13px;
+}
+
+.app .activity p,
+.app .activity time {
+    font-size: 12px;
+}
+
+.app .status {
+    font-size: 11px;
+}
+
+.app .how-it-works-list {
+    gap: 20px;
+}
+
+.app .how-it-works-list strong {
+    font-size: 14px;
+}
+
+.app .how-it-works-list p {
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.app .dashboard-footer p,
+.app .dashboard-footer a {
+    font-size: 12px;
+}
+
+@media (max-width: 700px) {
+    .content {
+        width: calc(100% - 28px);
+        padding-top: 4px;
+    }
+
+    .app .hero {
+        padding: 28px 24px;
+    }
+
+    .app .hero h1 {
+        font-size: clamp(30px, 8vw, 38px);
+    }
+
+    .app .hero-text > p:not(.small-title) {
+        font-size: 14px;
+    }
+
+    .app .stat-box p {
+        font-size: 12px;
+    }
+
+    .app .stat-box small {
+        font-size: 11px;
+    }
+
+    .app .panel-heading h2 {
+        font-size: 17px;
+    }
+
+    .app .announcement h3 {
+        font-size: 15px;
+    }
+
+    .app .announcement p {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 400px) {
+    .app .sidebar nav a {
+        gap: 7px;
+        padding: 8px;
+        font-size: 12px !important;
+    }
+
+    .app .header-subtitle {
+        font-size: 11px !important;
+    }
+
+    .app .panel-heading,
+    .app .panel-body {
+        padding: 14px;
+    }
+
+    #safetyResources .panel-body {
+        padding: 12px;
+    }
+
+    #safetyResources .resource-card {
+        padding: 12px 12px 12px 14px;
+    }
+
+    #safetyResources .resource-card h3 {
+        font-size: 15px;
+    }
+
+    #safetyResources .resource-card p {
+        font-size: 14px;
+    }
+}
+
 /* DARK MODE */
 body.dark-mode {
     --page-bg: #0f172a;
@@ -1991,5 +2360,90 @@ body.dark-mode .settings-menu-heading {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
+    }
+}
+
+/* REPORT DETAILS */
+.modal-content.report-details-modal {
+    padding: 30px;
+    border: 1px solid rgba(255,255,255,.55);
+    border-radius: 20px;
+    box-shadow: 0 24px 70px rgba(15, 35, 90, .25);
+}
+
+.report-detail-eyebrow {
+    color: #3157d5;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+}
+
+.report-detail-title {
+    margin: 6px 34px 20px 0;
+    color: #172554;
+    font-size: 24px;
+    letter-spacing: -.5px;
+}
+
+.report-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
+}
+
+.report-detail-field {
+    min-width: 0;
+    padding: 13px 14px;
+    border: 1px solid #e7ecf8;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #f8faff, #fff);
+}
+
+.report-detail-field span {
+    display: block;
+    margin-bottom: 5px;
+    color: #71809a;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .45px;
+    text-transform: uppercase;
+}
+
+.report-detail-field strong {
+    display: block;
+    overflow-wrap: anywhere;
+    color: #263858;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.report-detail-description {
+    margin-top: 14px;
+    padding: 16px;
+    border-radius: 12px;
+    background: #f1f5ff;
+}
+
+.report-detail-description h3 {
+    margin-bottom: 7px;
+    color: #263858;
+    font-size: 13px;
+}
+
+.report-detail-description p {
+    color: #53627b;
+    font-size: 13px;
+    line-height: 1.75;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 520px) {
+    .modal-content.report-details-modal {
+        padding: 23px 18px;
+    }
+
+    .report-detail-grid {
+        grid-template-columns: 1fr;
     }
 }

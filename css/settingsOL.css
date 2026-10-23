@@ -96,6 +96,7 @@
     color: #333333;
     cursor: pointer;
     transition: background 0.2s ease;
+    text-decoration: none;
 }
 
 .settings-item:hover {
@@ -105,6 +106,18 @@
 .settings-item:focus-visible {
     outline: 2px solid #3157d5;
     outline-offset: -2px;
+}
+
+.settings-item:disabled {
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+
+.settings-note {
+    margin-left: auto;
+    color: #94a3b8;
+    font-size: 10px;
+    font-weight: 400;
 }
 
 /* Remove the right-side arrows */

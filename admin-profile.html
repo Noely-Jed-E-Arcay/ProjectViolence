@@ -8,31 +8,57 @@
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="css/profileF.css">
     <link rel="stylesheet" href="css/myreports-shell.css">
+    <link rel="stylesheet" href="css/account-settings.css">
     <link rel="stylesheet" href="css/darkmode.css">
-    <link rel="stylesheet" href="css/darkmode.css">
+    <link rel="stylesheet" href="css/admin-dashboard.css">
 </head>
 <body>
 
 <div class="app">
 
     <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <a class="sidebar-brand" href="admin-reports.html" aria-label="SafeReport home">
+    <aside class="sidebar admin-sidebar">
+        <a class="sidebar-brand" href="admin-dashboard.html" aria-label="SafeReport dashboard">
             <span class="shield" aria-hidden="true">🛡</span>
             <span>SafeReport</span>
         </a>
 
-        <div class="sidebar-label">ADMINISTRATION</div>
+        <div class="sidebar-label">OVERVIEW</div>
+        <nav aria-label="Administrator overview">
+            <a href="admin-dashboard.html">
+                <span class="side-icon" aria-hidden="true">⌂</span>
+                <span>Dashboard</span>
+            </a>
+        </nav>
 
-        <nav aria-label="Admin navigation">
+        <div class="sidebar-label">REPORT MANAGEMENT</div>
+        <nav aria-label="Report management navigation">
             <a href="admin-reports.html">
                 <span class="side-icon" aria-hidden="true">▤</span>
-                <span>Manage Reports</span>
+                <span>All Reports</span>
             </a>
-
+            <a href="admin-reports.html?status=pending">
+                <span class="side-icon" aria-hidden="true">◷</span>
+                <span>Pending Review</span>
+            </a>
+            <a href="admin-reports.html?status=under%20review">
+                <span class="side-icon" aria-hidden="true">◉</span>
+                <span>Under Review</span>
+            </a>
+            <a href="admin-reports.html?status=resolved">
+                <span class="side-icon" aria-hidden="true">✓</span>
+                <span>Resolved</span>
+            </a>
+        </nav>
+        <div class="sidebar-label">ACCOUNT</div>
+        <nav aria-label="Administrator account navigation">
             <a class="active" href="admin-profile.html" aria-current="page">
                 <span class="side-icon" aria-hidden="true">◯</span>
                 <span>My Profile</span>
+            </a>
+            <a href="admin-profile.html#admin-security">
+                <span class="side-icon" aria-hidden="true">⚙</span>
+                <span>Settings</span>
             </a>
         </nav>
 
@@ -52,7 +78,7 @@
                 </div>
             </div>
 
-            <a class="logout" href="login.html">
+            <a class="logout" href="guest.html">
                 <span aria-hidden="true">↪</span>
                 <span>Logout</span>
             </a>
@@ -76,21 +102,13 @@
             </div>
 
             <div class="header-actions">
-                <div class="search-box">
-                    <span aria-hidden="true">⌕</span>
-                    <input
-                        type="search"
-                        id="dashboardSearch"
-                        placeholder="Search reports..."
-                        aria-label="Search reports"
-                    >
-                </div>
-
                 <button
                     type="button"
                     class="header-action"
                     id="notificationBtn"
-                    aria-label="Notifications"
+                    aria-label="Notifications unavailable"
+                    title="Notifications are not available for administrator accounts."
+                    disabled
                 >♧</button>
 
                 <button
@@ -121,7 +139,7 @@
                     <div class="profile-dropdown" id="profileDropdown" hidden>
                         <a href="admin-profile.html">My Profile</a>
                         <a href="admin-profile.html#admin-security" id="openSettingsBtn">Settings</a>
-                        <a href="login.html" class="logout" id="logoutBtn">Logout</a>
+                        <a href="guest.html" class="logout" id="logoutBtn">Logout</a>
                     </div>
                 </div>
             </div>
@@ -147,6 +165,7 @@
                 <div class="card">
                     <form class="profile-form" id="adminProfileForm">
                         <h2>Personal Information</h2>
+                        <p id="adminProfileFeedback" role="status" aria-live="polite"></p>
 
                         <label>
                             First Name
@@ -211,7 +230,7 @@
                 <div class="card">
                     <h2 id="adminSecurityTitle">Account Security</h2>
                     <p style="color:#64748b;font-size:13px;margin:7px 0 15px;">
-                        Keep your administrator account secure and protected.
+                        Update your local account password. This browser-only prototype does not provide secure server-side credentials.
                     </p>
 
                     <button
@@ -224,16 +243,26 @@
                 <div class="card">
                     <h2>Privacy</h2>
                     <p style="color:#64748b;font-size:13px;margin:7px 0 15px;">
-                        Administrator access should be limited to authorized personnel.
+                        Administrator identities are not shown as reporters in the current report workflow.
                     </p>
 
-                    <button
+                    <a
                         class="primary-button blue-button"
-                        type="button"
-                        id="privacySettingsBtn"
-                    >Privacy Settings</button>
+                        href="#adminPrivacyGuidance"
+                    >Privacy Guidance</a>
+
                 </div>
 
+            </section>
+
+            <section class="card section" id="adminPrivacyGuidance" aria-labelledby="adminPrivacyTitle">
+                <h2 id="adminPrivacyTitle">Privacy Guidance</h2>
+                <p>
+                    Administrator profile details are not displayed as report
+                    submitter information. Student reporters can choose whether
+                    their name and email appear in administrator report details;
+                    their stored ownership record remains unchanged.
+                </p>
             </section>
         </div>
     </main>
@@ -246,127 +275,10 @@
 <script src="JS/Tito_Part/toast.js"></script>
 <script src="JS/Tito_Part/navbar.js"></script>
 <script src="JS/Tito_Part/modal.js"></script>
+<script src="JS/Tito_Part/account-security.js"></script>
 
 <!-- ADMIN PROFILE FUNCTIONALITY -->
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    const profileBtn = document.getElementById("profileBtn");
-    const dropdown = document.getElementById("profileDropdown");
-
-    // Profile dropdown
-    if (profileBtn && dropdown) {
-        profileBtn.addEventListener("click", event => {
-            event.stopPropagation();
-
-            dropdown.hidden = !dropdown.hidden;
-
-            profileBtn.setAttribute(
-                "aria-expanded",
-                String(!dropdown.hidden)
-            );
-        });
-
-        document.addEventListener("click", event => {
-            if (
-                !dropdown.contains(event.target) &&
-                !profileBtn.contains(event.target)
-            ) {
-                dropdown.hidden = true;
-                profileBtn.setAttribute("aria-expanded", "false");
-            }
-        });
-
-        document.addEventListener("keydown", event => {
-            if (event.key === "Escape") {
-                dropdown.hidden = true;
-                profileBtn.setAttribute("aria-expanded", "false");
-            }
-        });
-    }
-
-    // Load locally saved admin profile information
-    const form = document.getElementById("adminProfileForm");
-    const firstName = document.getElementById("adminFirstName");
-    const lastName = document.getElementById("adminLastName");
-    const department = document.getElementById("adminDepartment");
-    const email = document.getElementById("adminEmail");
-
-    const profileName = document.querySelector(".profile-card h2");
-    const sidebarName = document.querySelector(".profile-mini .profile-details strong");
-    const avatar = document.querySelector(".profile-mini .avatar");
-    const headerAvatar = document.getElementById("profileBtn");
-    const bigAvatar = document.querySelector(".profile-big-avatar");
-
-    const STORAGE_KEY = "safeReportAdminProfile";
-
-    function updateProfileDisplay() {
-        const fullName =
-            `${firstName.value.trim()} ${lastName.value.trim()}`.trim();
-
-        const displayName = fullName || "Administrator";
-        const initial = displayName.charAt(0).toUpperCase();
-
-        if (profileName) profileName.textContent = displayName;
-        if (sidebarName) sidebarName.textContent = displayName;
-        if (avatar) avatar.textContent = initial;
-        if (headerAvatar) headerAvatar.textContent = initial;
-        if (bigAvatar) bigAvatar.textContent = initial;
-    }
-
-    try {
-        const savedProfile = JSON.parse(
-            localStorage.getItem(STORAGE_KEY) || "null"
-        );
-
-        if (savedProfile) {
-            firstName.value = savedProfile.firstName || "";
-            lastName.value = savedProfile.lastName || "";
-            department.value = savedProfile.department || "";
-            email.value = savedProfile.email || "";
-            updateProfileDisplay();
-        }
-    } catch (error) {
-        console.error("Unable to load admin profile:", error);
-    }
-
-    // Save profile information in this browser
-    form.addEventListener("submit", event => {
-        event.preventDefault();
-
-        if (!form.reportValidity()) return;
-
-        const profileData = {
-            firstName: firstName.value.trim(),
-            lastName: lastName.value.trim(),
-            department: department.value.trim(),
-            email: email.value.trim()
-        };
-
-        try {
-            localStorage.setItem(
-                STORAGE_KEY,
-                JSON.stringify(profileData)
-            );
-
-            updateProfileDisplay();
-            alert("Admin profile saved successfully.");
-        } catch (error) {
-            console.error("Unable to save admin profile:", error);
-            alert("Unable to save your profile. Please try again.");
-        }
-    });
-
-    // These actions need to be connected to your actual account system.
-    document.getElementById("changePasswordBtn").addEventListener("click", () => {
-        alert("Connect this button to your existing password-change feature.");
-    });
-
-    document.getElementById("privacySettingsBtn").addEventListener("click", () => {
-        alert("Connect this button to your existing privacy settings feature.");
-    });
-});
-</script>
-
+<script src="JS/Tito_Part/admin-profile.js"></script>
 
 <script>
 (function () {
@@ -439,7 +351,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Clear the administrator session when logging out.
     const logoutLinks = document.querySelectorAll(
-        'a[href="login.html"].logout'
+        'a[href="guest.html"].logout'
     );
 
     logoutLinks.forEach(function (link) {
@@ -450,7 +362,6 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.removeItem("safeReportAdminRemembered");
             localStorage.removeItem("safeReportLoggedIn");
             localStorage.removeItem("currentUser");
-            localStorage.removeItem("safeReportUser");
         });
     });
 })();

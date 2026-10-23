@@ -10,6 +10,7 @@
     const CURRENT_USER_KEY = "currentUser";
     const LEGACY_USER_KEY = "safeReportUser";
     const LOGIN_KEY = "safeReportLoggedIn";
+    const SETTINGS_PREFIX = "safeReportSettings:";
 
     /* =========================================
        ACCOUNT STORAGE
@@ -207,6 +208,9 @@
         const studentIdInput =
             document.getElementById("profileStudentId");
 
+        const gradeSectionInput =
+            document.getElementById("profileGradeSection");
+
         const nameParts = getNameParts(user.fullName);
 
         if (
@@ -239,6 +243,13 @@
 
         if (studentIdInput) {
             studentIdInput.value = user.studentId || "";
+        }
+
+        if (
+            gradeSectionInput &&
+            document.activeElement !== gradeSectionInput
+        ) {
+            gradeSectionInput.value = user.gradeSection || "";
         }
     }
 
@@ -349,6 +360,9 @@
         const studentIdInput =
             document.getElementById("profileStudentId");
 
+        const gradeSectionInput =
+            document.getElementById("profileGradeSection");
+
         const firstName = firstNameInput
             ? firstNameInput.value.trim()
             : "";
@@ -381,6 +395,9 @@
         const studentId = studentIdInput
             ? studentIdInput.value.trim()
             : String(currentUser.studentId || "").trim();
+        const gradeSection = gradeSectionInput
+            ? gradeSectionInput.value.trim()
+            : String(currentUser.gradeSection || "").trim();
 
         if (!validateProfile(fullName, email, studentId)) {
             return;
@@ -447,12 +464,29 @@
                 ...currentUser,
                 fullName,
                 email,
-                studentId
+                studentId,
+                gradeSection
             };
 
             // Preserve the account array and update only the matched user.
             const updatedUsers = [...users];
             updatedUsers[userIndex] = updatedUser;
+
+            if (oldEmail !== email) {
+                const oldSettingsKey =
+                    SETTINGS_PREFIX + encodeURIComponent(oldEmail);
+                const newSettingsKey =
+                    SETTINGS_PREFIX + encodeURIComponent(email);
+                const savedSettings =
+                    localStorage.getItem(oldSettingsKey);
+
+                if (
+                    savedSettings !== null &&
+                    localStorage.getItem(newSettingsKey) === null
+                ) {
+                    localStorage.setItem(newSettingsKey, savedSettings);
+                }
+            }
 
             // Save the registered account first.
             saveUsers(updatedUsers);
@@ -494,68 +528,6 @@
                 "Unable to save your profile. Please try again."
             );
         }
-    }
-
-    /* =========================================
-       PROFILE DROPDOWN
-    ========================================= */
-
-    function setupProfileDropdown() {
-        const profileBtn =
-            document.getElementById("profileBtn");
-
-        const profileDropdown =
-            document.getElementById("profileDropdown");
-
-        if (!profileBtn || !profileDropdown) {
-            return;
-        }
-
-        if (profileBtn.dataset.profileDropdownBound === "true") {
-            return;
-        }
-
-        profileBtn.dataset.profileDropdownBound = "true";
-
-        function closeDropdown() {
-            profileDropdown.hidden = true;
-
-            profileBtn.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-        }
-
-        profileBtn.addEventListener("click", event => {
-            event.stopPropagation();
-
-            profileDropdown.hidden = !profileDropdown.hidden;
-
-            profileBtn.setAttribute(
-                "aria-expanded",
-                String(!profileDropdown.hidden)
-            );
-        });
-
-        profileDropdown.addEventListener("click", event => {
-            event.stopPropagation();
-        });
-
-        document.addEventListener("click", event => {
-            if (
-                !profileDropdown.contains(event.target) &&
-                !profileBtn.contains(event.target)
-            ) {
-                closeDropdown();
-            }
-        });
-
-        document.addEventListener("keydown", event => {
-            if (event.key === "Escape" && !profileDropdown.hidden) {
-                closeDropdown();
-                profileBtn.focus();
-            }
-        });
     }
 
     /* =========================================
@@ -604,7 +576,7 @@
                 sessionStorage.removeItem("safeReportAdminLoggedIn");
                 sessionStorage.removeItem("safeReportAdminEmail");
 
-                window.location.href = "login.html";
+                window.location.href = "guest.html";
             });
         });
     }
@@ -615,7 +587,6 @@
 
     function initializeProfileFeature() {
         displayUserInfo();
-        setupProfileDropdown();
         setupLogoutLinks();
 
         const profileForm = document.getElementById("profileForm");

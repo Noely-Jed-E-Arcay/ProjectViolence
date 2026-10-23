@@ -1,0 +1,33 @@
+body {
+    animation: safeReportPageEnter 320ms ease both;
+}
+
+body.page-leaving {
+    opacity: 0;
+    transition: opacity 180ms ease;
+}
+
+@keyframes safeReportPageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+
+    body.page-leaving {
+        opacity: 1;
+        transition: none;
+    }
+}

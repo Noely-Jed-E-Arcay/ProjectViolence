@@ -219,12 +219,139 @@
     }
 
     /* =====================================================
+       PROFILE MENUS
+    ===================================================== */
+
+    function initializeProfileMenus() {
+        document.querySelectorAll(".profile-menu-wrap").forEach(wrapper => {
+            const button = wrapper.querySelector("#profileBtn");
+            const dropdown = wrapper.querySelector("#profileDropdown");
+
+            if (
+                !button ||
+                !dropdown ||
+                button.dataset.profileMenuInitialized === "true"
+            ) {
+                return;
+            }
+
+            button.dataset.profileMenuInitialized = "true";
+
+            function closeMenu(restoreFocus = false) {
+                dropdown.hidden = true;
+                button.setAttribute("aria-expanded", "false");
+
+                if (restoreFocus) {
+                    button.focus();
+                }
+            }
+
+            function openMenu(focusLast = false) {
+                dropdown.hidden = false;
+                button.setAttribute("aria-expanded", "true");
+
+                if (focusLast) {
+                    const items = getMenuItems();
+                    items[items.length - 1]?.focus();
+                } else if (focusLast === false && document.activeElement === button) {
+                    getMenuItems()[0]?.focus();
+                }
+            }
+
+            function getMenuItems() {
+                return Array.from(
+                    dropdown.querySelectorAll(
+                        'a[href]:not([aria-disabled="true"]), button:not([disabled])'
+                    )
+                ).filter(item => !item.hidden);
+            }
+
+            button.addEventListener("click", () => {
+                if (dropdown.hidden) {
+                    dropdown.hidden = false;
+                    button.setAttribute("aria-expanded", "true");
+                } else {
+                    closeMenu();
+                }
+            });
+
+            button.addEventListener("keydown", event => {
+                if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+                    event.preventDefault();
+
+                    if (dropdown.hidden) {
+                        openMenu(event.key === "ArrowUp");
+                    } else {
+                        const items = getMenuItems();
+                        const item = event.key === "ArrowDown"
+                            ? items[0]
+                            : items[items.length - 1];
+
+                        item?.focus();
+                    }
+                }
+            });
+
+            dropdown.addEventListener("keydown", event => {
+                const items = getMenuItems();
+                const currentIndex = items.indexOf(document.activeElement);
+
+                if (event.key === "Escape") {
+                    event.preventDefault();
+                    closeMenu(true);
+                    return;
+                }
+
+                if (!items.length) {
+                    return;
+                }
+
+                let nextIndex;
+
+                if (event.key === "ArrowDown") {
+                    nextIndex = (currentIndex + 1) % items.length;
+                } else if (event.key === "ArrowUp") {
+                    nextIndex = (currentIndex - 1 + items.length) % items.length;
+                } else if (event.key === "Home") {
+                    nextIndex = 0;
+                } else if (event.key === "End") {
+                    nextIndex = items.length - 1;
+                }
+
+                if (nextIndex !== undefined) {
+                    event.preventDefault();
+                    items[nextIndex].focus();
+                }
+            });
+
+            dropdown.addEventListener("click", event => {
+                if (event.target.closest("a[href]")) {
+                    closeMenu();
+                }
+            });
+
+            document.addEventListener("click", event => {
+                if (!wrapper.contains(event.target)) {
+                    closeMenu();
+                }
+            });
+
+            document.addEventListener("keydown", event => {
+                if (event.key === "Escape" && !dropdown.hidden) {
+                    closeMenu(true);
+                }
+            });
+        });
+    }
+
+    /* =====================================================
        INITIALIZATION
     ===================================================== */
 
     function initializeNavbar() {
         initializeLogoutButtons();
         initializeThemeButton();
+        initializeProfileMenus();
     }
 
     if (document.readyState === "loading") {

@@ -70,7 +70,7 @@
             </div>
 
             <div class="profile-mini">
-                <div class="avatar header-avatar" aria-hidden="true">J</div>
+                <div class="avatar profile-avatar" aria-hidden="true">J</div>
 
                 <div class="profile-details">
                     <strong class="user-name">John Loyd Arcay. Panla-an</strong>
@@ -78,7 +78,7 @@
                 </div>
             </div>
 
-            <a class="logout" href="login.html" id="sidebarLogoutBtn">
+            <a class="logout" href="guest.html" id="sidebarLogoutBtn">
                 <span aria-hidden="true">↪</span>
                 <span>Logout</span>
             </a>
@@ -115,14 +115,14 @@
                         aria-label="Search announcements and resources">
                 </div>
 
-                <button
-                    type="button"
+                <a
                     class="header-action"
+                    href="#announcements"
                     id="notificationBtn"
-                    aria-label="Notifications, 2 unread">
+                    aria-label="View latest announcements"
+                    title="View latest announcements">
                     ♧
-                    <span class="notification-dot">2</span>
-                </button>
+                </a>
 
                 <button
                     type="button"
@@ -146,7 +146,7 @@
 
                     <button
                         type="button"
-                        class="header-avatar"
+                        class="header-avatar profile-avatar"
                         id="profileBtn"
                         aria-label="Open profile menu"
                         aria-expanded="false"
@@ -169,7 +169,7 @@
                         </a>
 
                         <a
-                            href="login.html"
+                            href="guest.html"
                             class="logout"
                             id="logoutBtn">
                             Logout
@@ -232,16 +232,16 @@
                 <article class="stat-box">
                     <div class="stat-icon" aria-hidden="true">▧</div>
                     <div>
-                        <h2 id="totalReports">3</h2>
+                        <h2 id="totalReports">0</h2>
                         <p>Submitted Reports</p>
-                        <small class="positive">+2 this week</small>
+                        <small>Total reports on your account</small>
                     </div>
                 </article>
 
                 <article class="stat-box">
                     <div class="stat-icon" aria-hidden="true">◷</div>
                     <div>
-                        <h2 id="pendingReports">1</h2>
+                        <h2 id="pendingReports">0</h2>
                         <p>Under Review</p>
                         <small>Currently being checked</small>
                     </div>
@@ -250,22 +250,25 @@
                 <article class="stat-box">
                     <div class="stat-icon" aria-hidden="true">✓</div>
                     <div>
-                        <h2 id="resolvedReports">2</h2>
+                        <h2 id="resolvedReports">0</h2>
                         <p>Resolved</p>
-                        <small class="positive">+1 this week</small>
+                        <small>Reports marked resolved</small>
                     </div>
                 </article>
 
                 <article class="stat-box">
                     <div class="stat-icon" aria-hidden="true">▥</div>
                     <div>
-                        <h2 id="resolutionRate">85%</h2>
+                        <h2 id="resolutionRate">0%</h2>
                         <p>Resolution Rate</p>
-                        <small>This month</small>
+                        <small>Resolved reports as a share of total</small>
                     </div>
                 </article>
 
             </section>
+
+            <p class="dashboard-search-status" id="dashboardSearchStatus"
+               role="status" aria-live="polite" hidden></p>
 
             <!-- DASHBOARD GRID -->
             <div class="dashboard-grid">
@@ -286,7 +289,6 @@
                                 </h2>
                             </div>
 
-                            <a href="#announcements">View All →</a>
                         </div>
 
                         <div class="panel-body">
@@ -359,58 +361,9 @@
                         </div>
 
                         <div class="panel-body activity-list">
-
-                            <article class="activity">
-                                <div
-                                    class="activity-icon"
-                                    aria-hidden="true">◷</div>
-
-                                <div class="activity-details">
-                                    <strong>#SR-2024-003</strong>
-                                    <p>Harassment incident reported</p>
-                                </div>
-
-                                <span class="status reviewing">
-                                    Under Review
-                                </span>
-
-                                <time datetime="PT2H">2h ago</time>
-                            </article>
-
-                            <article class="activity">
-                                <div
-                                    class="activity-icon"
-                                    aria-hidden="true">✓</div>
-
-                                <div class="activity-details">
-                                    <strong>#SR-2024-002</strong>
-                                    <p>Bullying incident resolved</p>
-                                </div>
-
-                                <span class="status resolved">
-                                    Resolved
-                                </span>
-
-                                <time datetime="P1D">1d ago</time>
-                            </article>
-
-                            <article class="activity">
-                                <div
-                                    class="activity-icon"
-                                    aria-hidden="true">▧</div>
-
-                                <div class="activity-details">
-                                    <strong>#SR-2024-001</strong>
-                                    <p>Safety concern submitted</p>
-                                </div>
-
-                                <span class="status resolved">
-                                    Resolved
-                                </span>
-
-                                <time datetime="P3D">3d ago</time>
-                            </article>
-
+                            <p class="activity-empty">
+                                Your recent report activity will appear here.
+                            </p>
                         </div>
                     </section>
 
@@ -450,7 +403,8 @@
 
                             <a
                                 class="quick-action"
-                                href="#emergencyContacts">
+                                id="emergencyContactAction"
+                                href="settings.html#emergencyContacts">
 
                                 <span class="quick-icon" aria-hidden="true">
                                     ☎
@@ -458,7 +412,7 @@
 
                                 <span>
                                     <strong>Emergency Contacts</strong>
-                                    <span>Important numbers and contacts</span>
+                                    <span id="emergencyContactDescription">Add a number to your emergency contacts</span>
                                 </span>
 
                                 <span class="quick-arrow" aria-hidden="true">
@@ -670,6 +624,7 @@
 
 <!-- DASHBOARD FEATURES -->
 <script src="JS/Arcays_Part/dashboard.js"></script>
+<script src="JS/Tito_Part/emergency-contacts.js"></script>
 <script src="JS/Arcays_Part/announcements.js"></script>
 <script src="JS/Arcays_Part/profile_feature.js"></script>
 

@@ -10,6 +10,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     refreshDashboard();
     setupAnnouncementHeading();
+    setupDashboardSearch();
 
     // Refresh when reports change in another browser tab.
     window.addEventListener("storage", event => {
@@ -592,4 +593,67 @@ function setupAnnouncementHeading() {
         element.style.userSelect = "none";
         element.style.webkitUserSelect = "none";
     });
+}
+
+/* =========================================
+   DASHBOARD SEARCH
+========================================= */
+
+function setupDashboardSearch() {
+    const searchInput = document.getElementById("dashboardSearch");
+    const searchStatus = document.getElementById("dashboardSearchStatus");
+
+    if (!searchInput) return;
+
+    const searchableSections = [
+        {
+            section: document.getElementById("announcements"),
+            selector: ".announcement"
+        },
+        {
+            section: document.getElementById("safetyResources"),
+            selector: ".resource-card"
+        }
+    ].filter(group => group.section);
+
+    function applySearch() {
+        const query = searchInput.value.trim().toLocaleLowerCase();
+        let matches = 0;
+
+        searchableSections.forEach(({ section, selector }) => {
+            const items = section.querySelectorAll(selector);
+            let sectionMatches = 0;
+
+            items.forEach(item => {
+                const matchesQuery =
+                    !query ||
+                    item.textContent.toLocaleLowerCase().includes(query);
+
+                item.hidden = !matchesQuery;
+
+                if (matchesQuery) {
+                    matches++;
+                    sectionMatches++;
+                }
+            });
+
+            section.hidden = Boolean(query) && sectionMatches === 0;
+        });
+
+        if (!searchStatus) return;
+
+        searchStatus.hidden = !query;
+
+        if (!query) {
+            searchStatus.textContent = "";
+        } else if (matches === 0) {
+            searchStatus.textContent =
+                "No announcements or safety resources match your search.";
+        } else {
+            searchStatus.textContent =
+                `${matches} matching ${matches === 1 ? "item" : "items"} found.`;
+        }
+    }
+
+    searchInput.addEventListener("input", applySearch);
 }

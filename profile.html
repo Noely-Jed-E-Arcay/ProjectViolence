@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/profileF.css">
     <link rel="stylesheet" href="css/myreports-shell.css">
     <link rel="stylesheet" href="css/settingsOL.css">
+    <link rel="stylesheet" href="css/account-settings.css">
     <link rel="stylesheet" href="css/darkmode.css">
 </head>
 
@@ -65,7 +66,7 @@
                     </div>
                 </div>
 
-                <a class="logout" href="login.html" id="sidebarLogoutBtn">
+                <a class="logout" href="guest.html" id="sidebarLogoutBtn">
                     <span aria-hidden="true">↪</span>
                     <span>Logout</span>
                 </a>
@@ -88,25 +89,14 @@
                 </div>
 
                 <div class="header-actions">
-                    <div class="search-box">
-                        <span aria-hidden="true">⌕</span>
-                        <input
-                            type="search"
-                            id="dashboardSearch"
-                            placeholder="Search announcements, resources..."
-                            aria-label="Search announcements and resources"
-                        >
-                    </div>
-
-                    <button
-                        type="button"
+                    <a
                         class="header-action"
+                        href="index.html#announcements"
                         id="notificationBtn"
-                        aria-label="Notifications"
-                    >
+                        aria-label="View latest announcements"
+                        title="View latest announcements">
                         ♧
-                        <span class="notification-dot">2</span>
-                    </button>
+                    </a>
 
                     <button
                         type="button"
@@ -151,7 +141,7 @@
                             </a>
 
                             <a
-                                href="login.html"
+                                href="guest.html"
                                 class="logout"
                                 id="logoutBtn"
                             >
@@ -229,7 +219,7 @@
                                     type="text"
                                     id="profileGradeSection"
                                     name="gradeSection"
-                                    value="3rd Year College - BSIT - A"
+                                    placeholder="Enter grade, year, or section"
                                 >
                             </label>
 
@@ -256,13 +246,14 @@
                 </section>
 
                 <!-- SECURITY AND PRIVACY -->
-                <section class="security-grid section">
+                <section class="security-grid section" id="accountSecurity">
 
                     <div class="card">
                         <h2>Account Security</h2>
 
                         <p style="color:#64748b;font-size:13px;margin:7px 0 15px;">
-                            Manage your account security.
+                            Change the password used the next time you log in.
+                            Credentials remain in this browser in this prototype.
                         </p>
 
                         <button
@@ -281,13 +272,12 @@
                             Review your privacy preferences.
                         </p>
 
-                        <button
+                        <a
                             class="primary-button blue-button"
-                            type="button"
-                            id="privacySettingsBtn"
+                            href="settings.html#privacyPreferences"
                         >
                             Privacy Settings
-                        </button>
+                        </a>
                     </div>
 
                 </section>
@@ -321,32 +311,32 @@
             </div>
 
             <div class="settings-menu">
-                <button
-                    type="button"
+                <a
                     class="settings-item"
+                    href="settings.html#privacyPreferences"
                     data-setting="Privacy Settings"
                 >
                     <span>Privacy Settings</span>
                     <span class="settings-arrow" aria-hidden="true">›</span>
-                </button>
+                </a>
 
-                <button
-                    type="button"
+                <a
                     class="settings-item"
+                    href="settings.html#notificationTitle"
                     data-setting="Notification Settings"
                 >
                     <span>Notification Settings</span>
                     <span class="settings-arrow" aria-hidden="true">›</span>
-                </button>
+                </a>
 
-                <button
-                    type="button"
+                <a
                     class="settings-item"
+                    href="#accountSecurity"
                     data-setting="Security Settings"
                 >
                     <span>Security Settings</span>
                     <span class="settings-arrow" aria-hidden="true">›</span>
-                </button>
+                </a>
             </div>
         </section>
     </div>
@@ -359,6 +349,7 @@
     <script src="JS/Tito_Part/navbar.js"></script>
     <script src="JS/Tito_Part/modal.js"></script>
     <script src="JS/Arcays_Part/profile_feature.js"></script>
+    <script src="JS/Tito_Part/account-security.js"></script>
 
     <!-- PROFILE MENU AND SETTINGS OVERLAY -->
     <script>
@@ -368,12 +359,6 @@
             const settingsButton = document.getElementById("openSettingsBtn");
             const settingsOverlay = document.getElementById("settingsOverlay");
             const settingsBackButton = document.getElementById("settingsBackBtn");
-
-            const changePasswordButton =
-                document.getElementById("changePasswordBtn");
-
-            const privacySettingsButton =
-                document.getElementById("privacySettingsBtn");
 
             function closeProfileDropdown() {
                 if (!profileDropdown || !profileButton) return;
@@ -397,18 +382,6 @@
                 settingsOverlay.hidden = false;
                 settingsOverlay.setAttribute("aria-hidden", "false");
             }
-
-            profileButton?.addEventListener("click", event => {
-                event.stopPropagation();
-                closeSettingsOverlay();
-
-                profileDropdown.hidden = !profileDropdown.hidden;
-
-                profileButton.setAttribute(
-                    "aria-expanded",
-                    String(!profileDropdown.hidden)
-                );
-            });
 
             settingsButton?.addEventListener("click", event => {
                 event.preventDefault();
@@ -451,35 +424,6 @@
                 }
             });
 
-            document.querySelectorAll("[data-setting]").forEach(button => {
-                button.addEventListener("click", () => {
-                    const setting = button.dataset.setting;
-
-                    if (setting === "Privacy Settings") {
-                        alert(
-                            "Privacy settings need to be connected to saved account preferences."
-                        );
-                    } else if (setting === "Notification Settings") {
-                        alert(
-                            "Notification preferences are not implemented yet."
-                        );
-                    } else if (setting === "Security Settings") {
-                        alert(
-                            "Security settings need to be connected to account security features."
-                        );
-                    }
-                });
-            });
-
-            changePasswordButton?.addEventListener("click", () => {
-                alert(
-                    "Password changes are not implemented yet. This feature requires a secure account-update process."
-                );
-            });
-
-            privacySettingsButton?.addEventListener("click", () => {
-                openSettingsOverlay();
-            });
         });
     </script>
 </body>

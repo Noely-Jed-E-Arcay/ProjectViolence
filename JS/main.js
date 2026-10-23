@@ -46,6 +46,18 @@
                 return null;
             }
 
+            const role = String(
+                user.role || user.accountType || "student"
+            )
+                .trim()
+                .toLowerCase()
+                .replace(/[_-]+/g, " ")
+                .replace(/\s+account$/, "");
+
+            if (role === "admin" || role === "administrator") {
+                return null;
+            }
+
             return user;
         } catch (error) {
             console.error(
@@ -62,12 +74,48 @@
     ========================================= */
 
     function isAdminAuthenticated() {
-        return (
-            sessionStorage.getItem(ADMIN_LOGIN_KEY) === "true" &&
-            Boolean(
-                sessionStorage.getItem(ADMIN_EMAIL_KEY)?.trim()
+        if (sessionStorage.getItem(ADMIN_LOGIN_KEY) !== "true") {
+            return false;
+        }
+
+        const sessionEmail = String(
+            sessionStorage.getItem(ADMIN_EMAIL_KEY) || ""
+        )
+            .trim()
+            .toLowerCase();
+
+        if (!sessionEmail) {
+            return false;
+        }
+
+        try {
+            const user = JSON.parse(
+                localStorage.getItem(CURRENT_USER_KEY) || "null"
+            );
+
+            const role = String(
+                user?.role || user?.accountType || ""
             )
-        );
+                .trim()
+                .toLowerCase()
+                .replace(/[_-]+/g, " ")
+                .replace(/\s+account$/, "");
+
+            return Boolean(
+                user &&
+                typeof user === "object" &&
+                !Array.isArray(user) &&
+                (role === "admin" || role === "administrator") &&
+                String(user.email || "").trim().toLowerCase() === sessionEmail
+            );
+        } catch (error) {
+            console.error(
+                "Unable to validate the administrator session:",
+                error
+            );
+
+            return false;
+        }
     }
 
     /* =========================================
@@ -78,7 +126,30 @@
         const student = getCurrentStudent();
         const adminAuthenticated = isAdminAuthenticated();
 
-        if (student || adminAuthenticated) {
+        if (adminAuthenticated) {
+            const currentPage = window.location.pathname
+                .split("/")
+                .pop()
+                .toLowerCase() || "index.html";
+
+            if (
+                [
+                    "index.html",
+                    "report.html",
+                    "myreports.html",
+                    "profile.html",
+                    "settings.html"
+                ].includes(currentPage)
+            ) {
+                window.location.replace("admin-dashboard.html");
+            }
+
+            return;
+        }
+
+        if (student) {
+            sessionStorage.removeItem(ADMIN_LOGIN_KEY);
+            sessionStorage.removeItem(ADMIN_EMAIL_KEY);
             return;
         }
 
@@ -90,7 +161,16 @@
         sessionStorage.removeItem(ADMIN_LOGIN_KEY);
         sessionStorage.removeItem(ADMIN_EMAIL_KEY);
 
-        window.location.replace("login.html");
+        const currentPage = window.location.pathname
+            .split("/")
+            .pop()
+            .toLowerCase();
+
+        window.location.replace(
+            currentPage === "index.html" || currentPage === ""
+                ? "guest.html"
+                : "login.html"
+        );
     }
 
     /* =========================================
@@ -156,11 +236,21 @@
 
             // Keep the page's existing defaults for first-time users.
             if (savedSettings === null) {
-                saveNotificationPreferences(
+                const saved = saveNotificationPreferences(
                     storageKey,
                     reportNotifications,
                     securityNotifications
                 );
+
+                if (
+                    !saved &&
+                    typeof window.showToast === "function"
+                ) {
+                    window.showToast(
+                        "Notification preferences could not be initialized.",
+                        "error"
+                    );
+                }
             } else {
                 const settings = JSON.parse(savedSettings);
 
@@ -205,11 +295,21 @@
                 }
 
                 checkbox.addEventListener("change", () => {
-                    saveNotificationPreferences(
+                    const saved = saveNotificationPreferences(
                         storageKey,
                         reportNotifications,
                         securityNotifications
                     );
+
+                    if (
+                        !saved &&
+                        typeof window.showToast === "function"
+                    ) {
+                        window.showToast(
+                            "Unable to save notification preferences.",
+                            "error"
+                        );
+                    }
                 });
             }
         );
@@ -228,7 +328,37 @@
             return false;
         }
 
+        let existingSettings = {};
+
+        try {
+            const existingValue = localStorage.getItem(storageKey);
+
+            if (existingValue !== null) {
+                const parsedSettings = JSON.parse(existingValue);
+
+                if (
+                    !parsedSettings ||
+                    typeof parsedSettings !== "object" ||
+                    Array.isArray(parsedSettings)
+                ) {
+                    throw new Error(
+                        "Saved account preferences are invalid."
+                    );
+                }
+
+                existingSettings = parsedSettings;
+            }
+        } catch (error) {
+            console.error(
+                "Unable to preserve existing account preferences:",
+                error
+            );
+
+            return false;
+        }
+
         const settings = {
+            ...existingSettings,
             reportNotifications: reportNotifications
                 ? reportNotifications.checked
                 : true,

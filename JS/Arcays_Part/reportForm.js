@@ -13,8 +13,12 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     const feedback = document.getElementById("reportFeedback");
+    const photoInput = form.querySelector("#incident-photo");
+    const photoPreview = document.getElementById("photoPreview");
+    const MAX_PHOTO_SIZE = 1024 * 1024;
 
     let isSubmitting = false;
+    let photoPreviewUrl = "";
 
     /* =========================================
        FEEDBACK
@@ -110,9 +114,86 @@ document.addEventListener("DOMContentLoaded", () => {
             people:
                 form.querySelector("#people")?.value.trim() || "",
 
+            anonymous:
+                form.querySelector('input[name="reportIdentity"]:checked')
+                    ?.value === "anonymous",
+
             confirmed:
                 form.querySelector("#confirm")?.checked || false
         };
+    }
+
+    function getPhotoValidationMessage(file) {
+        if (!file) return "";
+
+        if (!/^image\/(?:jpeg|png|gif|webp|bmp|avif)$/i.test(file.type)) {
+            return "Please select a JPEG, PNG, GIF, WebP, BMP, or AVIF image.";
+        }
+
+        if (file.size > MAX_PHOTO_SIZE) {
+            return "The photo must be 1 MB or smaller.";
+        }
+
+        return "";
+    }
+
+    function readPhoto(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+
+            reader.addEventListener("load", () => {
+                if (typeof reader.result !== "string") {
+                    reject(new Error("The selected photo could not be read."));
+                    return;
+                }
+
+                resolve(reader.result);
+            });
+
+            reader.addEventListener("error", () => {
+                reject(new Error("The selected photo could not be read."));
+            });
+
+            reader.readAsDataURL(file);
+        });
+    }
+
+    if (photoInput && photoPreview) {
+        photoInput.addEventListener("change", () => {
+            if (photoPreviewUrl) {
+                URL.revokeObjectURL(photoPreviewUrl);
+                photoPreviewUrl = "";
+            }
+
+            photoPreview.replaceChildren();
+
+            const file = photoInput.files?.[0];
+
+            if (!file) return;
+
+            const validationMessage = getPhotoValidationMessage(file);
+
+            if (validationMessage) {
+                photoInput.value = "";
+                showFeedback(validationMessage);
+                return;
+            }
+
+            const image = document.createElement("img");
+            image.alt = "Preview of the selected incident photo";
+            photoPreviewUrl = URL.createObjectURL(file);
+            image.src = photoPreviewUrl;
+            photoPreview.appendChild(image);
+        });
+
+        form.addEventListener("reset", () => {
+            if (photoPreviewUrl) {
+                URL.revokeObjectURL(photoPreviewUrl);
+                photoPreviewUrl = "";
+            }
+
+            photoPreview.replaceChildren();
+        });
     }
 
     /* =========================================
@@ -278,7 +359,7 @@ document.addEventListener("DOMContentLoaded", () => {
        REPORT CREATION
     ========================================= */
 
-    function createReport(values, user) {
+    function createReport(values, user, photo) {
         return {
             id: createReportId(),
 
@@ -291,7 +372,8 @@ document.addEventListener("DOMContentLoaded", () => {
             description: values.description,
             people: values.people,
 
-            status: "Under Review",
+            status: "Pending",
+            anonymous: values.anonymous,
 
             submittedBy: {
                 fullName: String(user.fullName || "").trim(),
@@ -302,7 +384,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     user.schoolId ||
                     ""
                 ).trim()
-            }
+            },
+
+            ...(photo ? { photo } : {})
         };
     }
 
@@ -391,7 +475,7 @@ document.addEventListener("DOMContentLoaded", () => {
        FORM SUBMISSION
     ========================================= */
 
-    form.addEventListener("submit", event => {
+    form.addEventListener("submit", async event => {
         event.preventDefault();
 
         // Prevent repeated submissions while saving.
@@ -418,13 +502,27 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        const selectedPhoto = photoInput?.files?.[0] || null;
+        const photoValidationMessage =
+            getPhotoValidationMessage(selectedPhoto);
+
+        if (photoValidationMessage) {
+            showFeedback(photoValidationMessage);
+            photoInput?.focus();
+            return;
+        }
+
         /* SAVE REPORT */
 
         isSubmitting = true;
         setSubmittingState(true);
 
         try {
-            const report = createReport(values, user);
+            const photo = selectedPhoto
+                ? await readPhoto(selectedPhoto)
+                : "";
+
+            const report = createReport(values, user, photo);
 
             saveReport(report);
 
@@ -439,6 +537,10 @@ document.addEventListener("DOMContentLoaded", () => {
             showFeedback(
                 "Report submitted successfully.",
                 "success"
+            );
+
+            window.location.replace(
+                `myreports.html?edit=${encodeURIComponent(report.id)}`
             );
         } catch (error) {
             console.error(

@@ -1,4 +1,4 @@
-function createModal(contentHTML, maxWidth = "450px") {
+function createModal(contentHTML, maxWidth = "450px", contentClass = "") {
     document.querySelector(".modal")?.remove();
 
     const modal = document.createElement("div");
@@ -16,7 +16,7 @@ function createModal(contentHTML, maxWidth = "450px") {
     });
 
     modal.innerHTML = `
-        <div class="modal-content" role="dialog" aria-modal="true"
+        <div class="modal-content ${contentClass}" role="dialog" aria-modal="true"
              style="background:white;color:#1e293b;padding:25px;
              border-radius:14px;width:100%;max-width:${maxWidth};
              max-height:90vh;overflow-y:auto;position:relative;
@@ -91,31 +91,44 @@ function showReportModal(report) {
     if (!report || typeof report !== "object") return;
 
     const fields = [
-        ["Report ID", report.id],
-        ["Incident Type", report.type],
+        ["Report ID", report.reportId || report.id || report.referenceNumber],
+        ["Incident Type", report.type || report.incidentType || report.category],
         ["Date", report.date],
         ["Location", report.location],
         ["Time", report.time],
         ["People Involved", report.people],
-        ["Status", report.status]
+        ["Status", report.status || "Pending"],
+        [
+            "Identity preference",
+            report.anonymous === true
+                ? "Anonymous to administrators"
+                : "Shared with administrators"
+        ]
     ];
 
     const details = fields.map(([label, value]) => `
-        <p style="font-size:13px;line-height:1.7;overflow-wrap:anywhere">
-            <strong>${label}:</strong>
-            ${escapeHTML(value || "Not provided")}
-        </p>
+        <div class="report-detail-field">
+            <span>${label}</span>
+            <strong>${escapeHTML(value || "Not provided")}</strong>
+        </div>
     `).join("");
 
-    createModal(`
-        <h2 style="margin:0 35px 20px 0">Report Details</h2>
-        ${details}
-        <hr style="border:0;border-top:1px solid #e5eaf2;margin:20px 0">
-        <h3>Description</h3>
-        <p style="font-size:13px;line-height:1.8;white-space:pre-wrap">
-            ${escapeHTML(report.description || "No description provided.")}
-        </p>
-    `, "550px");
+    const modal = createModal(`
+        <span class="report-detail-eyebrow">REPORT DETAILS</span>
+        <h2 class="report-detail-title">Incident report</h2>
+        <div class="report-detail-grid">${details}</div>
+        <section class="report-detail-description">
+            <h3>Description</h3>
+            <p>${escapeHTML(report.description || "No description provided.")}</p>
+        </section>
+    `, "640px", "report-details-modal");
+
+    Object.assign(modal.querySelector(".modal-content").style, {
+        padding: "30px",
+        borderRadius: "20px",
+        border: "1px solid rgba(255,255,255,.55)",
+        boxShadow: "0 24px 70px rgba(15,35,90,.25)"
+    });
 }
 
 /* SAFELY DISPLAY USER-SUBMITTED TEXT */

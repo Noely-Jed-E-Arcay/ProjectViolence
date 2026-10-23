@@ -1128,9 +1128,12 @@ td:last-child {
     gap: 17px;
     margin-top: 24px;
     padding: 22px 24px;
-    border: 1px solid #e0e7ff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: var(--radius);
-    background: linear-gradient(115deg, #f0f4ff, #fafbff);
+    color: #fff;
+    background:
+        radial-gradient(circle at 88% 15%, rgba(255,255,255,.16), transparent 28%),
+        linear-gradient(120deg, #2448c7, #3157d5 50%, #514ee8);
     animation: fadeUp 0.6s ease both;
 }
 
@@ -1140,10 +1143,10 @@ td:last-child {
     height: 48px;
     display: grid;
     place-items: center;
-    border: 1px solid #e0e7ff;
+    border: 1px solid rgba(255,255,255,.28);
     border-radius: 14px;
-    background: white;
-    color: var(--primary);
+    background: rgba(255,255,255,.13);
+    color: #fff;
     font-size: 23px;
     font-weight: 700;
 }
@@ -1156,11 +1159,12 @@ td:last-child {
 .support-copy h2 {
     font-size: 13px;
     font-weight: 750;
+    color: #fff;
 }
 
 .support-copy p {
     margin-top: 4px;
-    color: var(--muted);
+    color: rgba(255,255,255,.84);
     font-size: 10px;
     line-height: 1.7;
 }
@@ -1170,10 +1174,10 @@ td:last-child {
     align-items: center;
     gap: 8px;
     padding: 10px 13px;
-    border: 1px solid #dce4ff;
+    border: 1px solid rgba(255,255,255,.7);
     border-radius: 8px;
-    background: white;
-    color: var(--primary);
+    background: #fff;
+    color: #3157d5;
     text-decoration: none;
     font-size: 10px;
     font-weight: 750;
@@ -1182,7 +1186,7 @@ td:last-child {
 }
 
 .support-link:hover {
-    background: var(--primary-light);
+    background: #eef2ff;
     transform: translateY(-2px);
 }
 
@@ -1798,6 +1802,204 @@ select:focus-visible {
     .details-footer {
         flex-direction: column;
     }
+}
+
+/* PENDING REPORT EDITOR */
+.report-row-actions {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.edit-report-button {
+    color: #2446b8;
+}
+
+.report-edit-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+    background: rgba(15, 23, 42, .58);
+}
+
+.report-edit-overlay[hidden] {
+    display: none;
+}
+
+.report-edit-dialog {
+    width: min(100%, 680px);
+    max-height: min(92vh, 820px);
+    overflow-y: auto;
+    padding: 25px;
+    border: 1px solid rgba(255,255,255,.6);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 24px 70px rgba(15, 23, 42, .25);
+}
+
+.report-edit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.report-edit-header h2 {
+    margin-top: 5px;
+    font-size: 21px;
+}
+
+.report-edit-notice {
+    margin: 15px 0;
+    padding: 11px 13px;
+    border: 1px solid #dce5ff;
+    border-radius: 10px;
+    background: #f4f7ff;
+    color: #42577f;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.report-edit-form {
+    display: grid;
+    gap: 12px;
+}
+
+.report-edit-form > label,
+.report-edit-row > label {
+    display: grid;
+    gap: 6px;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.report-edit-form input:not([type="radio"]),
+.report-edit-form textarea {
+    width: 100%;
+    min-height: 42px;
+    padding: 10px 12px;
+    border: 1px solid #dce2ec;
+    border-radius: 8px;
+    background: #fff;
+    color: #1e293b;
+    font: inherit;
+    font-size: 13px;
+}
+
+.report-edit-form textarea {
+    min-height: 112px;
+    resize: vertical;
+}
+
+.report-edit-form input:focus,
+.report-edit-form textarea:focus {
+    outline: none;
+    border-color: #3157d5;
+    box-shadow: 0 0 0 3px rgba(49, 87, 213, .1);
+}
+
+.report-edit-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.report-edit-privacy {
+    display: grid;
+    gap: 10px;
+    padding: 13px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+}
+
+.report-edit-privacy legend {
+    padding: 0 5px;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.report-edit-privacy label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: #475569;
+    font-size: 12px;
+}
+
+.report-edit-feedback {
+    min-height: 18px;
+    color: #b42318;
+    font-size: 12px;
+}
+
+.report-edit-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+}
+
+.report-identity-options {
+    display: grid;
+    gap: 10px;
+    margin: 14px 0;
+    padding: 15px;
+    border: 1px solid #e0e7f2;
+    border-radius: 11px;
+}
+
+.report-identity-options legend {
+    padding: 0 5px;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.identity-choice {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0 !important;
+    padding: 11px;
+    border: 1px solid #e7ecf5;
+    border-radius: 9px;
+    background: #fbfcff;
+}
+
+.identity-choice input {
+    margin-top: 3px;
+    accent-color: #3157d5;
+}
+
+.identity-choice span {
+    display: grid;
+    gap: 3px;
+}
+
+.identity-choice strong {
+    color: #263858;
+    font-size: 12px;
+}
+
+.identity-choice small {
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.55;
+}
+
+@media (max-width: 540px) {
+    .report-edit-dialog {
+        padding: 19px;
+    }
+
+    .report-edit-row {
+        grid-template-columns: 1fr;
+    }
 
     .details-footer .primary-button {
         width: 100%;
@@ -1832,4 +2034,26 @@ select:focus-visible {
 
 .profile-dropdown[hidden] {
     display: none !important;
+}
+.report-photo-display:empty {
+    display: none;
+}
+
+.report-photo-display img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: 320px;
+    margin: 0 auto 18px;
+    border: 1px solid #e5eaf2;
+    border-radius: 12px;
+    object-fit: contain;
+}
+
+.details-description {
+    margin: 6px 0 0;
+    font-weight: 400;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#12315b">
+    <meta name="description" content="A clear overview of SafeReport incidents for administrators.">
+    <title>SafeReport | Administrator Dashboard</title>
+
+    <link rel="stylesheet" href="css/profileF.css">
+    <link rel="stylesheet" href="css/myreports-shell.css">
+    <link rel="stylesheet" href="css/settingsOL.css">
+    <link rel="stylesheet" href="css/darkmode.css">
+    <link rel="stylesheet" href="css/admin-dashboard.css">
+</head>
+<body>
+<div class="app admin-app">
+    <aside class="sidebar admin-sidebar" id="adminSidebar" aria-label="Administrator sidebar">
+        <a class="sidebar-brand" href="admin-dashboard.html" aria-label="SafeReport dashboard">
+            <span class="shield" aria-hidden="true">🛡</span>
+            <span>SafeReport</span>
+        </a>
+
+        <div class="admin-nav-label">OVERVIEW</div>
+        <nav aria-label="Administrator overview">
+            <a class="active" href="admin-dashboard.html" aria-current="page">
+                <span class="side-icon" aria-hidden="true">⌂</span>
+                <span>Dashboard</span>
+            </a>
+        </nav>
+
+        <div class="admin-nav-label">REPORT MANAGEMENT</div>
+        <nav aria-label="Report management navigation">
+            <a href="admin-reports.html">
+                <span class="side-icon" aria-hidden="true">▤</span>
+                <span>All Reports</span>
+            </a>
+            <a href="admin-reports.html?status=pending">
+                <span class="side-icon" aria-hidden="true">◷</span>
+                <span>Pending Review</span>
+                <span class="admin-nav-count" id="sidebarPendingCount">0</span>
+            </a>
+            <a href="admin-reports.html?status=under%20review">
+                <span class="side-icon" aria-hidden="true">◉</span>
+                <span>Under Review</span>
+            </a>
+            <a href="admin-reports.html?status=resolved">
+                <span class="side-icon" aria-hidden="true">✓</span>
+                <span>Resolved</span>
+            </a>
+        </nav>
+
+        <div class="admin-nav-label">ACCOUNT</div>
+        <nav aria-label="Administrator account navigation">
+            <a href="admin-profile.html">
+                <span class="side-icon" aria-hidden="true">◯</span>
+                <span>My Profile</span>
+            </a>
+            <a href="admin-profile.html#admin-security">
+                <span class="side-icon" aria-hidden="true">⚙</span>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="admin-sidebar-bottom">
+            <div class="admin-sidebar-profile">
+                <span class="admin-sidebar-avatar" data-admin-initials aria-hidden="true">A</span>
+                <span class="admin-sidebar-profile-copy">
+                    <strong data-admin-name>Administrator</strong>
+                    <small>Admin account</small>
+                </span>
+            </div>
+            <a class="admin-logout" href="guest.html" data-admin-logout>
+                <span aria-hidden="true">↪</span>
+                <span>Log out</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <header class="admin-header">
+            <button
+                class="admin-menu-toggle"
+                id="adminMenuToggle"
+                type="button"
+                aria-label="Open navigation"
+                aria-expanded="false"
+                aria-controls="adminSidebar"
+            >☰</button>
+
+            <div class="admin-breadcrumb">
+                <span>Administration</span>
+                <span aria-hidden="true">/</span>
+                <strong>Dashboard</strong>
+            </div>
+
+            <form class="admin-header-search" id="dashboardSearchForm" role="search">
+                <span aria-hidden="true">⌕</span>
+                <input
+                    type="search"
+                    id="dashboardSearch"
+                    name="q"
+                    placeholder="Search reports..."
+                    aria-label="Search reports"
+                >
+            </form>
+
+            <button
+                class="admin-header-icon"
+                type="button"
+                aria-label="Notifications unavailable"
+                title="Administrator notifications are not available yet."
+                disabled
+            >♧</button>
+            <button
+                class="admin-header-icon"
+                id="themeToggle"
+                type="button"
+                aria-label="Toggle dark mode"
+                title="Toggle dark mode"
+            >☾</button>
+
+            <div class="profile-menu-wrap admin-profile-menu">
+                <button
+                    class="header-avatar"
+                    id="profileBtn"
+                    type="button"
+                    aria-label="Open profile menu"
+                    aria-expanded="false"
+                    aria-controls="profileDropdown"
+                >A</button>
+                <div class="profile-dropdown" id="profileDropdown" hidden>
+                    <a href="admin-profile.html">My Profile</a>
+                    <a href="admin-profile.html#admin-security">Settings</a>
+                    <a class="logout" href="guest.html" data-admin-logout>Log out</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="admin-content">
+            <section class="admin-welcome" aria-labelledby="adminWelcomeTitle">
+                <div>
+                    <p class="admin-eyebrow">SAFE REPORTING OVERVIEW</p>
+                    <h1 id="adminWelcomeTitle">Good evening, Administrator</h1>
+                    <p>Here's what's happening in SafeReport today.</p>
+                </div>
+                <a class="admin-primary-link" href="admin-reports.html">View all reports <span aria-hidden="true">→</span></a>
+            </section>
+
+            <section class="admin-summary" aria-label="Report summary">
+                <a class="admin-summary-card" href="admin-reports.html">
+                    <span class="summary-icon summary-blue" aria-hidden="true">▤</span>
+                    <span class="summary-copy">
+                        <span>Total Reports</span>
+                        <strong id="totalReportsValue">0</strong>
+                    </span>
+                </a>
+                <a class="admin-summary-card" href="admin-reports.html?status=pending">
+                    <span class="summary-icon summary-yellow" aria-hidden="true">◷</span>
+                    <span class="summary-copy">
+                        <span>Pending Review</span>
+                        <strong id="pendingReportsValue">0</strong>
+                    </span>
+                </a>
+                <a class="admin-summary-card" href="admin-reports.html?status=under%20review">
+                    <span class="summary-icon summary-blue" aria-hidden="true">◉</span>
+                    <span class="summary-copy">
+                        <span>Under Review</span>
+                        <strong id="underReviewReportsValue">0</strong>
+                    </span>
+                </a>
+                <a class="admin-summary-card" href="admin-reports.html?status=resolved">
+                    <span class="summary-icon summary-green" aria-hidden="true">✓</span>
+                    <span class="summary-copy">
+                        <span>Resolved Reports</span>
+                        <strong id="resolvedReportsValue">0</strong>
+                    </span>
+                </a>
+            </section>
+
+            <section class="admin-panel attention-panel" aria-labelledby="attentionTitle">
+                <div class="admin-panel-heading">
+                    <div>
+                        <h2 id="attentionTitle">Needs Attention</h2>
+                        <p id="attentionDescription">Pending reports that may need your review.</p>
+                    </div>
+                    <a href="admin-reports.html?status=pending">Review pending <span aria-hidden="true">→</span></a>
+                </div>
+                <div class="attention-list" id="attentionList"></div>
+                <p class="admin-empty-message" id="attentionEmpty" hidden>No pending reports need attention right now.</p>
+            </section>
+
+            <section class="admin-panel recent-reports-panel" aria-labelledby="recentReportsTitle">
+                <div class="admin-panel-heading">
+                    <div>
+                        <h2 id="recentReportsTitle">Recent Reports</h2>
+                        <p>The latest reports submitted to SafeReport.</p>
+                    </div>
+                    <a href="admin-reports.html">View All <span aria-hidden="true">→</span></a>
+                </div>
+                <div class="admin-table-wrap">
+                    <table class="admin-recent-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Report ID</th>
+                                <th scope="col">Incident Type</th>
+                                <th scope="col">Location</th>
+                                <th scope="col">Date Submitted</th>
+                                <th scope="col">Status</th>
+                                <th scope="col"><span class="sr-only">Action</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentReportsBody"></tbody>
+                    </table>
+                </div>
+                <p class="admin-empty-message" id="reportsEmpty" hidden>No reports have been submitted yet.</p>
+            </section>
+
+            <div class="admin-lower-grid">
+                <section class="admin-panel" aria-labelledby="reportActivityTitle">
+                    <div class="admin-panel-heading">
+                        <div>
+                            <h2 id="reportActivityTitle">Report Activity</h2>
+                            <p>Reports submitted in the last 7 days.</p>
+                        </div>
+                    </div>
+                    <div class="activity-chart-wrap" id="activityChart"></div>
+                </section>
+
+                <section class="admin-panel" aria-labelledby="incidentTypesTitle">
+                    <div class="admin-panel-heading">
+                        <div>
+                            <h2 id="incidentTypesTitle">Incident Types</h2>
+                            <p>Report categories in your saved records.</p>
+                        </div>
+                    </div>
+                    <div class="incident-type-list" id="incidentTypeList"></div>
+                </section>
+            </div>
+
+            <section class="admin-panel activity-panel" aria-labelledby="recentActivityTitle">
+                <div class="admin-panel-heading">
+                    <div>
+                        <h2 id="recentActivityTitle">Recent Activity</h2>
+                        <p>Recent submissions and saved status updates.</p>
+                    </div>
+                </div>
+                <ul class="recent-activity-list" id="recentActivityList"></ul>
+                <p class="admin-empty-message" id="activityEmpty" hidden>No report activity is available yet.</p>
+            </section>
+
+            <footer class="admin-footer">
+                <span>SafeReport Administrator Dashboard</span>
+                <span>Report information is stored in this browser.</span>
+            </footer>
+        </div>
+    </main>
+</div>
+
+<script src="JS/main.js"></script>
+<script src="JS/Tito_Part/storage.js"></script>
+<script src="JS/Tito_Part/navbar.js"></script>
+<script src="JS/Tito_Part/admin-dashboard.js"></script>
+</body>
+</html>

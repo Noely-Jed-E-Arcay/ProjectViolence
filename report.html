@@ -115,7 +115,7 @@
                 </div>
             </div>
 
-            <a class="logout" href="login.html" id="sidebarLogout">
+            <a class="logout" href="guest.html" id="sidebarLogout">
                 <span aria-hidden="true">↪</span>
                 <span>Logout</span>
             </a>
@@ -145,24 +145,14 @@
 
             <div class="header-actions">
 
-                <div class="search-box">
-                    <span aria-hidden="true">⌕</span>
-
-                    <input
-                        type="search"
-                        id="dashboardSearch"
-                        placeholder="Search announcements, resources..."
-                        aria-label="Search announcements and resources">
-                </div>
-
-                <button
-                    type="button"
+                <a
                     class="header-action"
+                    href="index.html#announcements"
                     id="notificationBtn"
-                    aria-label="Notifications, 2 unread">
+                    aria-label="View latest announcements"
+                    title="View latest announcements">
                     ♧
-                    <span class="notification-dot">2</span>
-                </button>
+                </a>
 
                 <!-- DARK MODE TOGGLE -->
                 <button
@@ -210,7 +200,7 @@
                         </a>
 
                         <a
-                            href="login.html"
+                            href="guest.html"
                             class="logout"
                             id="headerLogout">
                             Logout
@@ -358,14 +348,19 @@
 
                     <!-- PHOTO UPLOAD -->
                     <label for="incident-photo">
-                        Upload Photo (Optional)
+                        Upload Photo (Optional, 1 MB maximum)
                     </label>
 
                     <input
                         type="file"
                         id="incident-photo"
                         name="incident-photo"
-                        accept="image/*">
+                        accept="image/jpeg,image/png,image/gif,image/webp,image/bmp,image/avif"
+                        aria-describedby="photoHelp">
+
+                    <small id="photoHelp">
+                        One image can be attached to your report.
+                    </small>
 
                     <div
                         id="photoPreview"
@@ -373,6 +368,35 @@
                         aria-live="polite"
                         aria-label="Selected incident photo preview"
                     ></div>
+
+                    <fieldset class="report-identity-options">
+                        <legend>How should administrators see your identity?</legend>
+                        <label class="identity-choice" for="reportIdentityShared">
+                            <input
+                                type="radio"
+                                id="reportIdentityShared"
+                                name="reportIdentity"
+                                value="identified"
+                                required
+                                checked>
+                            <span>
+                                <strong>Share my identity</strong>
+                                <small>Administrators can see the contact information linked to your account.</small>
+                            </span>
+                        </label>
+                        <label class="identity-choice" for="reportIdentityAnonymous">
+                            <input
+                                type="radio"
+                                id="reportIdentityAnonymous"
+                                name="reportIdentity"
+                                value="anonymous"
+                                required>
+                            <span>
+                                <strong>Submit anonymously</strong>
+                                <small>Your name and contact details are hidden in administrator report details. Internal ownership data is retained so you can manage your report.</small>
+                            </span>
+                        </label>
+                    </fieldset>
 
                     <!-- REPORT FEEDBACK -->
                     <div
